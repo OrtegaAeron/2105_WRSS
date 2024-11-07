@@ -9,12 +9,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Panel;
 import java.awt.FlowLayout;
+import javax.swing.table.DefaultTableModel;
+import java.awt.Toolkit;
 
 public class SalesCatalog extends JFrame {
 
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
     private JLabel lblNewLabel_1;
+    private JTextField textField;
+    private JTable table;
 
     /**
      * Launch the application.
@@ -36,8 +40,10 @@ public class SalesCatalog extends JFrame {
      * Create the frame.
      */
     public SalesCatalog() {
+    	setTitle("FlowStation");
+    	setIconImage(Toolkit.getDefaultToolkit().getImage(SalesCatalog.class.getResource("/resources/Logo_Small.png")));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 1440, 785);
+        setBounds(100, 100, 1440, 780);
         setLocationRelativeTo(null);
         
         // Setting up content pane
@@ -47,7 +53,7 @@ public class SalesCatalog extends JFrame {
         setContentPane(contentPane);
 
         // Adding background image label
-        JLabel backgroundLabel = new JLabel(new ImageIcon(Inventory.class.getResource("/gui/Main.png")));
+        JLabel backgroundLabel = new JLabel(new ImageIcon(SalesCatalog.class.getResource("/resources/Main.png")));
         backgroundLabel.setBounds(0, 0, 1426, 743);
         contentPane.add(backgroundLabel);
         backgroundLabel.setLayout(null);
@@ -74,7 +80,7 @@ public class SalesCatalog extends JFrame {
         backgroundLabel.add(panel_1);
         panel_1.setLayout(null);
         
-        lblNewLabel_1 = new JLabel(new ImageIcon(SalesCatalog.class.getResource("/gui/Logo_Small.png")));
+        lblNewLabel_1 = new JLabel(new ImageIcon(SalesCatalog.class.getResource("/resources/Logo_Small.png")));
         lblNewLabel_1.setBounds(57, 19, 125, 125);
         panel_1.add(lblNewLabel_1);
         
@@ -182,10 +188,108 @@ public class SalesCatalog extends JFrame {
         panel_2.setBounds(375, 132, 912, 77);
         panel_2.setLayout(null);
         
+        textField = new JTextField();
+        textField.setBounds(126, 17, 567, 50);
+        panel_2.add(textField);
+        textField.setColumns(10);
+        
+        JLabel lblNewLabel_6 = new JLabel("");
+        lblNewLabel_6.setIcon(new ImageIcon(SalesCatalog.class.getResource("/resources/search.png")));
+        lblNewLabel_6.setBounds(83, 20, 37, 42);
+        panel_2.add(lblNewLabel_6);
+        
+        JButton btnNewButton_7 = new JButton("");
+        btnNewButton_7.setIcon(new ImageIcon(SalesCatalog.class.getResource("/resources/down.png")));
+        btnNewButton_7.setBounds(703, 21, 40, 40);
+        panel_2.add(btnNewButton_7);
+        
         JPanel panel_3 = new JPanel();
         panel_3.setBounds(289, 214, 864, 523);
         backgroundLabel.add(panel_3);
         panel_3.setLayout(null);
+        
+        JScrollPane scrollPane = new JScrollPane();
+        scrollPane.setBounds(10, 10, 844, 503);
+        panel_3.add(scrollPane);
+        
+        table = new JTable();
+        table.setModel(new DefaultTableModel(
+        	new Object[][] {
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        	},
+        	new String[] {
+        		"Daily Sales ID", "Customer ID", "Date", "Time", "New column", "New column", "New column", "Daily Sales ID", "New column"
+        	}
+        ));
+        scrollPane.setViewportView(table);
         
         JPanel panel_4 = new JPanel();
         panel_4.setBounds(1157, 214, 219, 523);
@@ -193,7 +297,7 @@ public class SalesCatalog extends JFrame {
         panel_4.setLayout(null);
         
         JLabel lblNewLabel_4 = new JLabel("That Day's Profit:");
-        lblNewLabel_4.setBounds(11, 23, 190, 37);
+        lblNewLabel_4.setBounds(9, 18, 190, 37);
         panel_4.add(lblNewLabel_4);
         lblNewLabel_4.setHorizontalAlignment(SwingConstants.CENTER);
         lblNewLabel_4.setForeground(new Color(0, 0, 0));
@@ -201,8 +305,60 @@ public class SalesCatalog extends JFrame {
         
         JPanel panel_5 = new JPanel();
         panel_5.setBackground(new Color(225, 225, 225));
-        panel_5.setBounds(15, 49, 205, 327);
+        panel_5.setBounds(7, 49, 205, 327);
         panel_4.add(panel_5);
+        panel_5.setLayout(null);
+        
+        JLabel lblNewLabel = new JLabel("Sum of all customer Fees:");
+        lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
+        lblNewLabel.setBounds(10, 10, 180, 16);
+        panel_5.add(lblNewLabel);
+        
+        JLabel lblNewLabel_5 = new JLabel("₱ ");
+        lblNewLabel_5.setFont(new Font("Tahoma", Font.PLAIN, 22));
+        lblNewLabel_5.setBounds(12, 31, 101, 23);
+        panel_5.add(lblNewLabel_5);
+        
+        JLabel lblExpenses = new JLabel("Expenses:");
+        lblExpenses.setFont(new Font("Tahoma", Font.BOLD, 13));
+        lblExpenses.setBounds(10, 71, 180, 16);
+        panel_5.add(lblExpenses);
+        
+        JLabel lblEmployeesSalary = new JLabel("Employee's Salary:");
+        lblEmployeesSalary.setFont(new Font("Tahoma", Font.PLAIN, 13));
+        lblEmployeesSalary.setBounds(19, 90, 180, 16);
+        panel_5.add(lblEmployeesSalary);
+        
+        JLabel lblNewLabel_5_1 = new JLabel("₱ 500.00");
+        lblNewLabel_5_1.setFont(new Font("Tahoma", Font.PLAIN, 22));
+        lblNewLabel_5_1.setBounds(19, 106, 101, 23);
+        panel_5.add(lblNewLabel_5_1);
+        
+        JLabel lblNoOfEmployees = new JLabel("No. of Employees:");
+        lblNoOfEmployees.setFont(new Font("Tahoma", Font.PLAIN, 13));
+        lblNoOfEmployees.setBounds(19, 145, 180, 16);
+        panel_5.add(lblNoOfEmployees);
+        
+        JLabel lblNewLabel_5_1_1 = new JLabel("2");
+        lblNewLabel_5_1_1.setFont(new Font("Tahoma", Font.PLAIN, 22));
+        lblNewLabel_5_1_1.setBounds(19, 166, 28, 23);
+        panel_5.add(lblNewLabel_5_1_1);
+        
+        JPanel panel_6 = new JPanel();
+        panel_6.setBackground(new Color(225, 225, 225));
+        panel_6.setBounds(7, 386, 205, 123);
+        panel_4.add(panel_6);
+        panel_6.setLayout(null);
+        
+        JLabel lblTotalProfit = new JLabel("Total Profit:");
+        lblTotalProfit.setBounds(10, 10, 115, 23);
+        lblTotalProfit.setFont(new Font("Tahoma", Font.BOLD, 19));
+        panel_6.add(lblTotalProfit);
+        
+        JLabel lblTotalProfit_1 = new JLabel("₱ ");
+        lblTotalProfit_1.setFont(new Font("Tahoma", Font.BOLD, 35));
+        lblTotalProfit_1.setBounds(20, 50, 161, 42);
+        panel_6.add(lblTotalProfit_1);
         
         
     }

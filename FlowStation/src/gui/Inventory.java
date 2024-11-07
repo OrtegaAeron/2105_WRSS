@@ -9,12 +9,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Panel;
 import java.awt.FlowLayout;
+import javax.swing.table.DefaultTableModel;
+import java.awt.Toolkit;
 
 public class Inventory extends JFrame {
 
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
     private JLabel lblNewLabel_1;
+    private JTable table;
 
     /**
      * Launch the application.
@@ -36,8 +39,10 @@ public class Inventory extends JFrame {
      * Create the frame.
      */
     public Inventory() {
+    	setTitle("FlowStation");
+    	setIconImage(Toolkit.getDefaultToolkit().getImage(Inventory.class.getResource("/resources/Logo_Small.png")));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 1440, 785);
+        setBounds(100, 100, 1440, 780);
         setLocationRelativeTo(null);
         
         // Setting up content pane
@@ -47,7 +52,7 @@ public class Inventory extends JFrame {
         setContentPane(contentPane);
 
         // Adding background image label
-        JLabel backgroundLabel = new JLabel(new ImageIcon(Inventory.class.getResource("/gui/Main.png")));
+        JLabel backgroundLabel = new JLabel(new ImageIcon(Inventory.class.getResource("/resources/Main.png")));
         backgroundLabel.setBounds(0, 0, 1426, 743);
         contentPane.add(backgroundLabel);
         backgroundLabel.setLayout(null);
@@ -74,7 +79,7 @@ public class Inventory extends JFrame {
         backgroundLabel.add(panel_1);
         panel_1.setLayout(null);
         
-        lblNewLabel_1 = new JLabel(new ImageIcon(Inventory.class.getResource("/gui/Logo_Small.png")));
+        lblNewLabel_1 = new JLabel(new ImageIcon(Inventory.class.getResource("/resources/Logo_Small.png")));
         lblNewLabel_1.setBounds(57, 19, 125, 125);
         panel_1.add(lblNewLabel_1);
         
@@ -184,39 +189,75 @@ public class Inventory extends JFrame {
         panel_2.setBounds(290, 129, 1093, 310);
         panel_2.setLayout(null);
         
+        JScrollPane scrollPane = new JScrollPane();
+        scrollPane.setBounds(9, 11, 1075, 290);
+        panel_2.add(scrollPane);
+        
+        table = new JTable();
+        table.setModel(new DefaultTableModel(
+        	new Object[][] {
+        		{"  1", "   5gl / Large Container", "   ", "   ", "   "},
+        		{"  2", "   3gl / Medium Container", "   ", "   ", "   "},
+        		{"  3", "   2.5gl / Small Container", "   ", "   ", "  "},
+        	},
+        	new String[] {
+        		"Inventory ID", "Container", "In-Storage Quantity", "Lent Quantity", "Total Quantity"
+        	}
+        ));
+        table.getColumnModel().getColumn(0).setMaxWidth(150);
+        table.getColumnModel().getColumn(1).setPreferredWidth(300);
+        table.getColumnModel().getColumn(1).setMaxWidth(3000);
+        table.getColumnModel().getColumn(2).setPreferredWidth(99);
+        table.getColumnModel().getColumn(2).setMaxWidth(1500);
+        table.getColumnModel().getColumn(3).setPreferredWidth(100);
+        table.getColumnModel().getColumn(3).setMaxWidth(1500);
+        table.getColumnModel().getColumn(4).setPreferredWidth(100);
+        table.getColumnModel().getColumn(4).setMaxWidth(1500);
+        
+        int rowCount = table.getRowCount();
+        int scrollPaneHeight = scrollPane.getHeight();
+        if (rowCount > 0) {
+            int rowHeight = scrollPaneHeight / rowCount;
+            table.setRowHeight(rowHeight-6);
+        }
+        
+        table.setBounds(0, 0, 1075, 290);
+        table.setLayout(null);
+        scrollPane.setViewportView(table);
+        
         JPanel panel_3 = new JPanel();
         backgroundLabel.add(panel_3);
         panel_3.setLayout(null);
         panel_3.setBounds(290, 451, 537, 282);
         
         JLabel lblNewLabel = new JLabel("ADD NEW CONTAINERS:");
-        lblNewLabel.setFont(new Font("Myanmar Text", Font.BOLD, 22));
-        lblNewLabel.setBounds(10, 10, 276, 35);
+        lblNewLabel.setFont(new Font("Myanmar Text", Font.BOLD, 30));
+        lblNewLabel.setBounds(18, 18, 382, 36);
         panel_3.add(lblNewLabel);
         
         JLabel lblgllarge = new JLabel("5gl/L Container:");
         lblgllarge.setFont(new Font("Myanmar Text", Font.BOLD, 22));
-        lblgllarge.setBounds(20, 51, 169, 35);
+        lblgllarge.setBounds(18, 71, 271, 36);
         panel_3.add(lblgllarge);
         
         JLabel lblglmContainer = new JLabel("3gl/M Container:");
         lblglmContainer.setFont(new Font("Myanmar Text", Font.BOLD, 22));
-        lblglmContainer.setBounds(20, 122, 179, 35);
+        lblglmContainer.setBounds(18, 132, 287, 36);
         panel_3.add(lblglmContainer);
         
         JLabel lblgllarge_1_1 = new JLabel("2.5gl/S Container:");
         lblgllarge_1_1.setFont(new Font("Myanmar Text", Font.BOLD, 22));
-        lblgllarge_1_1.setBounds(20, 197, 190, 35);
+        lblgllarge_1_1.setBounds(20, 194, 306, 36);
         panel_3.add(lblgllarge_1_1);
         
         JSpinner spinner_1 = new JSpinner();
         spinner_1.setFont(new Font("Tahoma", Font.PLAIN, 19));
-        spinner_1.setBounds(215, 40, 298, 48);
+        spinner_1.setBounds(215, 64, 298, 48);
         panel_3.add(spinner_1);
         
         JSpinner spinner_1_1 = new JSpinner();
         spinner_1_1.setFont(new Font("Tahoma", Font.PLAIN, 19));
-        spinner_1_1.setBounds(215, 111, 298, 48);
+        spinner_1_1.setBounds(215, 125, 298, 48);
         panel_3.add(spinner_1_1);
         
         JSpinner spinner_1_1_1 = new JSpinner();
@@ -226,7 +267,7 @@ public class Inventory extends JFrame {
         
         JButton btnNewButton_7 = new JButton("ADD");
         btnNewButton_7.setFont(new Font("Tahoma", Font.BOLD, 16));
-        btnNewButton_7.setBounds(244, 244, 85, 28);
+        btnNewButton_7.setBounds(225, 244, 85, 28);
         panel_3.add(btnNewButton_7);
         
         JPanel panel_4 = new JPanel();
@@ -235,43 +276,43 @@ public class Inventory extends JFrame {
         panel_4.setBounds(838, 451, 545, 282);
         
         JLabel lblRemoveOldContainers = new JLabel("REMOVE OLD CONTAINERS:");
-        lblRemoveOldContainers.setFont(new Font("Myanmar Text", Font.BOLD, 22));
-        lblRemoveOldContainers.setBounds(8, 7, 297, 35);
+        lblRemoveOldContainers.setFont(new Font("Myanmar Text", Font.BOLD, 30));
+        lblRemoveOldContainers.setBounds(18, 18, 448, 36);
         panel_4.add(lblRemoveOldContainers);
         
         JLabel lblgllarge_1 = new JLabel("5gl/L Container:");
         lblgllarge_1.setFont(new Font("Myanmar Text", Font.BOLD, 22));
-        lblgllarge_1.setBounds(20, 51, 169, 35);
+        lblgllarge_1.setBounds(18, 71, 169, 35);
         panel_4.add(lblgllarge_1);
         
         JLabel lblglmContainer_1 = new JLabel("3gl/M Container:");
         lblglmContainer_1.setFont(new Font("Myanmar Text", Font.BOLD, 22));
-        lblglmContainer_1.setBounds(18, 122, 179, 35);
+        lblglmContainer_1.setBounds(18, 132, 179, 35);
         panel_4.add(lblglmContainer_1);
         
         JLabel lblgllarge_1_1_1 = new JLabel("2.5gl/S Container:");
         lblgllarge_1_1_1.setFont(new Font("Myanmar Text", Font.BOLD, 22));
-        lblgllarge_1_1_1.setBounds(20, 197, 190, 35);
+        lblgllarge_1_1_1.setBounds(20, 194, 190, 35);
         panel_4.add(lblgllarge_1_1_1);
         
         JSpinner spinner_1_2 = new JSpinner();
         spinner_1_2.setFont(new Font("Tahoma", Font.PLAIN, 19));
-        spinner_1_2.setBounds(215, 40, 298, 48);
+        spinner_1_2.setBounds(215, 64, 298, 48);
         panel_4.add(spinner_1_2);
         
         JSpinner spinner_1_3 = new JSpinner();
         spinner_1_3.setFont(new Font("Tahoma", Font.PLAIN, 19));
-        spinner_1_3.setBounds(215, 111, 298, 48);
+        spinner_1_3.setBounds(215, 125, 298, 48);
         panel_4.add(spinner_1_3);
         
         JSpinner spinner_1_4 = new JSpinner();
         spinner_1_4.setFont(new Font("Tahoma", Font.PLAIN, 19));
-        spinner_1_4.setBounds(216, 188, 298, 48);
+        spinner_1_4.setBounds(215, 186, 298, 48);
         panel_4.add(spinner_1_4);
         
         JButton btnNewButton_7_1 = new JButton("REMOVE");
         btnNewButton_7_1.setFont(new Font("Tahoma", Font.BOLD, 16));
-        btnNewButton_7_1.setBounds(244, 244, 103, 28);
+        btnNewButton_7_1.setBounds(215, 244, 103, 28);
         panel_4.add(btnNewButton_7_1);
         
         

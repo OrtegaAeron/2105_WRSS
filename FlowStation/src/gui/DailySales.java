@@ -9,13 +9,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Panel;
 import java.awt.FlowLayout;
+import java.awt.ScrollPane;
+import java.awt.Toolkit;
+import javax.swing.table.DefaultTableModel;
 
 public class DailySales extends JFrame {
 
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
     private JLabel lblNewLabel_1;
-    private JTextField textField;
+    private JTable table;
 
     /**
      * Launch the application.
@@ -37,8 +40,10 @@ public class DailySales extends JFrame {
      * Create the frame.
      */
     public DailySales() {
+    	setTitle("FlowStation");
+    	setIconImage(Toolkit.getDefaultToolkit().getImage(DailySales.class.getResource("/resources/Logo_Small.png")));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 1440, 785);
+        setBounds(100, 100, 1440, 780);
         setLocationRelativeTo(null);
         
         // Setting up content pane
@@ -48,7 +53,7 @@ public class DailySales extends JFrame {
         setContentPane(contentPane);
 
         // Adding background image label
-        JLabel backgroundLabel = new JLabel(new ImageIcon(DailySales.class.getResource("/gui/Main.png")));
+        JLabel backgroundLabel = new JLabel(new ImageIcon(DailySales.class.getResource("/resources/Main.png")));
         backgroundLabel.setBounds(0, 0, 1426, 743);
         contentPane.add(backgroundLabel);
         backgroundLabel.setLayout(null);
@@ -75,7 +80,7 @@ public class DailySales extends JFrame {
         backgroundLabel.add(panel_1);
         panel_1.setLayout(null);
         
-        lblNewLabel_1 = new JLabel(new ImageIcon(DailySales.class.getResource("/gui/Logo_Small.png")));
+        lblNewLabel_1 = new JLabel(new ImageIcon(DailySales.class.getResource("/resources/Logo_Small.png")));
         lblNewLabel_1.setBounds(57, 19, 125, 125);
         panel_1.add(lblNewLabel_1);
         
@@ -185,40 +190,129 @@ public class DailySales extends JFrame {
         panel_2.setBounds(288, 130, 1079, 425);
         panel_2.setLayout(null);
         
+        JScrollPane scrollPane = new JScrollPane();
+        scrollPane.setBounds(10, 10, 1060, 406);
+        panel_2.add(scrollPane);
+        
+        table = new JTable();
+        table.setModel(new DefaultTableModel(
+        	new Object[][] {
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null},
+        	},
+        	new String[] {
+        		"Daily Sales ID", "Customer ID", "Date", "Time", "Sold Large Containers", "Sold Medium Containers", "Sold Small Containers", "Delivery", "Total Fee"
+        	}
+        ));
+        scrollPane.setViewportView(table);
+        
         JPanel panel_3 = new JPanel();
         panel_3.setBounds(288, 562, 1079, 168);
         backgroundLabel.add(panel_3);
         panel_3.setLayout(null);
         
         JLabel lblTodaysProfit = new JLabel("TODAYS PROFIT:");
-        lblTodaysProfit.setFont(new Font("Myanmar Text", Font.BOLD, 22));
-        lblTodaysProfit.setBounds(10, 10, 185, 35);
+        lblTodaysProfit.setFont(new Font("Myanmar Text", Font.BOLD, 25));
+        lblTodaysProfit.setBounds(8, 9, 228, 35);
         panel_3.add(lblTodaysProfit);
         
         JPanel panel_7 = new JPanel();
         panel_7.setLayout(null);
         panel_7.setBackground(new Color(225, 225, 225));
-        panel_7.setBounds(20, 32, 643, 126);
+        panel_7.setBounds(11, 35, 708, 123);
         panel_3.add(panel_7);
         
         JLabel lblSumOfAll = new JLabel("Sum Of All Customer Fees:");
-        lblSumOfAll.setFont(new Font("Tahoma", Font.BOLD, 17));
-        lblSumOfAll.setBounds(26, 10, 236, 28);
+        lblSumOfAll.setFont(new Font("Tahoma", Font.BOLD, 22));
+        lblSumOfAll.setBounds(32, 10, 343, 28);
         panel_7.add(lblSumOfAll);
         
         JLabel lblExpenses = new JLabel("Expenses:");
-        lblExpenses.setFont(new Font("Tahoma", Font.BOLD, 17));
-        lblExpenses.setBounds(47, 35, 102, 28);
+        lblExpenses.setFont(new Font("Tahoma", Font.BOLD, 22));
+        lblExpenses.setBounds(32, 35, 157, 28);
         panel_7.add(lblExpenses);
         
         JLabel lblEmployeesSalary = new JLabel("Employee's Salary:");
         lblEmployeesSalary.setFont(new Font("Tahoma", Font.PLAIN, 17));
-        lblEmployeesSalary.setBounds(69, 61, 145, 28);
+        lblEmployeesSalary.setBounds(44, 61, 145, 28);
         panel_7.add(lblEmployeesSalary);
         
         JLabel lblgllargeContainers_1_1 = new JLabel("No. of Employees:");
         lblgllargeContainers_1_1.setFont(new Font("Tahoma", Font.PLAIN, 17));
-        lblgllargeContainers_1_1.setBounds(69, 86, 178, 28);
+        lblgllargeContainers_1_1.setBounds(44, 86, 178, 28);
         panel_7.add(lblgllargeContainers_1_1);
         
         JLabel lblgllargeContainers_1_1_1 = new JLabel("Service Fee per container:");
@@ -229,7 +323,7 @@ public class DailySales extends JFrame {
         JLabel lblNewLabel_11_2 = new JLabel("2");
         lblNewLabel_11_2.setFont(new Font("Tahoma", Font.PLAIN, 17));
         lblNewLabel_11_2.setBackground(new Color(225, 225, 225));
-        lblNewLabel_11_2.setBounds(458, 87, 71, 27);
+        lblNewLabel_11_2.setBounds(458, 86, 71, 27);
         panel_7.add(lblNewLabel_11_2);
         
         JLabel lblNewLabel_11_3 = new JLabel("5.00");
@@ -238,7 +332,7 @@ public class DailySales extends JFrame {
         lblNewLabel_11_3.setBounds(458, 120, 71, 27);
         panel_7.add(lblNewLabel_11_3);
         
-        JLabel lblNewLabel_11_4 = new JLabel("₱ 1000.00");
+        JLabel lblNewLabel_11_4 = new JLabel("₱ ");
         lblNewLabel_11_4.setFont(new Font("Tahoma", Font.PLAIN, 17));
         lblNewLabel_11_4.setBackground(new Color(225, 225, 225));
         lblNewLabel_11_4.setBounds(458, 10, 83, 27);
@@ -247,18 +341,18 @@ public class DailySales extends JFrame {
         JLabel lblNewLabel_11_4_1 = new JLabel("₱ 500.00");
         lblNewLabel_11_4_1.setFont(new Font("Tahoma", Font.PLAIN, 17));
         lblNewLabel_11_4_1.setBackground(new Color(225, 225, 225));
-        lblNewLabel_11_4_1.setBounds(458, 62, 71, 27);
+        lblNewLabel_11_4_1.setBounds(458, 61, 71, 27);
         panel_7.add(lblNewLabel_11_4_1);
         
         JPanel panel_7_1 = new JPanel();
         panel_7_1.setLayout(null);
         panel_7_1.setBackground(new Color(225, 225, 225));
-        panel_7_1.setBounds(673, 32, 396, 126);
+        panel_7_1.setBounds(735, 35, 334, 123);
         panel_3.add(panel_7_1);
         
         JLabel lblSumOfAll_1 = new JLabel("Total Profit:\r\n");
-        lblSumOfAll_1.setFont(new Font("Tahoma", Font.BOLD, 17));
-        lblSumOfAll_1.setBounds(26, 10, 236, 28);
+        lblSumOfAll_1.setFont(new Font("Tahoma", Font.BOLD, 25));
+        lblSumOfAll_1.setBounds(6, 9, 236, 28);
         panel_7_1.add(lblSumOfAll_1);
         
         JLabel lblgllargeContainers_1_1_1_1 = new JLabel("Service Fee per container:");
@@ -272,12 +366,10 @@ public class DailySales extends JFrame {
         lblNewLabel_11_3_1.setBounds(458, 120, 71, 27);
         panel_7_1.add(lblNewLabel_11_3_1);
         
-        textField = new JTextField();
-        textField.setFont(new Font("Tahoma", Font.PLAIN, 23));
-        textField.setText("₱");
-        textField.setBounds(87, 48, 252, 61);
-        panel_7_1.add(textField);
-        textField.setColumns(10);
+        JLabel lblSumOfAll_1_1 = new JLabel("₱ ");
+        lblSumOfAll_1_1.setFont(new Font("Tahoma", Font.BOLD, 31));
+        lblSumOfAll_1_1.setBounds(89, 55, 161, 42);
+        panel_7_1.add(lblSumOfAll_1_1);
         
         
     }

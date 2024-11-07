@@ -9,17 +9,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Panel;
 import java.awt.FlowLayout;
+import java.awt.Toolkit;
 
 public class Pricing extends JFrame {
 
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
     private JLabel lblNewLabel_1;
-    private JTextField textField;
-    private JTextField textField_1;
-    private JTextField textField_2;
-    private JTextField textField_3;
-    private JTextField textField_4;
+    private JTextField txtHello;
 
     /**
      * Launch the application.
@@ -41,6 +38,8 @@ public class Pricing extends JFrame {
      * Create the frame.
      */
     public Pricing() {
+    	setIconImage(Toolkit.getDefaultToolkit().getImage(Pricing.class.getResource("/resources/Logo_Small.png")));
+    	setTitle("FlowStation");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 1440, 785);
         setLocationRelativeTo(null);
@@ -52,7 +51,7 @@ public class Pricing extends JFrame {
         setContentPane(contentPane);
 
         // Adding background image label
-        JLabel backgroundLabel = new JLabel(new ImageIcon(Pricing.class.getResource("/gui/Main.png")));
+        JLabel backgroundLabel = new JLabel(new ImageIcon(Pricing.class.getResource("/resources/Main.png")));
         backgroundLabel.setBounds(0, 0, 1426, 743);
         contentPane.add(backgroundLabel);
         backgroundLabel.setLayout(null);
@@ -79,7 +78,7 @@ public class Pricing extends JFrame {
         backgroundLabel.add(panel_1);
         panel_1.setLayout(null);
         
-        lblNewLabel_1 = new JLabel(new ImageIcon(Pricing.class.getResource("/gui/Logo_Small.png")));
+        lblNewLabel_1 = new JLabel(new ImageIcon(Pricing.class.getResource("/resources/Logo_Small.png")));
         lblNewLabel_1.setBounds(57, 19, 125, 125);
         panel_1.add(lblNewLabel_1);
         
@@ -190,16 +189,21 @@ public class Pricing extends JFrame {
         panel_2.setLayout(null);
         
         JLabel lblNewLabel = new JLabel("Price per Gallon:\r\n");
-        lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 40));
-        lblNewLabel.setBounds(60, 35, 360, 49);
+        lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 47));
+        lblNewLabel.setBounds(39, 25, 487, 55);
         panel_2.add(lblNewLabel);
         
-        textField = new JTextField();
-        textField.setText("₱");
-        textField.setFont(new Font("Tahoma", Font.BOLD, 22));
-        textField.setBounds(430, 43, 258, 41);
-        panel_2.add(textField);
-        textField.setColumns(10);
+        JLabel lblNewLabel_6 = new JLabel("₱ 5.00");
+        lblNewLabel_6.setForeground(new Color(0, 0, 0));
+        lblNewLabel_6.setHorizontalAlignment(SwingConstants.CENTER);
+        lblNewLabel_6.setFont(new Font("Tahoma", Font.PLAIN, 40));
+        lblNewLabel_6.setBounds(520, 24, 195, 57);
+        panel_2.add(lblNewLabel_6);
+        
+        JPanel panel_7 = new JPanel();
+        panel_7.setBackground(new Color(225, 225, 225));
+        panel_7.setBounds(520, 24, 195, 57);
+        panel_2.add(panel_7);
         
         JPanel panel_3 = new JPanel();
         panel_3.setBounds(630, 290, 404, 108);
@@ -208,17 +212,18 @@ public class Pricing extends JFrame {
         
         JLabel lblNewLabel_5 = new JLabel("Change Price per Gallon:");
         lblNewLabel_5.setFont(new Font("Tahoma", Font.BOLD, 27));
-        lblNewLabel_5.setBounds(25, 10, 349, 34);
+        lblNewLabel_5.setBounds(31, 11, 360, 32);
         panel_3.add(lblNewLabel_5);
         
-        textField_1 = new JTextField();
-        textField_1.setBounds(52, 54, 221, 34);
-        panel_3.add(textField_1);
-        textField_1.setColumns(10);
+        txtHello = new JTextField();
+        txtHello.setFont(new Font("Tahoma", Font.PLAIN, 20));
+        txtHello.setBounds(55, 50, 195, 41);
+        panel_3.add(txtHello);
+        txtHello.setColumns(10);
         
         JButton btnNewButton_7 = new JButton("UPDATE\r\n");
         btnNewButton_7.setFont(new Font("Tahoma", Font.BOLD, 12));
-        btnNewButton_7.setBounds(277, 54, 82, 34);
+        btnNewButton_7.setBounds(257, 53, 91, 34);
         panel_3.add(btnNewButton_7);
         
         JPanel panel_4 = new JPanel();
@@ -228,15 +233,20 @@ public class Pricing extends JFrame {
         
         JLabel lblNewLabel_5_1 = new JLabel("5gl/Large Containers Price:\r\n");
         lblNewLabel_5_1.setFont(new Font("Tahoma", Font.BOLD, 28));
-        lblNewLabel_5_1.setBounds(27, 27, 394, 34);
+        lblNewLabel_5_1.setBounds(11, 26, 486, 34);
         panel_4.add(lblNewLabel_5_1);
         
-        textField_2 = new JTextField();
-        textField_2.setText("₱");
-        textField_2.setFont(new Font("Tahoma", Font.BOLD, 22));
-        textField_2.setColumns(10);
-        textField_2.setBounds(467, 27, 176, 41);
-        panel_4.add(textField_2);
+        JLabel lblNewLabel_6_1 = new JLabel("₱ 25.00");
+        lblNewLabel_6_1.setHorizontalAlignment(SwingConstants.CENTER);
+        lblNewLabel_6_1.setBackground(new Color(225, 225, 225));
+        lblNewLabel_6_1.setFont(new Font("Tahoma", Font.PLAIN, 28));
+        lblNewLabel_6_1.setBounds(490, 22, 163, 47);
+        panel_4.add(lblNewLabel_6_1);
+        
+        JPanel panel_8 = new JPanel();
+        panel_8.setBackground(new Color(225, 225, 225));
+        panel_8.setBounds(490, 22, 163, 47);
+        panel_4.add(panel_8);
         
         JPanel panel_5 = new JPanel();
         panel_5.setBounds(500, 519, 665, 87);
@@ -245,15 +255,20 @@ public class Pricing extends JFrame {
         
         JLabel lblNewLabel_5_1_1 = new JLabel("3gl/Medium Containers Price:\r\n");
         lblNewLabel_5_1_1.setFont(new Font("Tahoma", Font.BOLD, 28));
-        lblNewLabel_5_1_1.setBounds(29, 28, 426, 34);
+        lblNewLabel_5_1_1.setBounds(11, 26, 501, 34);
         panel_5.add(lblNewLabel_5_1_1);
         
-        textField_3 = new JTextField();
-        textField_3.setText("₱");
-        textField_3.setFont(new Font("Tahoma", Font.BOLD, 22));
-        textField_3.setColumns(10);
-        textField_3.setBounds(465, 28, 176, 41);
-        panel_5.add(textField_3);
+        JLabel lblNewLabel_6_1_1 = new JLabel("₱ 15.00");
+        lblNewLabel_6_1_1.setHorizontalAlignment(SwingConstants.CENTER);
+        lblNewLabel_6_1_1.setBackground(new Color(225, 225, 225));
+        lblNewLabel_6_1_1.setFont(new Font("Tahoma", Font.PLAIN, 28));
+        lblNewLabel_6_1_1.setBounds(490, 22, 163, 47);
+        panel_5.add(lblNewLabel_6_1_1);
+        
+        JPanel panel_8_1 = new JPanel();
+        panel_8_1.setBackground(new Color(225, 225, 225));
+        panel_8_1.setBounds(490, 22, 163, 47);
+        panel_5.add(panel_8_1);
         
         JPanel panel_6 = new JPanel();
         panel_6.setBounds(500, 620, 665, 87);
@@ -262,15 +277,20 @@ public class Pricing extends JFrame {
         
         JLabel lblNewLabel_5_1_1_1 = new JLabel("2.5gl/Small Containers Price:\r\n");
         lblNewLabel_5_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 28));
-        lblNewLabel_5_1_1_1.setBounds(31, 23, 426, 34);
+        lblNewLabel_5_1_1_1.setBounds(11, 26, 501, 34);
         panel_6.add(lblNewLabel_5_1_1_1);
         
-        textField_4 = new JTextField();
-        textField_4.setText("₱");
-        textField_4.setFont(new Font("Tahoma", Font.BOLD, 22));
-        textField_4.setColumns(10);
-        textField_4.setBounds(467, 23, 176, 41);
-        panel_6.add(textField_4);
+        JLabel lblNewLabel_6_1_1_1 = new JLabel("₱ 10.50");
+        lblNewLabel_6_1_1_1.setHorizontalAlignment(SwingConstants.CENTER);
+        lblNewLabel_6_1_1_1.setBackground(new Color(225, 225, 225));
+        lblNewLabel_6_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 28));
+        lblNewLabel_6_1_1_1.setBounds(490, 22, 163, 47);
+        panel_6.add(lblNewLabel_6_1_1_1);
+        
+        JPanel panel_8_1_1 = new JPanel();
+        panel_8_1_1.setBackground(new Color(225, 225, 225));
+        panel_8_1_1.setBounds(490, 22, 163, 47);
+        panel_6.add(panel_8_1_1);
         
         JLabel lblNewLabel_4 = new JLabel("New label");
         lblNewLabel_4.setBounds(547, 345, 45, 13);
