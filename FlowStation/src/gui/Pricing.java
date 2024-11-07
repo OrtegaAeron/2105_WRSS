@@ -15,6 +15,11 @@ public class Pricing extends JFrame {
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
     private JLabel lblNewLabel_1;
+    private JTextField textField;
+    private JTextField textField_1;
+    private JTextField textField_2;
+    private JTextField textField_3;
+    private JTextField textField_4;
 
     /**
      * Launch the application.
@@ -47,7 +52,7 @@ public class Pricing extends JFrame {
         setContentPane(contentPane);
 
         // Adding background image label
-        JLabel backgroundLabel = new JLabel(new ImageIcon(Inventory.class.getResource("/gui/Main.png")));
+        JLabel backgroundLabel = new JLabel(new ImageIcon(Pricing.class.getResource("/gui/Main.png")));
         backgroundLabel.setBounds(0, 0, 1426, 743);
         contentPane.add(backgroundLabel);
         backgroundLabel.setLayout(null);
@@ -184,21 +189,92 @@ public class Pricing extends JFrame {
         panel_2.setBounds(455, 160, 753, 108);
         panel_2.setLayout(null);
         
+        JLabel lblNewLabel = new JLabel("Price per Gallon:\r\n");
+        lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 40));
+        lblNewLabel.setBounds(60, 35, 360, 49);
+        panel_2.add(lblNewLabel);
+        
+        textField = new JTextField();
+        textField.setText("₱");
+        textField.setFont(new Font("Tahoma", Font.BOLD, 22));
+        textField.setBounds(430, 43, 258, 41);
+        panel_2.add(textField);
+        textField.setColumns(10);
+        
         JPanel panel_3 = new JPanel();
         panel_3.setBounds(630, 290, 404, 108);
         backgroundLabel.add(panel_3);
+        panel_3.setLayout(null);
+        
+        JLabel lblNewLabel_5 = new JLabel("Change Price per Gallon:");
+        lblNewLabel_5.setFont(new Font("Tahoma", Font.BOLD, 27));
+        lblNewLabel_5.setBounds(25, 10, 349, 34);
+        panel_3.add(lblNewLabel_5);
+        
+        textField_1 = new JTextField();
+        textField_1.setBounds(52, 54, 221, 34);
+        panel_3.add(textField_1);
+        textField_1.setColumns(10);
+        
+        JButton btnNewButton_7 = new JButton("UPDATE\r\n");
+        btnNewButton_7.setFont(new Font("Tahoma", Font.BOLD, 12));
+        btnNewButton_7.setBounds(277, 54, 82, 34);
+        panel_3.add(btnNewButton_7);
         
         JPanel panel_4 = new JPanel();
         panel_4.setBounds(500, 420, 665, 87);
         backgroundLabel.add(panel_4);
+        panel_4.setLayout(null);
+        
+        JLabel lblNewLabel_5_1 = new JLabel("5gl/Large Containers Price:\r\n");
+        lblNewLabel_5_1.setFont(new Font("Tahoma", Font.BOLD, 28));
+        lblNewLabel_5_1.setBounds(27, 27, 394, 34);
+        panel_4.add(lblNewLabel_5_1);
+        
+        textField_2 = new JTextField();
+        textField_2.setText("₱");
+        textField_2.setFont(new Font("Tahoma", Font.BOLD, 22));
+        textField_2.setColumns(10);
+        textField_2.setBounds(467, 27, 176, 41);
+        panel_4.add(textField_2);
         
         JPanel panel_5 = new JPanel();
         panel_5.setBounds(500, 519, 665, 87);
         backgroundLabel.add(panel_5);
+        panel_5.setLayout(null);
+        
+        JLabel lblNewLabel_5_1_1 = new JLabel("3gl/Medium Containers Price:\r\n");
+        lblNewLabel_5_1_1.setFont(new Font("Tahoma", Font.BOLD, 28));
+        lblNewLabel_5_1_1.setBounds(29, 28, 426, 34);
+        panel_5.add(lblNewLabel_5_1_1);
+        
+        textField_3 = new JTextField();
+        textField_3.setText("₱");
+        textField_3.setFont(new Font("Tahoma", Font.BOLD, 22));
+        textField_3.setColumns(10);
+        textField_3.setBounds(465, 28, 176, 41);
+        panel_5.add(textField_3);
         
         JPanel panel_6 = new JPanel();
         panel_6.setBounds(500, 620, 665, 87);
         backgroundLabel.add(panel_6);
+        panel_6.setLayout(null);
+        
+        JLabel lblNewLabel_5_1_1_1 = new JLabel("2.5gl/Small Containers Price:\r\n");
+        lblNewLabel_5_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 28));
+        lblNewLabel_5_1_1_1.setBounds(31, 23, 426, 34);
+        panel_6.add(lblNewLabel_5_1_1_1);
+        
+        textField_4 = new JTextField();
+        textField_4.setText("₱");
+        textField_4.setFont(new Font("Tahoma", Font.BOLD, 22));
+        textField_4.setColumns(10);
+        textField_4.setBounds(467, 23, 176, 41);
+        panel_6.add(textField_4);
+        
+        JLabel lblNewLabel_4 = new JLabel("New label");
+        lblNewLabel_4.setBounds(547, 345, 45, 13);
+        contentPane.add(lblNewLabel_4);
         
         
     }
