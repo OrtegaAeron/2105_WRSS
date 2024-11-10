@@ -94,7 +94,7 @@ public class SalesCatalog extends JFrame {
       //Transaction Button
         JButton btnNewButton = new JButton("Transactions");
         btnNewButton.setFont(new Font("Segoe UI", Font.BOLD, 25));
-        btnNewButton.setBounds(0, 228, 238, 50);
+        btnNewButton.setBounds(0, 212, 238, 50);
         panel_1.add(btnNewButton);
         
         btnNewButton.addActionListener(new ActionListener() {
@@ -108,7 +108,7 @@ public class SalesCatalog extends JFrame {
         //Customer Button
         JButton btnNewButton_1 = new JButton("Customers");
         btnNewButton_1.setFont(new Font("Segoe UI", Font.BOLD, 25));
-        btnNewButton_1.setBounds(0, 285, 238, 50);
+        btnNewButton_1.setBounds(0, 269, 238, 50);
         panel_1.add(btnNewButton_1);
         
         btnNewButton_1.addActionListener(new ActionListener() {
@@ -122,7 +122,7 @@ public class SalesCatalog extends JFrame {
         //Inventory Button
         JButton btnNewButton_2 = new JButton("Inventory");
         btnNewButton_2.setFont(new Font("Segoe UI", Font.BOLD, 25));
-        btnNewButton_2.setBounds(0, 342, 238, 50);
+        btnNewButton_2.setBounds(0, 326, 238, 50);
         panel_1.add(btnNewButton_2);
         
         btnNewButton_2.addActionListener(new ActionListener() {
@@ -136,7 +136,7 @@ public class SalesCatalog extends JFrame {
         //Pricing Button
         JButton btnNewButton_3 = new JButton("Pricing");
         btnNewButton_3.setFont(new Font("Segoe UI", Font.BOLD, 25));
-        btnNewButton_3.setBounds(0, 399, 238, 50);
+        btnNewButton_3.setBounds(0, 383, 238, 50);
         panel_1.add(btnNewButton_3);
         
         btnNewButton_3.addActionListener(new ActionListener() {
@@ -150,7 +150,7 @@ public class SalesCatalog extends JFrame {
       //Daily Sales Button
         JButton btnNewButton_4 = new JButton("Daily Sales");
         btnNewButton_4.setFont(new Font("Segoe UI", Font.BOLD, 25));
-        btnNewButton_4.setBounds(0, 456, 238, 50);
+        btnNewButton_4.setBounds(0, 440, 238, 50);
         panel_1.add(btnNewButton_4);
         
         btnNewButton_4.addActionListener(new ActionListener() {
@@ -166,13 +166,27 @@ public class SalesCatalog extends JFrame {
         btnNewButton_5.setForeground(new Color(255, 255, 255));
         btnNewButton_5.setBackground(new Color(16, 68, 160));
         btnNewButton_5.setFont(new Font("Segoe UI", Font.BOLD, 25));
-        btnNewButton_5.setBounds(0, 513, 238, 50);
+        btnNewButton_5.setBounds(0, 497, 238, 50);
         panel_1.add(btnNewButton_5);
+        
+        //Admin Settings Button
+        JButton btnAdminSettings = new JButton("Admin Settings");
+        btnAdminSettings.setFont(new Font("Segoe UI", Font.BOLD, 25));
+        btnAdminSettings.setBounds(0, 554, 238, 50);
+        panel_1.add(btnAdminSettings);
+        
+        btnAdminSettings.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                dispose(); // Close the current Transactions frame
+                AdminSettingsLogIn AdminSettingsLogInFrame = new AdminSettingsLogIn(); // Open the Customers frame
+                AdminSettingsLogInFrame.setVisible(true); // Set the Customers frame visible
+            }
+        });
         
         //Exit Button
         JButton btnNewButton_6 = new JButton("Exit");
         btnNewButton_6.setFont(new Font("Segoe UI", Font.BOLD, 25));
-        btnNewButton_6.setBounds(0, 606, 238, 50);
+        btnNewButton_6.setBounds(0, 645, 238, 50);
         panel_1.add(btnNewButton_6);
         
         btnNewButton_6.addActionListener(new ActionListener() {
@@ -329,20 +343,20 @@ public class SalesCatalog extends JFrame {
         lblEmployeesSalary.setBounds(19, 90, 180, 16);
         panel_5.add(lblEmployeesSalary);
         
-        JLabel lblNewLabel_5_1 = new JLabel("₱ 500.00");
-        lblNewLabel_5_1.setFont(new Font("Tahoma", Font.PLAIN, 22));
-        lblNewLabel_5_1.setBounds(19, 106, 101, 23);
-        panel_5.add(lblNewLabel_5_1);
+        JLabel lblEmployeesSalary_Int = new JLabel("₱ 500.00");
+        lblEmployeesSalary_Int.setFont(new Font("Tahoma", Font.PLAIN, 22));
+        lblEmployeesSalary_Int.setBounds(19, 106, 101, 23);
+        panel_5.add(lblEmployeesSalary_Int);
         
         JLabel lblNoOfEmployees = new JLabel("No. of Employees:");
         lblNoOfEmployees.setFont(new Font("Tahoma", Font.PLAIN, 13));
         lblNoOfEmployees.setBounds(19, 145, 180, 16);
         panel_5.add(lblNoOfEmployees);
         
-        JLabel lblNewLabel_5_1_1 = new JLabel("2");
-        lblNewLabel_5_1_1.setFont(new Font("Tahoma", Font.PLAIN, 22));
-        lblNewLabel_5_1_1.setBounds(19, 166, 28, 23);
-        panel_5.add(lblNewLabel_5_1_1);
+        JLabel lblNoOfEmployees_Int = new JLabel("2");
+        lblNoOfEmployees_Int.setFont(new Font("Tahoma", Font.PLAIN, 22));
+        lblNoOfEmployees_Int.setBounds(19, 166, 28, 23);
+        panel_5.add(lblNoOfEmployees_Int);
         
         JPanel panel_6 = new JPanel();
         panel_6.setBackground(new Color(225, 225, 225));
@@ -355,10 +369,10 @@ public class SalesCatalog extends JFrame {
         lblTotalProfit.setFont(new Font("Tahoma", Font.BOLD, 19));
         panel_6.add(lblTotalProfit);
         
-        JLabel lblTotalProfit_1 = new JLabel("₱ ");
-        lblTotalProfit_1.setFont(new Font("Tahoma", Font.BOLD, 35));
-        lblTotalProfit_1.setBounds(20, 50, 161, 42);
-        panel_6.add(lblTotalProfit_1);
+        JLabel lblTotalProfit_Int = new JLabel("₱ ");
+        lblTotalProfit_Int.setFont(new Font("Tahoma", Font.BOLD, 35));
+        lblTotalProfit_Int.setBounds(20, 50, 161, 42);
+        panel_6.add(lblTotalProfit_Int);
         
         
     }

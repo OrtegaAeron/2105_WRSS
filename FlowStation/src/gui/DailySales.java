@@ -94,7 +94,7 @@ public class DailySales extends JFrame {
       //Transaction Button
         JButton btnNewButton = new JButton("Transactions");
         btnNewButton.setFont(new Font("Segoe UI", Font.BOLD, 25));
-        btnNewButton.setBounds(0, 228, 238, 50);
+        btnNewButton.setBounds(0, 212, 238, 50);
         panel_1.add(btnNewButton);
         
         btnNewButton.addActionListener(new ActionListener() {
@@ -108,7 +108,7 @@ public class DailySales extends JFrame {
         //Customer Button
         JButton btnNewButton_1 = new JButton("Customers");
         btnNewButton_1.setFont(new Font("Segoe UI", Font.BOLD, 25));
-        btnNewButton_1.setBounds(0, 285, 238, 50);
+        btnNewButton_1.setBounds(0, 269, 238, 50);
         panel_1.add(btnNewButton_1);
         
         btnNewButton_1.addActionListener(new ActionListener() {
@@ -122,7 +122,7 @@ public class DailySales extends JFrame {
         //Inventory Button
         JButton btnNewButton_2 = new JButton("Inventory");
         btnNewButton_2.setFont(new Font("Segoe UI", Font.BOLD, 25));
-        btnNewButton_2.setBounds(0, 342, 238, 50);
+        btnNewButton_2.setBounds(0, 326, 238, 50);
         panel_1.add(btnNewButton_2);
         
         btnNewButton_2.addActionListener(new ActionListener() {
@@ -136,7 +136,7 @@ public class DailySales extends JFrame {
         //Pricing Button
         JButton btnNewButton_3 = new JButton("Pricing");
         btnNewButton_3.setFont(new Font("Segoe UI", Font.BOLD, 25));
-        btnNewButton_3.setBounds(0, 399, 238, 50);
+        btnNewButton_3.setBounds(0, 383, 238, 50);
         panel_1.add(btnNewButton_3);
         
         btnNewButton_3.addActionListener(new ActionListener() {
@@ -151,16 +151,14 @@ public class DailySales extends JFrame {
         JButton btnNewButton_4 = new JButton("Daily Sales");
         btnNewButton_4.setForeground(new Color(255, 255, 255));
         btnNewButton_4.setBackground(new Color(16, 68, 160));
-        btnNewButton.setForeground(new Color(0, 0, 0));
-        btnNewButton.setBackground(new Color(255, 255, 255));
         btnNewButton_4.setFont(new Font("Segoe UI", Font.BOLD, 25));
-        btnNewButton_4.setBounds(0, 456, 238, 50);
+        btnNewButton_4.setBounds(0, 440, 238, 50);
         panel_1.add(btnNewButton_4);
         
         //Sales Catalog Button
         JButton btnNewButton_5 = new JButton("Sales Catalog");
         btnNewButton_5.setFont(new Font("Segoe UI", Font.BOLD, 25));
-        btnNewButton_5.setBounds(0, 513, 238, 50);
+        btnNewButton_5.setBounds(0, 497, 238, 50);
         panel_1.add(btnNewButton_5);
         
         btnNewButton_5.addActionListener(new ActionListener() {
@@ -171,10 +169,24 @@ public class DailySales extends JFrame {
             }
         });
         
+        //Admin Settings Button
+        JButton btnAdminSettings = new JButton("Admin Settings");
+        btnAdminSettings.setFont(new Font("Segoe UI", Font.BOLD, 25));
+        btnAdminSettings.setBounds(0, 554, 238, 50);
+        panel_1.add(btnAdminSettings);
+        
+        btnAdminSettings.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                dispose(); // Close the current Transactions frame
+                AdminSettingsLogIn AdminSettingsLogInFrame = new AdminSettingsLogIn(); // Open the Customers frame
+                AdminSettingsLogInFrame.setVisible(true); // Set the Customers frame visible
+            }
+        });
+        
         //Exit Button
         JButton btnNewButton_6 = new JButton("Exit");
         btnNewButton_6.setFont(new Font("Segoe UI", Font.BOLD, 25));
-        btnNewButton_6.setBounds(0, 606, 238, 50);
+        btnNewButton_6.setBounds(0, 645, 238, 50);
         panel_1.add(btnNewButton_6);
         
         btnNewButton_6.addActionListener(new ActionListener() {
@@ -310,66 +322,50 @@ public class DailySales extends JFrame {
         lblEmployeesSalary.setBounds(44, 61, 145, 28);
         panel_7.add(lblEmployeesSalary);
         
-        JLabel lblgllargeContainers_1_1 = new JLabel("No. of Employees:");
-        lblgllargeContainers_1_1.setFont(new Font("Tahoma", Font.PLAIN, 17));
-        lblgllargeContainers_1_1.setBounds(44, 86, 178, 28);
-        panel_7.add(lblgllargeContainers_1_1);
+        JLabel lblEmployeeNo = new JLabel("No. of Employees:");
+        lblEmployeeNo.setFont(new Font("Tahoma", Font.PLAIN, 17));
+        lblEmployeeNo.setBounds(44, 86, 178, 28);
+        panel_7.add(lblEmployeeNo);
         
-        JLabel lblgllargeContainers_1_1_1 = new JLabel("Service Fee per container:");
-        lblgllargeContainers_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 17));
-        lblgllargeContainers_1_1_1.setBounds(26, 119, 199, 28);
-        panel_7.add(lblgllargeContainers_1_1_1);
+        JLabel lblNewLabel_4 = new JLabel("2");
+        lblNewLabel_4.setFont(new Font("Tahoma", Font.PLAIN, 17));
+        lblNewLabel_4.setBackground(new Color(225, 225, 225));
+        lblNewLabel_4.setBounds(458, 86, 71, 27);
+        panel_7.add(lblNewLabel_4);
         
-        JLabel lblNewLabel_11_2 = new JLabel("2");
-        lblNewLabel_11_2.setFont(new Font("Tahoma", Font.PLAIN, 17));
-        lblNewLabel_11_2.setBackground(new Color(225, 225, 225));
-        lblNewLabel_11_2.setBounds(458, 86, 71, 27);
-        panel_7.add(lblNewLabel_11_2);
+        JLabel lblNewLabel_5 = new JLabel("5.00");
+        lblNewLabel_5.setFont(new Font("Tahoma", Font.PLAIN, 17));
+        lblNewLabel_5.setBackground(new Color(225, 225, 225));
+        lblNewLabel_5.setBounds(458, 120, 71, 27);
+        panel_7.add(lblNewLabel_5);
         
-        JLabel lblNewLabel_11_3 = new JLabel("5.00");
-        lblNewLabel_11_3.setFont(new Font("Tahoma", Font.PLAIN, 17));
-        lblNewLabel_11_3.setBackground(new Color(225, 225, 225));
-        lblNewLabel_11_3.setBounds(458, 120, 71, 27);
-        panel_7.add(lblNewLabel_11_3);
+        JLabel lblNewLabel_6 = new JLabel("₱ ");
+        lblNewLabel_6.setFont(new Font("Tahoma", Font.PLAIN, 17));
+        lblNewLabel_6.setBackground(new Color(225, 225, 225));
+        lblNewLabel_6.setBounds(458, 10, 83, 27);
+        panel_7.add(lblNewLabel_6);
         
-        JLabel lblNewLabel_11_4 = new JLabel("₱ ");
-        lblNewLabel_11_4.setFont(new Font("Tahoma", Font.PLAIN, 17));
-        lblNewLabel_11_4.setBackground(new Color(225, 225, 225));
-        lblNewLabel_11_4.setBounds(458, 10, 83, 27);
-        panel_7.add(lblNewLabel_11_4);
+        JLabel lblNewLabel_7 = new JLabel("₱ 500.00");
+        lblNewLabel_7.setFont(new Font("Tahoma", Font.PLAIN, 17));
+        lblNewLabel_7.setBackground(new Color(225, 225, 225));
+        lblNewLabel_7.setBounds(458, 61, 71, 27);
+        panel_7.add(lblNewLabel_7);
         
-        JLabel lblNewLabel_11_4_1 = new JLabel("₱ 500.00");
-        lblNewLabel_11_4_1.setFont(new Font("Tahoma", Font.PLAIN, 17));
-        lblNewLabel_11_4_1.setBackground(new Color(225, 225, 225));
-        lblNewLabel_11_4_1.setBounds(458, 61, 71, 27);
-        panel_7.add(lblNewLabel_11_4_1);
+        JPanel panel_8 = new JPanel();
+        panel_8.setLayout(null);
+        panel_8.setBackground(new Color(225, 225, 225));
+        panel_8.setBounds(735, 35, 334, 123);
+        panel_3.add(panel_8);
         
-        JPanel panel_7_1 = new JPanel();
-        panel_7_1.setLayout(null);
-        panel_7_1.setBackground(new Color(225, 225, 225));
-        panel_7_1.setBounds(735, 35, 334, 123);
-        panel_3.add(panel_7_1);
+        JLabel lblTotalProfit = new JLabel("Total Profit:\r\n");
+        lblTotalProfit.setFont(new Font("Tahoma", Font.BOLD, 25));
+        lblTotalProfit.setBounds(6, 9, 236, 28);
+        panel_8.add(lblTotalProfit);
         
-        JLabel lblSumOfAll_1 = new JLabel("Total Profit:\r\n");
-        lblSumOfAll_1.setFont(new Font("Tahoma", Font.BOLD, 25));
-        lblSumOfAll_1.setBounds(6, 9, 236, 28);
-        panel_7_1.add(lblSumOfAll_1);
-        
-        JLabel lblgllargeContainers_1_1_1_1 = new JLabel("Service Fee per container:");
-        lblgllargeContainers_1_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 17));
-        lblgllargeContainers_1_1_1_1.setBounds(26, 119, 199, 28);
-        panel_7_1.add(lblgllargeContainers_1_1_1_1);
-        
-        JLabel lblNewLabel_11_3_1 = new JLabel("5.00");
-        lblNewLabel_11_3_1.setFont(new Font("Tahoma", Font.PLAIN, 17));
-        lblNewLabel_11_3_1.setBackground(new Color(225, 225, 225));
-        lblNewLabel_11_3_1.setBounds(458, 120, 71, 27);
-        panel_7_1.add(lblNewLabel_11_3_1);
-        
-        JLabel lblSumOfAll_1_1 = new JLabel("₱ ");
-        lblSumOfAll_1_1.setFont(new Font("Tahoma", Font.BOLD, 31));
-        lblSumOfAll_1_1.setBounds(89, 55, 161, 42);
-        panel_7_1.add(lblSumOfAll_1_1);
+        JLabel lblTotalProfit_Int = new JLabel("₱ ");
+        lblTotalProfit_Int.setFont(new Font("Tahoma", Font.BOLD, 31));
+        lblTotalProfit_Int.setBounds(89, 55, 161, 42);
+        panel_8.add(lblTotalProfit_Int);
         
         
     }

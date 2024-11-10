@@ -92,7 +92,7 @@ public class Pricing extends JFrame {
       //Transaction Button
         JButton btnNewButton = new JButton("Transactions");
         btnNewButton.setFont(new Font("Segoe UI", Font.BOLD, 25));
-        btnNewButton.setBounds(0, 228, 238, 50);
+        btnNewButton.setBounds(0, 212, 238, 50);
         panel_1.add(btnNewButton);
         
         btnNewButton.addActionListener(new ActionListener() {
@@ -106,7 +106,7 @@ public class Pricing extends JFrame {
         //Customer Button
         JButton btnNewButton_1 = new JButton("Customers");
         btnNewButton_1.setFont(new Font("Segoe UI", Font.BOLD, 25));
-        btnNewButton_1.setBounds(0, 285, 238, 50);
+        btnNewButton_1.setBounds(0, 269, 238, 50);
         panel_1.add(btnNewButton_1);
         
         btnNewButton_1.addActionListener(new ActionListener() {
@@ -120,7 +120,7 @@ public class Pricing extends JFrame {
         //Inventory Button
         JButton btnNewButton_2 = new JButton("Inventory");
         btnNewButton_2.setFont(new Font("Segoe UI", Font.BOLD, 25));
-        btnNewButton_2.setBounds(0, 342, 238, 50);
+        btnNewButton_2.setBounds(0, 326, 238, 50);
         panel_1.add(btnNewButton_2);
         
         btnNewButton_2.addActionListener(new ActionListener() {
@@ -138,13 +138,13 @@ public class Pricing extends JFrame {
         btnNewButton.setForeground(new Color(0, 0, 0));
         btnNewButton.setBackground(new Color(255, 255, 255));
         btnNewButton_3.setFont(new Font("Segoe UI", Font.BOLD, 25));
-        btnNewButton_3.setBounds(0, 399, 238, 50);
+        btnNewButton_3.setBounds(0, 383, 238, 50);
         panel_1.add(btnNewButton_3);
         
         //Daily Sales Button
         JButton btnNewButton_4 = new JButton("Daily Sales");
         btnNewButton_4.setFont(new Font("Segoe UI", Font.BOLD, 25));
-        btnNewButton_4.setBounds(0, 456, 238, 50);
+        btnNewButton_4.setBounds(0, 440, 238, 50);
         panel_1.add(btnNewButton_4);
         
         btnNewButton_4.addActionListener(new ActionListener() {
@@ -158,7 +158,7 @@ public class Pricing extends JFrame {
         //Sales Catalog Button
         JButton btnNewButton_5 = new JButton("Sales Catalog");
         btnNewButton_5.setFont(new Font("Segoe UI", Font.BOLD, 25));
-        btnNewButton_5.setBounds(0, 513, 238, 50);
+        btnNewButton_5.setBounds(0, 497, 238, 50);
         panel_1.add(btnNewButton_5);
         
         btnNewButton_5.addActionListener(new ActionListener() {
@@ -169,10 +169,24 @@ public class Pricing extends JFrame {
             }
         });
         
+      //Admin Settings Button
+        JButton btnAdminSettings = new JButton("Admin Settings");
+        btnAdminSettings.setFont(new Font("Segoe UI", Font.BOLD, 25));
+        btnAdminSettings.setBounds(0, 554, 238, 50);
+        panel_1.add(btnAdminSettings);
+        
+        btnAdminSettings.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                dispose(); // Close the current Transactions frame
+                AdminSettingsLogIn AdminSettingsLogInFrame = new AdminSettingsLogIn(); // Open the Customers frame
+                AdminSettingsLogInFrame.setVisible(true); // Set the Customers frame visible
+            }
+        });
+        
         //Exit Button
         JButton btnNewButton_6 = new JButton("Exit");
         btnNewButton_6.setFont(new Font("Segoe UI", Font.BOLD, 25));
-        btnNewButton_6.setBounds(0, 606, 238, 50);
+        btnNewButton_6.setBounds(0, 645, 238, 50);
         panel_1.add(btnNewButton_6);
         
         btnNewButton_6.addActionListener(new ActionListener() {
@@ -231,17 +245,17 @@ public class Pricing extends JFrame {
         backgroundLabel.add(panel_4);
         panel_4.setLayout(null);
         
-        JLabel lblNewLabel_5_1 = new JLabel("5gl/Large Containers Price:\r\n");
-        lblNewLabel_5_1.setFont(new Font("Tahoma", Font.BOLD, 28));
-        lblNewLabel_5_1.setBounds(11, 26, 486, 34);
-        panel_4.add(lblNewLabel_5_1);
+        JLabel lblNewLabel_8 = new JLabel("5gl/Large Containers Price:\r\n");
+        lblNewLabel_8.setFont(new Font("Tahoma", Font.BOLD, 28));
+        lblNewLabel_8.setBounds(11, 26, 486, 34);
+        panel_4.add(lblNewLabel_8);
         
-        JLabel lblNewLabel_6_1 = new JLabel("₱ 25.00");
-        lblNewLabel_6_1.setHorizontalAlignment(SwingConstants.CENTER);
-        lblNewLabel_6_1.setBackground(new Color(225, 225, 225));
-        lblNewLabel_6_1.setFont(new Font("Tahoma", Font.PLAIN, 28));
-        lblNewLabel_6_1.setBounds(490, 22, 163, 47);
-        panel_4.add(lblNewLabel_6_1);
+        JLabel lblNewLabel_9 = new JLabel("₱ 25.00");
+        lblNewLabel_9.setHorizontalAlignment(SwingConstants.CENTER);
+        lblNewLabel_9.setBackground(new Color(225, 225, 225));
+        lblNewLabel_9.setFont(new Font("Tahoma", Font.PLAIN, 28));
+        lblNewLabel_9.setBounds(490, 22, 163, 47);
+        panel_4.add(lblNewLabel_9);
         
         JPanel panel_8 = new JPanel();
         panel_8.setBackground(new Color(225, 225, 225));
@@ -253,44 +267,44 @@ public class Pricing extends JFrame {
         backgroundLabel.add(panel_5);
         panel_5.setLayout(null);
         
-        JLabel lblNewLabel_5_1_1 = new JLabel("3gl/Medium Containers Price:\r\n");
-        lblNewLabel_5_1_1.setFont(new Font("Tahoma", Font.BOLD, 28));
-        lblNewLabel_5_1_1.setBounds(11, 26, 501, 34);
-        panel_5.add(lblNewLabel_5_1_1);
+        JLabel lblNewLabel_10 = new JLabel("3gl/Medium Containers Price:\r\n");
+        lblNewLabel_10.setFont(new Font("Tahoma", Font.BOLD, 28));
+        lblNewLabel_10.setBounds(11, 26, 501, 34);
+        panel_5.add(lblNewLabel_10);
         
-        JLabel lblNewLabel_6_1_1 = new JLabel("₱ 15.00");
-        lblNewLabel_6_1_1.setHorizontalAlignment(SwingConstants.CENTER);
-        lblNewLabel_6_1_1.setBackground(new Color(225, 225, 225));
-        lblNewLabel_6_1_1.setFont(new Font("Tahoma", Font.PLAIN, 28));
-        lblNewLabel_6_1_1.setBounds(490, 22, 163, 47);
-        panel_5.add(lblNewLabel_6_1_1);
+        JLabel lblNewLabel_11 = new JLabel("₱ 15.00");
+        lblNewLabel_11.setHorizontalAlignment(SwingConstants.CENTER);
+        lblNewLabel_11.setBackground(new Color(225, 225, 225));
+        lblNewLabel_11.setFont(new Font("Tahoma", Font.PLAIN, 28));
+        lblNewLabel_11.setBounds(490, 22, 163, 47);
+        panel_5.add(lblNewLabel_11);
         
-        JPanel panel_8_1 = new JPanel();
-        panel_8_1.setBackground(new Color(225, 225, 225));
-        panel_8_1.setBounds(490, 22, 163, 47);
-        panel_5.add(panel_8_1);
+        JPanel panel_9 = new JPanel();
+        panel_9.setBackground(new Color(225, 225, 225));
+        panel_9.setBounds(490, 22, 163, 47);
+        panel_5.add(panel_9);
         
         JPanel panel_6 = new JPanel();
         panel_6.setBounds(500, 620, 665, 87);
         backgroundLabel.add(panel_6);
         panel_6.setLayout(null);
         
-        JLabel lblNewLabel_5_1_1_1 = new JLabel("2.5gl/Small Containers Price:\r\n");
-        lblNewLabel_5_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 28));
-        lblNewLabel_5_1_1_1.setBounds(11, 26, 501, 34);
-        panel_6.add(lblNewLabel_5_1_1_1);
+        JLabel lblNewLabel_12 = new JLabel("2.5gl/Small Containers Price:\r\n");
+        lblNewLabel_12.setFont(new Font("Tahoma", Font.BOLD, 28));
+        lblNewLabel_12.setBounds(11, 26, 501, 34);
+        panel_6.add(lblNewLabel_12);
         
-        JLabel lblNewLabel_6_1_1_1 = new JLabel("₱ 10.50");
-        lblNewLabel_6_1_1_1.setHorizontalAlignment(SwingConstants.CENTER);
-        lblNewLabel_6_1_1_1.setBackground(new Color(225, 225, 225));
-        lblNewLabel_6_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 28));
-        lblNewLabel_6_1_1_1.setBounds(490, 22, 163, 47);
-        panel_6.add(lblNewLabel_6_1_1_1);
+        JLabel lblNewLabel_13 = new JLabel("₱ 10.50");
+        lblNewLabel_13.setHorizontalAlignment(SwingConstants.CENTER);
+        lblNewLabel_13.setBackground(new Color(225, 225, 225));
+        lblNewLabel_13.setFont(new Font("Tahoma", Font.PLAIN, 28));
+        lblNewLabel_13.setBounds(490, 22, 163, 47);
+        panel_6.add(lblNewLabel_13);
         
-        JPanel panel_8_1_1 = new JPanel();
-        panel_8_1_1.setBackground(new Color(225, 225, 225));
-        panel_8_1_1.setBounds(490, 22, 163, 47);
-        panel_6.add(panel_8_1_1);
+        JPanel panel_10 = new JPanel();
+        panel_10.setBackground(new Color(225, 225, 225));
+        panel_10.setBounds(490, 22, 163, 47);
+        panel_6.add(panel_10);
         
         JLabel lblNewLabel_4 = new JLabel("New label");
         lblNewLabel_4.setBounds(547, 345, 45, 13);

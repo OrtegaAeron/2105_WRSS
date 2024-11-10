@@ -14,7 +14,7 @@ import org.eclipse.wb.swing.FocusTraversalOnArray;
 import java.awt.Component;
 import java.awt.Toolkit;
 
-public class Customers extends JFrame {
+public class AdminSettings extends JFrame {
 
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
@@ -36,7 +36,7 @@ public class Customers extends JFrame {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                	Customers frame = new Customers();
+                	AdminSettings frame = new AdminSettings();
                     frame.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -48,7 +48,7 @@ public class Customers extends JFrame {
     /**
      * Create the frame.
      */
-    public Customers() {
+    public AdminSettings() {
     	setTitle("FlowStation");
     	setIconImage(Toolkit.getDefaultToolkit().getImage(Customers.class.getResource("/resources/Logo_Small.png")));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -75,11 +75,11 @@ public class Customers extends JFrame {
         panel.setLayout(null);
         
         //head label
-        JLabel lblNewLabel_3 = new JLabel("Customers");
+        JLabel lblNewLabel_3 = new JLabel("Admin Settings");
         lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
         lblNewLabel_3.setForeground(Color.WHITE);
         lblNewLabel_3.setFont(new Font("Myanmar Text", Font.BOLD, 41));
-        lblNewLabel_3.setBounds(438, 27, 296, 66);
+        lblNewLabel_3.setBounds(433, 27, 325, 66);
         panel.add(lblNewLabel_3);
         
         //head panel
@@ -116,11 +116,17 @@ public class Customers extends JFrame {
         
         //Customer Button
         JButton btnNewButton_1 = new JButton("Customers");
-        btnNewButton_1.setForeground(new Color(255, 255, 255));
-        btnNewButton_1.setBackground(new Color(16, 68, 160));
         btnNewButton_1.setFont(new Font("Segoe UI", Font.BOLD, 25));
-        btnNewButton_1.setBounds(0,269, 238, 50);
+        btnNewButton_1.setBounds(0, 269, 238, 50);
         panel_1.add(btnNewButton_1);
+        
+        btnNewButton_1.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                dispose(); // Close the current Transactions frame
+                Customers customersFrame = new Customers(); // Open the Customers frame
+                customersFrame.setVisible(true); // Set the Customers frame visible
+            }
+        });
         
         //Inventory Button
         JButton btnNewButton_2 = new JButton("Inventory");
@@ -178,18 +184,15 @@ public class Customers extends JFrame {
             }
         });
         
+        //Admin Settings Button
         JButton btnAdminSettings = new JButton("Admin Settings");
+        btnAdminSettings.setForeground(new Color(255, 255, 255));
+        btnAdminSettings.setBackground(new Color(16, 68, 160));
+        btnNewButton_5.setForeground(UIManager.getColor("Button.foreground"));
+        btnNewButton_5.setBackground(UIManager.getColor("Button.background"));
         btnAdminSettings.setFont(new Font("Segoe UI", Font.BOLD, 25));
         btnAdminSettings.setBounds(0, 554, 238, 50);
         panel_1.add(btnAdminSettings);
-        
-        btnAdminSettings.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                dispose(); // Close the current Transactions frame
-                AdminSettingsLogIn AdminSettingsLogInFrame = new AdminSettingsLogIn(); // Open the Customers frame
-                AdminSettingsLogInFrame.setVisible(true); // Set the Customers frame visible
-            }
-        });
         
         //Exit Button
         JButton btnNewButton_6 = new JButton("Exit");

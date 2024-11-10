@@ -93,7 +93,7 @@ public class Inventory extends JFrame {
       //Transaction Button
         JButton btnNewButton = new JButton("Transactions");
         btnNewButton.setFont(new Font("Segoe UI", Font.BOLD, 25));
-        btnNewButton.setBounds(0, 228, 238, 50);
+        btnNewButton.setBounds(0, 212, 238, 50);
         panel_1.add(btnNewButton);
         
         btnNewButton.addActionListener(new ActionListener() {
@@ -107,7 +107,7 @@ public class Inventory extends JFrame {
         //Customer Button
         JButton btnNewButton_1 = new JButton("Customers");
         btnNewButton_1.setFont(new Font("Segoe UI", Font.BOLD, 25));
-        btnNewButton_1.setBounds(0, 285, 238, 50);
+        btnNewButton_1.setBounds(0, 269, 238, 50);
         panel_1.add(btnNewButton_1);
         
         btnNewButton_1.addActionListener(new ActionListener() {
@@ -122,16 +122,14 @@ public class Inventory extends JFrame {
         JButton btnNewButton_2 = new JButton("Inventory");
         btnNewButton_2.setForeground(new Color(255, 255, 255));
         btnNewButton_2.setBackground(new Color(16, 68, 160));
-        btnNewButton.setForeground(new Color(0, 0, 0));
-        btnNewButton.setBackground(new Color(255, 255, 255));
         btnNewButton_2.setFont(new Font("Segoe UI", Font.BOLD, 25));
-        btnNewButton_2.setBounds(0, 342, 238, 50);
+        btnNewButton_2.setBounds(0, 326, 238, 50);
         panel_1.add(btnNewButton_2);
         
         //Pricing Button
         JButton btnNewButton_3 = new JButton("Pricing");
         btnNewButton_3.setFont(new Font("Segoe UI", Font.BOLD, 25));
-        btnNewButton_3.setBounds(0, 399, 238, 50);
+        btnNewButton_3.setBounds(0, 383, 238, 50);
         panel_1.add(btnNewButton_3);
         
         btnNewButton_3.addActionListener(new ActionListener() {
@@ -145,7 +143,7 @@ public class Inventory extends JFrame {
         //Daily Sales Button
         JButton btnNewButton_4 = new JButton("Daily Sales");
         btnNewButton_4.setFont(new Font("Segoe UI", Font.BOLD, 25));
-        btnNewButton_4.setBounds(0, 456, 238, 50);
+        btnNewButton_4.setBounds(0, 440, 238, 50);
         panel_1.add(btnNewButton_4);
         
         btnNewButton_4.addActionListener(new ActionListener() {
@@ -159,7 +157,7 @@ public class Inventory extends JFrame {
         //Sales Catalog Button
         JButton btnNewButton_5 = new JButton("Sales Catalog");
         btnNewButton_5.setFont(new Font("Segoe UI", Font.BOLD, 25));
-        btnNewButton_5.setBounds(0, 513, 238, 50);
+        btnNewButton_5.setBounds(0, 497, 238, 50);
         panel_1.add(btnNewButton_5);
         
         btnNewButton_5.addActionListener(new ActionListener() {
@@ -170,10 +168,24 @@ public class Inventory extends JFrame {
             }
         });
         
+      //Admin Settings Button
+        JButton btnAdminSettings = new JButton("Admin Settings");
+        btnAdminSettings.setFont(new Font("Segoe UI", Font.BOLD, 25));
+        btnAdminSettings.setBounds(0, 554, 238, 50);
+        panel_1.add(btnAdminSettings);
+        
+        btnAdminSettings.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                dispose(); // Close the current Transactions frame
+                AdminSettingsLogIn AdminSettingsLogInFrame = new AdminSettingsLogIn(); // Open the Customers frame
+                AdminSettingsLogInFrame.setVisible(true); // Set the Customers frame visible
+            }
+        });
+        
         //Exit Button
         JButton btnNewButton_6 = new JButton("Exit");
         btnNewButton_6.setFont(new Font("Segoe UI", Font.BOLD, 25));
-        btnNewButton_6.setBounds(0, 606, 238, 50);
+        btnNewButton_6.setBounds(0, 645, 238, 50);
         panel_1.add(btnNewButton_6);
         
         btnNewButton_6.addActionListener(new ActionListener() {
@@ -235,35 +247,35 @@ public class Inventory extends JFrame {
         lblNewLabel.setBounds(18, 18, 382, 36);
         panel_3.add(lblNewLabel);
         
-        JLabel lblgllarge = new JLabel("5gl/L Container:");
-        lblgllarge.setFont(new Font("Myanmar Text", Font.BOLD, 22));
-        lblgllarge.setBounds(18, 71, 271, 36);
-        panel_3.add(lblgllarge);
+        JLabel lblAddLargeContainer = new JLabel("5gl/L Container:");
+        lblAddLargeContainer.setFont(new Font("Myanmar Text", Font.BOLD, 22));
+        lblAddLargeContainer.setBounds(18, 71, 271, 36);
+        panel_3.add(lblAddLargeContainer);
         
-        JLabel lblglmContainer = new JLabel("3gl/M Container:");
-        lblglmContainer.setFont(new Font("Myanmar Text", Font.BOLD, 22));
-        lblglmContainer.setBounds(18, 132, 287, 36);
-        panel_3.add(lblglmContainer);
+        JLabel lblAddMediumContainer = new JLabel("3gl/M Container:");
+        lblAddMediumContainer.setFont(new Font("Myanmar Text", Font.BOLD, 22));
+        lblAddMediumContainer.setBounds(18, 132, 287, 36);
+        panel_3.add(lblAddMediumContainer);
         
-        JLabel lblgllarge_1_1 = new JLabel("2.5gl/S Container:");
-        lblgllarge_1_1.setFont(new Font("Myanmar Text", Font.BOLD, 22));
-        lblgllarge_1_1.setBounds(20, 194, 306, 36);
-        panel_3.add(lblgllarge_1_1);
+        JLabel lblAddSmallContainer = new JLabel("2.5gl/S Container:");
+        lblAddSmallContainer.setFont(new Font("Myanmar Text", Font.BOLD, 22));
+        lblAddSmallContainer.setBounds(20, 194, 306, 36);
+        panel_3.add(lblAddSmallContainer);
         
         JSpinner spinner_1 = new JSpinner();
         spinner_1.setFont(new Font("Tahoma", Font.PLAIN, 19));
         spinner_1.setBounds(215, 64, 298, 48);
         panel_3.add(spinner_1);
         
-        JSpinner spinner_1_1 = new JSpinner();
-        spinner_1_1.setFont(new Font("Tahoma", Font.PLAIN, 19));
-        spinner_1_1.setBounds(215, 125, 298, 48);
-        panel_3.add(spinner_1_1);
+        JSpinner spinner_2 = new JSpinner();
+        spinner_2.setFont(new Font("Tahoma", Font.PLAIN, 19));
+        spinner_2.setBounds(215, 125, 298, 48);
+        panel_3.add(spinner_2);
         
-        JSpinner spinner_1_1_1 = new JSpinner();
-        spinner_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 19));
-        spinner_1_1_1.setBounds(215, 186, 298, 48);
-        panel_3.add(spinner_1_1_1);
+        JSpinner spinner_3 = new JSpinner();
+        spinner_3.setFont(new Font("Tahoma", Font.PLAIN, 19));
+        spinner_3.setBounds(215, 186, 298, 48);
+        panel_3.add(spinner_3);
         
         JButton btnNewButton_7 = new JButton("ADD");
         btnNewButton_7.setFont(new Font("Tahoma", Font.BOLD, 16));
@@ -280,40 +292,40 @@ public class Inventory extends JFrame {
         lblRemoveOldContainers.setBounds(18, 18, 448, 36);
         panel_4.add(lblRemoveOldContainers);
         
-        JLabel lblgllarge_1 = new JLabel("5gl/L Container:");
-        lblgllarge_1.setFont(new Font("Myanmar Text", Font.BOLD, 22));
-        lblgllarge_1.setBounds(18, 71, 169, 35);
-        panel_4.add(lblgllarge_1);
+        JLabel lblRmvLargeContainer = new JLabel("5gl/L Container:");
+        lblRmvLargeContainer.setFont(new Font("Myanmar Text", Font.BOLD, 22));
+        lblRmvLargeContainer.setBounds(18, 71, 169, 35);
+        panel_4.add(lblRmvLargeContainer);
         
-        JLabel lblglmContainer_1 = new JLabel("3gl/M Container:");
-        lblglmContainer_1.setFont(new Font("Myanmar Text", Font.BOLD, 22));
-        lblglmContainer_1.setBounds(18, 132, 179, 35);
-        panel_4.add(lblglmContainer_1);
+        JLabel lblRmvMediumContainer = new JLabel("3gl/M Container:");
+        lblRmvMediumContainer.setFont(new Font("Myanmar Text", Font.BOLD, 22));
+        lblRmvMediumContainer.setBounds(18, 132, 179, 35);
+        panel_4.add(lblRmvMediumContainer);
         
-        JLabel lblgllarge_1_1_1 = new JLabel("2.5gl/S Container:");
-        lblgllarge_1_1_1.setFont(new Font("Myanmar Text", Font.BOLD, 22));
-        lblgllarge_1_1_1.setBounds(20, 194, 190, 35);
-        panel_4.add(lblgllarge_1_1_1);
+        JLabel lblRmvSmallContainer = new JLabel("2.5gl/S Container:");
+        lblRmvSmallContainer.setFont(new Font("Myanmar Text", Font.BOLD, 22));
+        lblRmvSmallContainer.setBounds(20, 194, 190, 35);
+        panel_4.add(lblRmvSmallContainer);
         
-        JSpinner spinner_1_2 = new JSpinner();
-        spinner_1_2.setFont(new Font("Tahoma", Font.PLAIN, 19));
-        spinner_1_2.setBounds(215, 64, 298, 48);
-        panel_4.add(spinner_1_2);
+        JSpinner spinner_4 = new JSpinner();
+        spinner_4.setFont(new Font("Tahoma", Font.PLAIN, 19));
+        spinner_4.setBounds(215, 64, 298, 48);
+        panel_4.add(spinner_4);
         
-        JSpinner spinner_1_3 = new JSpinner();
-        spinner_1_3.setFont(new Font("Tahoma", Font.PLAIN, 19));
-        spinner_1_3.setBounds(215, 125, 298, 48);
-        panel_4.add(spinner_1_3);
+        JSpinner spinner_5 = new JSpinner();
+        spinner_5.setFont(new Font("Tahoma", Font.PLAIN, 19));
+        spinner_5.setBounds(215, 125, 298, 48);
+        panel_4.add(spinner_5);
         
-        JSpinner spinner_1_4 = new JSpinner();
-        spinner_1_4.setFont(new Font("Tahoma", Font.PLAIN, 19));
-        spinner_1_4.setBounds(215, 186, 298, 48);
-        panel_4.add(spinner_1_4);
+        JSpinner spinner_6 = new JSpinner();
+        spinner_6.setFont(new Font("Tahoma", Font.PLAIN, 19));
+        spinner_6.setBounds(215, 186, 298, 48);
+        panel_4.add(spinner_6);
         
-        JButton btnNewButton_7_1 = new JButton("REMOVE");
-        btnNewButton_7_1.setFont(new Font("Tahoma", Font.BOLD, 16));
-        btnNewButton_7_1.setBounds(215, 244, 103, 28);
-        panel_4.add(btnNewButton_7_1);
+        JButton btnNewButton_8 = new JButton("REMOVE");
+        btnNewButton_8.setFont(new Font("Tahoma", Font.BOLD, 16));
+        btnNewButton_8.setBounds(215, 244, 103, 28);
+        panel_4.add(btnNewButton_8);
         
         
     }
