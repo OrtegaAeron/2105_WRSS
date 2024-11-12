@@ -208,9 +208,9 @@ public class Inventory extends JFrame {
         table = new JTable();
         table.setModel(new DefaultTableModel(
         	new Object[][] {
-        		{"  1", "   5gl / Large Container", "   ", "   ", "   "},
-        		{"  2", "   3gl / Medium Container", "   ", "   ", "   "},
-        		{"  3", "   2.5gl / Small Container", "   ", "   ", "  "},
+        		{"        1", "                                                  5gl / Large Container", "   ", "   ", "   "},
+        		{"        2", "                                                  3gl / Medium Container ", "   ", "   ", "   "},
+        		{"        3", "                                                  2.5gl / Small Container ", "   ", "   ", "  "},
         	},
         	new String[] {
         		"Inventory ID", "Container", "In-Storage Quantity", "Lent Quantity", "Total Quantity"

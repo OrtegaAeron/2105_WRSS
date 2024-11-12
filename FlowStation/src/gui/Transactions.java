@@ -395,100 +395,127 @@ public class Transactions extends JFrame {
         pnlTotalFee.add(lblTotalFee);
         
         JPanel pnlRegularFees = new JPanel();
-        pnlRegularFees.setBounds(10, 43, 560, 157);
+        pnlRegularFees.setBounds(10, 43, 560, 149);
         pnlRegularFees.setBackground(new Color(225, 225, 225));
         pnlTotalFee.add(pnlRegularFees);
         pnlRegularFees.setLayout(null);
         
         JLabel lblPricePerGl = new JLabel("Price per gallon");
-        lblPricePerGl.setFont(new Font("Tahoma", Font.PLAIN, 17));
-        lblPricePerGl.setBounds(26, 10, 118, 28);
+        lblPricePerGl.setFont(new Font("Tahoma", Font.PLAIN, 15));
+        lblPricePerGl.setBounds(26, 0, 118, 28);
         pnlRegularFees.add(lblPricePerGl);
         
         JLabel lblgllargeContainers = new JLabel("5gl/Large Containers:");
-        lblgllargeContainers.setFont(new Font("Tahoma", Font.PLAIN, 17));
-        lblgllargeContainers.setBounds(47, 35, 161, 28);
+        lblgllargeContainers.setFont(new Font("Tahoma", Font.PLAIN, 15));
+        lblgllargeContainers.setBounds(47, 23, 161, 28);
         pnlRegularFees.add(lblgllargeContainers);
         
         JLabel lblglmediumContainers = new JLabel("3gl/Medium Containers:");
-        lblglmediumContainers.setFont(new Font("Tahoma", Font.PLAIN, 17));
-        lblglmediumContainers.setBounds(47, 61, 178, 28);
+        lblglmediumContainers.setFont(new Font("Tahoma", Font.PLAIN, 15));
+        lblglmediumContainers.setBounds(47, 48, 178, 28);
         pnlRegularFees.add(lblglmediumContainers);
         
         JLabel lblgllargeContainers_1_1 = new JLabel("2.5gl/Small Containers:");
-        lblgllargeContainers_1_1.setFont(new Font("Tahoma", Font.PLAIN, 17));
-        lblgllargeContainers_1_1.setBounds(47, 86, 178, 28);
+        lblgllargeContainers_1_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
+        lblgllargeContainers_1_1.setBounds(47, 74, 178, 28);
         pnlRegularFees.add(lblgllargeContainers_1_1);
         
         JLabel lblServiceFee = new JLabel("Service Fee per container:");
-        lblServiceFee.setFont(new Font("Tahoma", Font.PLAIN, 17));
-        lblServiceFee.setBounds(26, 119, 199, 28);
+        lblServiceFee.setFont(new Font("Tahoma", Font.PLAIN, 15));
+        lblServiceFee.setBounds(26, 98, 199, 28);
         pnlRegularFees.add(lblServiceFee);
         
         JLabel lblPricePerGl_Int = new JLabel("₱ 5.00");
-        lblPricePerGl_Int.setFont(new Font("Tahoma", Font.PLAIN, 17));
+        lblPricePerGl_Int.setFont(new Font("Tahoma", Font.PLAIN, 15));
         lblPricePerGl_Int.setBackground(new Color(225, 225, 225));
-        lblPricePerGl_Int.setBounds(458, 11, 71, 27);
+        lblPricePerGl_Int.setBounds(458, 1, 71, 27);
         pnlRegularFees.add(lblPricePerGl_Int);
         
         JLabel lblMediumContainerCount = new JLabel("0");
-        lblMediumContainerCount.setFont(new Font("Tahoma", Font.PLAIN, 17));
+        lblMediumContainerCount.setFont(new Font("Tahoma", Font.PLAIN, 15));
         lblMediumContainerCount.setBackground(new Color(225, 225, 225));
-        lblMediumContainerCount.setBounds(458, 62, 71, 27);
+        lblMediumContainerCount.setBounds(458, 49, 71, 27);
         pnlRegularFees.add(lblMediumContainerCount);
         
         JLabel lblSmallContainerCount = new JLabel("0");
-        lblSmallContainerCount.setFont(new Font("Tahoma", Font.PLAIN, 17));
+        lblSmallContainerCount.setFont(new Font("Tahoma", Font.PLAIN, 15));
         lblSmallContainerCount.setBackground(new Color(225, 225, 225));
-        lblSmallContainerCount.setBounds(458, 87, 71, 27);
+        lblSmallContainerCount.setBounds(458, 75, 71, 27);
         pnlRegularFees.add(lblSmallContainerCount);
         
         JLabel lblServiceFee_Int = new JLabel("₱ 3.00");
-        lblServiceFee_Int.setFont(new Font("Tahoma", Font.PLAIN, 17));
+        lblServiceFee_Int.setFont(new Font("Tahoma", Font.PLAIN, 15));
         lblServiceFee_Int.setBackground(new Color(225, 225, 225));
-        lblServiceFee_Int.setBounds(458, 120, 71, 27);
+        lblServiceFee_Int.setBounds(458, 99, 71, 27);
         pnlRegularFees.add(lblServiceFee_Int);
         
-        JLabel lblLargeContainerCount = new JLabel("0");
-        lblLargeContainerCount.setFont(new Font("Tahoma", Font.PLAIN, 17));
+        JLabel lblLargeContainerCount = new JLabel("2");
+        lblLargeContainerCount.setFont(new Font("Tahoma", Font.PLAIN, 15));
         lblLargeContainerCount.setBackground(new Color(225, 225, 225));
-        lblLargeContainerCount.setBounds(458, 35, 71, 27);
+        lblLargeContainerCount.setBounds(458, 24, 71, 27);
         pnlRegularFees.add(lblLargeContainerCount);
+        
+        JLabel lblDeliveryFee_3 = new JLabel("Delivery Fee:");
+        lblDeliveryFee_3.setFont(new Font("Tahoma", Font.PLAIN, 15));
+        lblDeliveryFee_3.setBounds(26, 120, 199, 28);
+        pnlRegularFees.add(lblDeliveryFee_3);
+        
+        JLabel lblServiceFee_Int_1 = new JLabel("₱ 10.00");
+        lblServiceFee_Int_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
+        lblServiceFee_Int_1.setBackground(new Color(225, 225, 225));
+        lblServiceFee_Int_1.setBounds(458, 121, 71, 27);
+        pnlRegularFees.add(lblServiceFee_Int_1);
         
         JPanel pnlDeliveryFees = new JPanel();
         pnlDeliveryFees.setBackground(new Color(225, 225, 225));
-        pnlDeliveryFees.setBounds(10, 210, 560, 46);
+        pnlDeliveryFees.setBounds(10, 195, 560, 46);
         pnlTotalFee.add(pnlDeliveryFees);
         pnlDeliveryFees.setLayout(null);
         
-        JLabel lblDeliveryFee = new JLabel("Delivery fee:");
+        JLabel lblDeliveryFee = new JLabel("TOTAL:");
         lblDeliveryFee.setBounds(26, 12, 118, 21);
-        lblDeliveryFee.setFont(new Font("Tahoma", Font.PLAIN, 17));
+        lblDeliveryFee.setFont(new Font("Tahoma", Font.BOLD, 19));
         pnlDeliveryFees.add(lblDeliveryFee);
         
-        JLabel lblDeliveryFee_Int = new JLabel("₱ 10.00");
-        lblDeliveryFee_Int.setFont(new Font("Tahoma", Font.PLAIN, 17));
+        JLabel lblDeliveryFee_Int = new JLabel("₱ 66.00");
+        lblDeliveryFee_Int.setFont(new Font("Tahoma", Font.BOLD, 19));
         lblDeliveryFee_Int.setBackground(new Color(225, 225, 225));
-        lblDeliveryFee_Int.setBounds(458, 12, 71, 27);
+        lblDeliveryFee_Int.setBounds(458, 12, 92, 27);
         pnlDeliveryFees.add(lblDeliveryFee_Int);
         
-        JPanel pnlTotal = new JPanel();
-        pnlTotal.setLayout(null);
-        pnlTotal.setBackground(new Color(225, 225, 225));
-        pnlTotal.setBounds(167, 273, 403, 61);
-        pnlTotalFee.add(pnlTotal);
+        JPanel pnlDeliveryFees_1 = new JPanel();
+        pnlDeliveryFees_1.setLayout(null);
+        pnlDeliveryFees_1.setBackground(new Color(225, 225, 225));
+        pnlDeliveryFees_1.setBounds(10, 242, 560, 46);
+        pnlTotalFee.add(pnlDeliveryFees_1);
         
-        JLabel lblTotal_Int = new JLabel("₱ ");
-        lblTotal_Int.setFont(new Font("Tahoma", Font.PLAIN, 25));
-        lblTotal_Int.setBackground(new Color(225, 225, 225));
-        lblTotal_Int.setBounds(296, 16, 107, 31);
-        pnlTotal.add(lblTotal_Int);
+        JLabel lblCustomerPayment = new JLabel("Customer Payment:\r\n");
+        lblCustomerPayment.setFont(new Font("Tahoma", Font.BOLD, 19));
+        lblCustomerPayment.setBounds(26, 12, 190, 21);
+        pnlDeliveryFees_1.add(lblCustomerPayment);
         
-        JLabel lblTotal = new JLabel("TOTAL:");
-        lblTotal.setBounds(10, 288, 181, 47);
-        pnlTotalFee.add(lblTotal);
-        lblTotal.setForeground(Color.BLACK);
-        lblTotal.setFont(new Font("Myanmar Text", Font.BOLD, 40));
+        JLabel lblDeliveryFee_Int_1 = new JLabel("₱ 100.00");
+        lblDeliveryFee_Int_1.setFont(new Font("Tahoma", Font.PLAIN, 19));
+        lblDeliveryFee_Int_1.setBackground(new Color(225, 225, 225));
+        lblDeliveryFee_Int_1.setBounds(458, 12, 92, 27);
+        pnlDeliveryFees_1.add(lblDeliveryFee_Int_1);
+        
+        JPanel pnlDeliveryFees_2 = new JPanel();
+        pnlDeliveryFees_2.setLayout(null);
+        pnlDeliveryFees_2.setBackground(new Color(225, 225, 225));
+        pnlDeliveryFees_2.setBounds(10, 288, 560, 46);
+        pnlTotalFee.add(pnlDeliveryFees_2);
+        
+        JLabel lblChange = new JLabel("Change:");
+        lblChange.setFont(new Font("Tahoma", Font.BOLD, 19));
+        lblChange.setBounds(26, 12, 118, 21);
+        pnlDeliveryFees_2.add(lblChange);
+        
+        JLabel lblDeliveryFee_Int_2 = new JLabel("₱ 100.00");
+        lblDeliveryFee_Int_2.setFont(new Font("Tahoma", Font.PLAIN, 17));
+        lblDeliveryFee_Int_2.setBackground(new Color(225, 225, 225));
+        lblDeliveryFee_Int_2.setBounds(458, 12, 92, 27);
+        pnlDeliveryFees_2.add(lblDeliveryFee_Int_2);
         
         
     }

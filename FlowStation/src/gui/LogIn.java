@@ -8,6 +8,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Toolkit;
+import java.awt.Checkbox;
 
 public class LogIn extends JFrame{
 
@@ -98,23 +99,29 @@ public class LogIn extends JFrame{
         lblFlowstation.setBounds(206, 183, 293, 42);
         lblBackground.add(lblFlowstation);
         
-        // Log-in Button
-        JButton btnLogIn = new JButton("Log-In");
-        btnLogIn.setBounds(291, 339, 123, 20);
-        lblBackground.add(btnLogIn);
-        
-        btnLogIn.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                dispose(); // Close the current Transactions frame
-                Transactions transactionsFrame = new Transactions(); // Open the Customers frame
-                transactionsFrame.setVisible(true); // Set the Customers frame visible
-            }
-        });
-
-        // Exit Button
-        JButton btnExit = new JButton("Exit");
-        btnExit.setBounds(291, 364, 123, 20);
-        lblBackground.add(btnExit);
+                // Exit Button
+                JButton btnExit = new JButton("Exit");
+                lblBackground.add(btnExit);
+                btnExit.setBounds(291, 385, 123, 20);
+                
+                // Log-in Button
+                JButton btnLogIn = new JButton("Log-In");
+                lblBackground.add(btnLogIn);
+                btnLogIn.setBounds(291, 360, 123, 20);
+                
+                JCheckBox chckbxNewCheckBox = new JCheckBox("Show Password");
+                chckbxNewCheckBox.setForeground(new Color(255, 255, 255));
+                chckbxNewCheckBox.setBackground(new Color(72, 133, 223));
+                chckbxNewCheckBox.setBounds(230, 336, 115, 13);
+                lblBackground.add(chckbxNewCheckBox);
+                
+                btnLogIn.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        dispose(); // Close the current Transactions frame
+                        Transactions transactionsFrame = new Transactions(); // Open the Customers frame
+                        transactionsFrame.setVisible(true); // Set the Customers frame visible
+                    }
+                });
         
         btnExit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

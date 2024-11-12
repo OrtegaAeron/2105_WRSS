@@ -21,13 +21,8 @@ public class AdminSettings extends JFrame {
     private JLabel lblNewLabel_1;
     private JTable table;
     private JTextField textField;
-    private JTextField textField_1;
-    private JTextField textField_3;
-    private JTextField textField_4;
-    private JTextField textField_5;
-    private JTextField textField_2;
-    private JTextField textField_6;
-    private JTextField textField_7;
+    private JPasswordField passwordField;
+    private JPasswordField passwordField_1;
 
     /**
      * Launch the application.
@@ -63,7 +58,7 @@ public class AdminSettings extends JFrame {
 
         // Adding background image label
         JLabel backgroundLabel = new JLabel(new ImageIcon(Customers.class.getResource("/resources/Main.png")));
-        backgroundLabel.setBounds(0, 0, 1426, 743);
+        backgroundLabel.setBounds(0, 6, 1426, 743);
         contentPane.add(backgroundLabel);
         backgroundLabel.setLayout(null);
         
@@ -218,198 +213,128 @@ public class AdminSettings extends JFrame {
         panel_2.add(scrollPane);
         
         table = new JTable();
+        table.setFont(new Font("Tahoma", Font.BOLD, 15));
         table.setModel(new DefaultTableModel(
         	new Object[][] {
-        		{"", null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
+        		{"", null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
         	},
         	new String[] {
-        		"Customer ID", "Customer Name", "Address", "Contact Number", "Lent Large Containers", "Lent Medium Containers", "Lent Small Containers"
+        		"Admin ID", "Admin User Name", "Password"
         	}
         ));
         table.setBounds(0, 0, 1147, 303);
         scrollPane.setViewportView(table);
         
         JPanel panel_3 = new JPanel();
-        panel_3.setLayout(null);
-        panel_3.setBounds(286, 456, 1092, 94);
+        panel_3.setBounds(488, 455, 682, 93);
         backgroundLabel.add(panel_3);
+        panel_3.setLayout(null);
         
-        JLabel lblNewLabel = new JLabel("ADD CUSTOMER:");
-        lblNewLabel.setFont(new Font("Myanmar Text", Font.BOLD, 21));
-        lblNewLabel.setBounds(5, 6, 185, 24);
+        JLabel lblNewLabel = new JLabel("ADD ADMIN:");
+        lblNewLabel.setFont(new Font("Myanmar Text", Font.BOLD, 15));
+        lblNewLabel.setBounds(10, 10, 98, 30);
         panel_3.add(lblNewLabel);
         
-        JLabel lblNewLabel_4 = new JLabel("Name:");
-        lblNewLabel_4.setFont(new Font("Myanmar Text", Font.BOLD, 20));
-        lblNewLabel_4.setBounds(39, 36, 70, 22);
-        panel_3.add(lblNewLabel_4);
-        
-        JLabel lblNewLabel_5 = new JLabel("Address:");
-        lblNewLabel_5.setFont(new Font("Myanmar Text", Font.BOLD, 20));
-        lblNewLabel_5.setBounds(39, 66, 90, 22);
-        panel_3.add(lblNewLabel_5);
+        JLabel lblName = new JLabel("Name:");
+        lblName.setFont(new Font("Myanmar Text", Font.BOLD, 14));
+        lblName.setBounds(35, 35, 49, 30);
+        panel_3.add(lblName);
         
         textField = new JTextField();
-        textField.setBounds(109, 31, 423, 26);
+        textField.setBounds(116, 39, 438, 19);
         panel_3.add(textField);
         textField.setColumns(10);
         
-        textField_1 = new JTextField();
-        textField_1.setColumns(10);
-        textField_1.setBounds(127, 61, 437, 26);
-        panel_3.add(textField_1);
+        JLabel lblPassworf = new JLabel("Password:");
+        lblPassworf.setFont(new Font("Myanmar Text", Font.BOLD, 14));
+        lblPassworf.setBounds(35, 63, 68, 30);
+        panel_3.add(lblPassworf);
         
-        JLabel lblNewLabel_6 = new JLabel("Contact Number:");
-        lblNewLabel_6.setFont(new Font("Myanmar Text", Font.BOLD, 20));
-        lblNewLabel_6.setBounds(547, 36, 176, 22);
-        panel_3.add(lblNewLabel_6);
-        
-        textField_3 = new JTextField();
-        textField_3.setColumns(10);
-        textField_3.setBounds(721, 31, 232, 26);
-        panel_3.add(textField_3);
+        passwordField = new JPasswordField();
+        passwordField.setBounds(117, 67, 438, 19);
+        panel_3.add(passwordField);
         
         JButton btnNewButton_7 = new JButton("ADD");
-        btnNewButton_7.setFont(new Font("Tahoma", Font.BOLD, 14));
-        btnNewButton_7.setBounds(999, 27, 75, 38);
+        btnNewButton_7.setFont(new Font("Myanmar Text", Font.BOLD, 15));
+        btnNewButton_7.setBounds(574, 35, 85, 30);
         panel_3.add(btnNewButton_7);
         
-        JPanel panel_4 = new JPanel();
-        panel_4.setLayout(null);
-        panel_4.setBounds(286, 557, 1092, 119);
-        backgroundLabel.add(panel_4);
+        JPanel panel_3_2 = new JPanel();
+        panel_3_2.setBounds(488, 658, 683, 76);
+        backgroundLabel.add(panel_3_2);
+        panel_3_2.setLayout(null);
         
-        JLabel lblNewLabel_7 = new JLabel("Name:");
-        lblNewLabel_7.setFont(new Font("Myanmar Text", Font.BOLD, 20));
-        lblNewLabel_7.setBounds(21, 42, 70, 22);
-        panel_4.add(lblNewLabel_7);
+        JLabel lblDeleteAdmin = new JLabel("DELETE ADMIN:");
+        lblDeleteAdmin.setFont(new Font("Myanmar Text", Font.BOLD, 15));
+        lblDeleteAdmin.setBounds(10, 10, 122, 30);
+        panel_3_2.add(lblDeleteAdmin);
         
-        JLabel lblUpdateCustomerDeta = new JLabel("UPDATE CUSTOMER DETAILS:        ");
-        lblUpdateCustomerDeta.setFont(new Font("Myanmar Text", Font.BOLD, 21));
-        lblUpdateCustomerDeta.setBounds(6, 13, 337, 24);
-        panel_4.add(lblUpdateCustomerDeta);
+        JLabel lblName_1_1 = new JLabel("Name:");
+        lblName_1_1.setFont(new Font("Myanmar Text", Font.BOLD, 14));
+        lblName_1_1.setBounds(34, 34, 49, 30);
+        panel_3_2.add(lblName_1_1);
         
         JComboBox comboBox = new JComboBox();
-        comboBox.setBounds(89, 37, 423, 26);
-        panel_4.add(comboBox);
-        
-        JLabel lblNewLabel_9 = new JLabel("Address:");
-        lblNewLabel_9.setFont(new Font("Myanmar Text", Font.BOLD, 20));
-        lblNewLabel_9.setBounds(21, 73, 90, 22);
-        panel_4.add(lblNewLabel_9);
-        
-        textField_4 = new JTextField();
-        textField_4.setBounds(111, 68, 442, 26);
-        panel_4.add(textField_4);
-        textField_4.setColumns(10);
-        
-        JLabel lblNewLabel_10 = new JLabel("Contact Number:");
-        lblNewLabel_10.setFont(new Font("Myanmar Text", Font.BOLD, 20));
-        lblNewLabel_10.setBounds(577, 42, 176, 22);
-        panel_4.add(lblNewLabel_10);
-        
-        textField_5 = new JTextField();
-        textField_5.setColumns(10);
-        textField_5.setBounds(747, 37, 232, 26);
-        panel_4.add(textField_5);
-        
-        JButton btnNewButton_8 = new JButton("UPDATE");
-        btnNewButton_8.setFont(new Font("Tahoma", Font.BOLD, 12));
-        btnNewButton_8.setBounds(990, 42, 93, 35);
-        panel_4.add(btnNewButton_8);
-        
-        JLabel lblNewLabel_11 = new JLabel("Container L:");
-        lblNewLabel_11.setFont(new Font("Myanmar Text", Font.BOLD, 19));
-        lblNewLabel_11.setBounds(609, 73, 125, 22);
-        panel_4.add(lblNewLabel_11);
-        
-        JLabel lblNewLabel_12 = new JLabel("M:");
-        lblNewLabel_12.setFont(new Font("Myanmar Text", Font.BOLD, 19));
-        lblNewLabel_12.setBounds(793, 73, 25, 22);
-        panel_4.add(lblNewLabel_12);
-        
-        JLabel lblNewLabel_13 = new JLabel("S:");
-        lblNewLabel_13.setFont(new Font("Myanmar Text", Font.BOLD, 19));
-        lblNewLabel_13.setBounds(882, 73, 25, 22);
-        panel_4.add(lblNewLabel_13);
-        
-        textField_2 = new JTextField();
-        textField_2.setColumns(10);
-        textField_2.setBounds(724, 68, 40, 26);
-        panel_4.add(textField_2);
-        
-        textField_6 = new JTextField();
-        textField_6.setColumns(10);
-        textField_6.setBounds(822, 68, 40, 26);
-        panel_4.add(textField_6);
-        
-        textField_7 = new JTextField();
-        textField_7.setColumns(10);
-        textField_7.setBounds(904, 68, 40, 26);
-        panel_4.add(textField_7);
-        
-        JPanel panel_4_1 = new JPanel();
-        panel_4_1.setLayout(null);
-        panel_4_1.setBounds(286, 683, 1092, 52);
-        backgroundLabel.add(panel_4_1);
-        
-        JLabel lblDeleteCustomer = new JLabel("DELETE CUSTOMER:");
-        lblDeleteCustomer.setFont(new Font("Myanmar Text", Font.BOLD, 21));
-        lblDeleteCustomer.setBounds(6, 17, 212, 24);
-        panel_4_1.add(lblDeleteCustomer);
-        
-        JLabel lblNewLabel_14 = new JLabel("Name/ID:");
-        lblNewLabel_14.setFont(new Font("Myanmar Text", Font.BOLD, 20));
-        lblNewLabel_14.setBounds(316, 19, 108, 22);
-        panel_4_1.add(lblNewLabel_14);
-        
-        JButton btnNewButton_9 = new JButton("DELETE");
-        btnNewButton_9.setBounds(1000, 6, 82, 41);
-        panel_4_1.add(btnNewButton_9);
-        btnNewButton_9.setFont(new Font("Tahoma", Font.BOLD, 12));
+        comboBox.setBounds(347, 35, 0, 21);
+        panel_3_2.add(comboBox);
         
         JComboBox comboBox_1 = new JComboBox();
-        comboBox_1.setBounds(422, 13, 428, 26);
-        panel_4_1.add(comboBox_1);
-        backgroundLabel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{table, panel, lblNewLabel_3, panel_1, lblNewLabel_1, lblNewLabel_2, btnNewButton, btnNewButton_1, btnNewButton_2, btnNewButton_7, btnNewButton_3, btnNewButton_4, btnNewButton_5, btnNewButton_6, panel_2, scrollPane, panel_3, lblNewLabel, lblNewLabel_4, lblNewLabel_5, textField, textField_1, lblNewLabel_6, textField_3, panel_4, lblNewLabel_7, lblUpdateCustomerDeta, comboBox, lblNewLabel_9, textField_4, lblNewLabel_10, textField_5, btnNewButton_8, lblNewLabel_11, lblNewLabel_12, lblNewLabel_13, textField_2, textField_6, textField_7, panel_4_1, lblDeleteCustomer, lblNewLabel_14, btnNewButton_9, comboBox_1}));
+        comboBox_1.setBounds(121, 39, 437, 21);
+        panel_3_2.add(comboBox_1);
+        
+        JButton btnNewButton_7_1_1 = new JButton("DELETE");
+        btnNewButton_7_1_1.setFont(new Font("Myanmar Text", Font.BOLD, 15));
+        btnNewButton_7_1_1.setBounds(575, 33, 97, 30);
+        panel_3_2.add(btnNewButton_7_1_1);
+        
+        JPanel panel_3_1 = new JPanel();
+        backgroundLabel.add(panel_3_1);
+        panel_3_1.setBounds(489, 556, 682, 93);
+        panel_3_1.setLayout(null);
+        
+        JLabel lblUpdateAdminDetails = new JLabel("UPDATE ADMIN DETAILS:");
+        lblUpdateAdminDetails.setFont(new Font("Myanmar Text", Font.BOLD, 15));
+        lblUpdateAdminDetails.setBounds(10, 10, 192, 30);
+        panel_3_1.add(lblUpdateAdminDetails);
+        
+        JLabel lblName_1 = new JLabel("Name:");
+        lblName_1.setFont(new Font("Myanmar Text", Font.BOLD, 14));
+        lblName_1.setBounds(31, 32, 49, 30);
+        panel_3_1.add(lblName_1);
+        
+        JLabel lblPassworf_1 = new JLabel("Password:");
+        lblPassworf_1.setFont(new Font("Myanmar Text", Font.BOLD, 14));
+        lblPassworf_1.setBounds(31, 60, 68, 30);
+        panel_3_1.add(lblPassworf_1);
+        
+        passwordField_1 = new JPasswordField();
+        passwordField_1.setBounds(117, 64, 420, 19);
+        panel_3_1.add(passwordField_1);
+        
+        JButton btnNewButton_7_1 = new JButton("UPDATE");
+        btnNewButton_7_1.setFont(new Font("Myanmar Text", Font.BOLD, 15));
+        btnNewButton_7_1.setBounds(575, 32, 97, 30);
+        panel_3_1.add(btnNewButton_7_1);
+        
+        JComboBox comboBox_1_1 = new JComboBox();
+        comboBox_1_1.setBounds(116, 35, 440, 21);
+        panel_3_1.add(comboBox_1_1);
         
         
     }

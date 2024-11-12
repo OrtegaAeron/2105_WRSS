@@ -82,7 +82,7 @@ public class AdminSettingsLogIn extends JFrame{
         lblBackground.add(lblFlowstation);
         
      // Log-in Button
-        JButton btnLogIn = new JButton("Log-In");
+        JButton btnLogIn = new JButton("Enter");
         btnLogIn.setBounds(291, 339, 123, 20);
         lblBackground.add(btnLogIn);
         
@@ -98,6 +98,12 @@ public class AdminSettingsLogIn extends JFrame{
         JButton btnExit = new JButton("Exit");
         btnExit.setBounds(291, 364, 123, 20);
         lblBackground.add(btnExit);
+        
+        JLabel lblNewLabel = new JLabel("-Admin Settings-");
+        lblNewLabel.setForeground(new Color(255, 255, 255));
+        lblNewLabel.setFont(new Font("Myanmar Text", Font.PLAIN, 25));
+        lblNewLabel.setBounds(260, 217, 200, 30);
+        lblBackground.add(lblNewLabel);
         
         btnExit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
