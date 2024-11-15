@@ -225,84 +225,77 @@ public class SalesCatalog extends JFrame {
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setBounds(10, 10, 844, 503);
         panel_3.add(scrollPane);
-        
+
         table = new JTable();
         table.setModel(new DefaultTableModel(
-        	new Object[][] {
-        		{"        1", "        1", null, null, null, null, null, null, null, null, null},
-        		{"        2 ", "        2 ", null, null, null, null, null, null, null, null, null},
-        		{"        3", "        3", null, null, null, null, null, null, null, null, null},
-        		{"        4 ", "        4 ", null, null, null, null, null, null, null, null, null},
-        		{"        5", "        5", null, null, null, null, null, null, null, null, null},
-        		{"        6", "        6", null, null, null, null, null, null, null, null, null},
-        		{"        7", "        7", null, null, null, null, null, null, null, null, null},
-        		{"        8  ", "        8  ", null, null, null, null, null, null, null, null, null},
-        		{"        9", "        9", null, null, null, null, null, null, null, null, null},
-        		{"       10", "       10", null, null, null, null, null, null, null, null, null},
-        		{"", null, null, null, null, null, null, null, null, null, null},
-        		{"", null, null, null, null, null, null, null, null, null, null},
-        		{"", null, null, null, null, null, null, null, null, null, null},
-        		{"", null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        	},
-        	new String[] {
-        		"Daily Sales ID", "Customer ID", "Date", "Time", "Solid Large Containers", "Solid Medium Containers", "Solid Small Containers", "Delivery", "Total Fee", "Customer Payment", "Change"
-        	}
+            new Object[][] {
+                {"        1", "        1", null, null, null, null, null, null, null, null, null},
+                {"        2 ", "        2 ", null, null, null, null, null, null, null, null, null},
+                {"        3", "        3", null, null, null, null, null, null, null, null, null},
+                {"        4 ", "        4 ", null, null, null, null, null, null, null, null, null},
+                {"        5", "        5", null, null, null, null, null, null, null, null, null},
+                {"        6", "        6", null, null, null, null, null, null, null, null, null},
+                {"        7", "        7", null, null, null, null, null, null, null, null, null},
+                {"        8  ", "        8  ", null, null, null, null, null, null, null, null, null},
+                {"        9", "        9", null, null, null, null, null, null, null, null, null},
+                {"       10", "       10", null, null, null, null, null, null, null, null, null},
+                {"", null, null, null, null, null, null, null, null, null, null},
+                {"", null, null, null, null, null, null, null, null, null, null},
+                {"", null, null, null, null, null, null, null, null, null, null},
+                {"", null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+            },
+            new String[] {
+                "Daily Sales ID", "Customer ID", "Date", "Time", "Solid Large Containers", "Solid Medium Containers", 
+                "Solid Small Containers", "Delivery", "Total Fee", "Customer Payment", "Change"
+            }
         ));
+
+        // Resize columns
+        for (int i = 0; i < table.getColumnModel().getColumnCount(); i++) {
+            table.getColumnModel().getColumn(i).setPreferredWidth(100); // Set preferred width
+        }
+
+        // Resize rows
+        table.setRowHeight(40); // Set row height for all rows
+
+        // Add the table to the scroll pane
         scrollPane.setViewportView(table);
+
         
         JPanel panel_4 = new JPanel();
         panel_4.setBounds(1157, 214, 219, 523);

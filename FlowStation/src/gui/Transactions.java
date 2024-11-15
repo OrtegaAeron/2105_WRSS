@@ -21,6 +21,7 @@ public class Transactions extends JFrame {
     private JTextField textFieldAddress;
     private JTextField textFieldContactNumber;
     private JTextField textFieldTime;
+    private JTextField textField;
 
     /**
      * Launch the application.
@@ -271,10 +272,6 @@ public class Transactions extends JFrame {
         lblTime.setBounds(40, 129, 83, 33);
         pnlSchedule.add(lblTime);
         
-        JComboBox cmboBox_Date = new JComboBox();
-        cmboBox_Date.setBounds(117, 52, 319, 49);
-        pnlSchedule.add(cmboBox_Date);
-        
         textFieldTime = new JTextField();
         textFieldTime.setColumns(10);
         textFieldTime.setBounds(117, 110, 295, 49);
@@ -297,6 +294,11 @@ public class Transactions extends JFrame {
         txtrUseRealDate.setBackground(UIManager.getColor("Button.background"));
         txtrUseRealDate.setBounds(70, 172, 319, 22);
         pnlSchedule.add(txtrUseRealDate);
+        
+        textField = new JTextField();
+        textField.setColumns(10);
+        textField.setBounds(117, 56, 295, 49);
+        pnlSchedule.add(textField);
         
         JPanel pnlOrder = new JPanel();
         pnlOrder.setLayout(null);
