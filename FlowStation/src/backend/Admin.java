@@ -2,40 +2,52 @@ package backend;
 
 public class Admin {
     
-    private String username;
+    private String adminName;
     private String password;
+    private String passkey;
 
-    //getters----------------------------------------------
-    public String getUsername() {
-        return username;
+	//getters----------------------------------------------
+    public String getAdminName() {
+        return adminName;
     }
 
     public String getPassword() {
         return password;
     }
+    
+    public String getPasskey() {
+		return passkey;
+	}
 
     //setters----------------------------------------------
-    public void setUsername(String username) {
-        this.username = username;
+    public void setAdminName(String username) {
+        this.adminName = username;
     }
 
     public void setPassword(String password) {
         this.password = password;
     }
     
+    public void setPasskey(String passkey) {
+		this.passkey = passkey;
+	}
+    
     //methods---------------------------------------------
     void login(String username, String password){
-        
+        //check if log in credentials are in the admins table in  the database
+    	//if they are 
+    }
+    
+    void login(String passkey){
+        //check if the passkey is correct
     }
     
     void signup(String username, String password){
-        
+        //add new admin to the database table
     }
     
-    void logout(){
-        
+    void updateAdmin() {
+    	//update existing admins
     }
-    
-    
     
 }

@@ -12,7 +12,11 @@ import java.awt.FlowLayout;
 import javax.swing.table.DefaultTableModel;
 import java.awt.Toolkit;
 
+import backend.ContainerInventory;
+
 public class Inventory extends JFrame {
+	
+//	ContainerInventory obj = new ContainerInventory();
 
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
@@ -44,6 +48,7 @@ public class Inventory extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 1440, 780);
         setLocationRelativeTo(null);
+        setResizable(false);
         
         // Setting up content pane
         contentPane = new JPanel();
@@ -208,9 +213,9 @@ public class Inventory extends JFrame {
         table = new JTable();
         table.setModel(new DefaultTableModel(
         	new Object[][] {
-        		{"        1", "                                                  5gl / Large Container", "   ", "   ", "   "},
-        		{"        2", "                                                  3gl / Medium Container ", "   ", "   ", "   "},
-        		{"        3", "                                                  2.5gl / Small Container ", "   ", "   ", "  "},
+        		{"  1", "   5gl / Large Container", "   ", "   ", "   "},
+        		{"  2", "   3gl / Medium Container", "   ", "   ", "   "},
+        		{"  3", "   2.5gl / Small Container", "   ", "   ", "  "},
         	},
         	new String[] {
         		"Inventory ID", "Container", "In-Storage Quantity", "Lent Quantity", "Total Quantity"

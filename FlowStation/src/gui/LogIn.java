@@ -8,9 +8,14 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Toolkit;
-import java.awt.Checkbox;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
+import backend.Admin;
 
 public class LogIn extends JFrame{
+	
+	Admin obj = new Admin();
 
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
@@ -19,6 +24,7 @@ public class LogIn extends JFrame{
     private JLabel textAdmin;
     private JLabel textPassword;
     private JPasswordField passwordField;
+    private JLabel textAdmin_1;
 
     /**
      * Launch the application.
@@ -45,6 +51,7 @@ public class LogIn extends JFrame{
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 720, 526);
         setLocationRelativeTo(null);
+        setResizable(false);
         
         // Setting up content pane
         contentPane = new JPanel();
@@ -63,6 +70,13 @@ public class LogIn extends JFrame{
         lblBackground.add(lblLogo);
         lblLogo.setBounds(301, 71, 103, 103);
         
+     // FlowStation title label
+        JLabel lblFlowstation = new JLabel("FLOWSTATION™");
+        lblFlowstation.setForeground(new Color(255, 255, 255));
+        lblFlowstation.setFont(new Font("Myanmar Text", Font.BOLD, 37));
+        lblFlowstation.setBounds(206, 183, 293, 42);
+        lblBackground.add(lblFlowstation);
+        
         //Admin text
         textAdmin = new JLabel("Admin:");
         textAdmin.setForeground(new Color(255, 255, 255));
@@ -70,14 +84,6 @@ public class LogIn extends JFrame{
         textAdmin.setFont(new Font("Tahoma", Font.BOLD, 15));
         lblBackground.add(textAdmin);
         textAdmin.setBounds(197, 259, 56, 18);
-        
-        //Password text
-        textPassword = new JLabel("Password:");
-        textPassword.setForeground(new Color(255, 255, 255));
-        textPassword.setHorizontalAlignment(SwingConstants.CENTER);
-        textPassword.setFont(new Font("Tahoma", Font.BOLD, 15));
-        lblBackground.add(textPassword);
-        textPassword.setBounds(172, 298, 82, 18);
 
         // Username field
         txtFieldAdmin = new JTextField();
@@ -86,42 +92,72 @@ public class LogIn extends JFrame{
         lblBackground.add(txtFieldAdmin);
         txtFieldAdmin.setColumns(10);
         
+        obj.setAdminName(txtFieldAdmin.getText());
+        
+       //Password text
+        textPassword = new JLabel("Password:");
+        textPassword.setForeground(new Color(255, 255, 255));
+        textPassword.setHorizontalAlignment(SwingConstants.CENTER);
+        textPassword.setFont(new Font("Tahoma", Font.BOLD, 15));
+        lblBackground.add(textPassword);
+        textPassword.setBounds(172, 298, 82, 18);
+        
         //Password Field
         passwordField = new JPasswordField();
         passwordField.setFont(new Font("Tahoma", Font.PLAIN, 20));
         passwordField.setBounds(253, 291, 199, 35);
         lblBackground.add(passwordField);
-
-        // FlowStation title label
-        JLabel lblFlowstation = new JLabel("FLOWSTATION™");
-        lblFlowstation.setForeground(new Color(255, 255, 255));
-        lblFlowstation.setFont(new Font("Myanmar Text", Font.BOLD, 37));
-        lblFlowstation.setBounds(206, 183, 293, 42);
-        lblBackground.add(lblFlowstation);
         
-                // Exit Button
-                JButton btnExit = new JButton("Exit");
-                lblBackground.add(btnExit);
-                btnExit.setBounds(291, 385, 123, 20);
-                
-                // Log-in Button
-                JButton btnLogIn = new JButton("Log-In");
-                lblBackground.add(btnLogIn);
-                btnLogIn.setBounds(291, 360, 123, 20);
-                
-                JCheckBox chckbxNewCheckBox = new JCheckBox("Show Password");
-                chckbxNewCheckBox.setForeground(new Color(255, 255, 255));
-                chckbxNewCheckBox.setBackground(new Color(72, 133, 223));
-                chckbxNewCheckBox.setBounds(230, 336, 115, 13);
-                lblBackground.add(chckbxNewCheckBox);
-                
-                btnLogIn.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        dispose(); // Close the current Transactions frame
-                        Transactions transactionsFrame = new Transactions(); // Open the Customers frame
-                        transactionsFrame.setVisible(true); // Set the Customers frame visible
-                    }
-                });
+        char[] passwordChars = passwordField.getPassword();
+        obj.setPassword(new String(passwordChars)); // Convert char[] to String if obj.setPassword requires a String
+        
+        JCheckBox chckbxNewCheckBox = new JCheckBox("Show Password:");
+        chckbxNewCheckBox.setForeground(new Color(255, 255, 255));
+        chckbxNewCheckBox.setBackground(new Color(65, 134, 255));
+        chckbxNewCheckBox.setBounds(230, 336, 120, 20);
+        lblBackground.add(chckbxNewCheckBox);
+        
+        
+        textAdmin_1 = new JLabel();
+        textAdmin_1.setForeground(Color.WHITE);
+        textAdmin_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
+        textAdmin_1.setBounds(350, 336, 120, 20);
+        lblBackground.add(textAdmin_1);
+
+    	textAdmin_1.setText(" ");
+        chckbxNewCheckBox.addActionListener(e -> {
+        	textAdmin_1.setText(new String(passwordField.getPassword()));
+        	 if (chckbxNewCheckBox.isSelected()) {
+        		 passwordField.addKeyListener(new KeyAdapter() {
+        			    @Override
+        			    public void keyReleased(KeyEvent e) {
+        			        textAdmin_1.setText(new String(passwordField.getPassword()));
+        			    }
+        			});
+             }
+             else {
+            	 textAdmin_1.setText(" ");
+             }
+         });
+        
+        
+        // Log-in Button
+        JButton btnLogIn = new JButton("Log-In");
+        btnLogIn.setBounds(291, 360, 123, 20);
+        lblBackground.add(btnLogIn);
+        
+        btnLogIn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                dispose(); // Close the current Transactions frame
+                Transactions transactionsFrame = new Transactions(); // Open the Customers frame
+                transactionsFrame.setVisible(true); // Set the Customers frame visible
+            }
+        });
+
+        // Exit Button
+        JButton btnExit = new JButton("Exit");
+        btnExit.setBounds(291, 385, 123, 20);
+        lblBackground.add(btnExit);
         
         btnExit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

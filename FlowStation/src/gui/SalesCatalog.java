@@ -12,7 +12,11 @@ import java.awt.FlowLayout;
 import javax.swing.table.DefaultTableModel;
 import java.awt.Toolkit;
 
+import backend.SalesCatalog_bcknd;
+
 public class SalesCatalog extends JFrame {
+	
+	SalesCatalog_bcknd objSalesCat = new SalesCatalog_bcknd();
 
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
@@ -45,6 +49,7 @@ public class SalesCatalog extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 1440, 780);
         setLocationRelativeTo(null);
+        setResizable(false);
         
         // Setting up content pane
         contentPane = new JPanel();
@@ -218,106 +223,122 @@ public class SalesCatalog extends JFrame {
         panel_2.add(btnNewButton_7);
         
         JPanel panel_3 = new JPanel();
-        panel_3.setBounds(289, 214, 864, 523);
+        panel_3.setBounds(247, 214, 970, 523);
         backgroundLabel.add(panel_3);
         panel_3.setLayout(null);
         
         JScrollPane scrollPane = new JScrollPane();
-        scrollPane.setBounds(10, 10, 844, 503);
+        scrollPane.setBounds(10, 10, 950, 503);
         panel_3.add(scrollPane);
-
+        
         table = new JTable();
         table.setModel(new DefaultTableModel(
-            new Object[][] {
-                {"        1", "        1", null, null, null, null, null, null, null, null, null},
-                {"        2 ", "        2 ", null, null, null, null, null, null, null, null, null},
-                {"        3", "        3", null, null, null, null, null, null, null, null, null},
-                {"        4 ", "        4 ", null, null, null, null, null, null, null, null, null},
-                {"        5", "        5", null, null, null, null, null, null, null, null, null},
-                {"        6", "        6", null, null, null, null, null, null, null, null, null},
-                {"        7", "        7", null, null, null, null, null, null, null, null, null},
-                {"        8  ", "        8  ", null, null, null, null, null, null, null, null, null},
-                {"        9", "        9", null, null, null, null, null, null, null, null, null},
-                {"       10", "       10", null, null, null, null, null, null, null, null, null},
-                {"", null, null, null, null, null, null, null, null, null, null},
-                {"", null, null, null, null, null, null, null, null, null, null},
-                {"", null, null, null, null, null, null, null, null, null, null},
-                {"", null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-            },
-            new String[] {
-                "Daily Sales ID", "Customer ID", "Date", "Time", "Solid Large Containers", "Solid Medium Containers", 
-                "Solid Small Containers", "Delivery", "Total Fee", "Customer Payment", "Change"
-            }
+        	new Object[][] {
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        	},
+        	new String[] {
+        		"Daily Sales ID", "Customer ID", "Date", "Time", "Sold Large Containers", "Sold Medium Containers", "Sold Small Containers", "Delivery", "Total Fee", "Customer Payment", "Change"
+        	}
         ));
-
-        // Resize columns
-        for (int i = 0; i < table.getColumnModel().getColumnCount(); i++) {
-            table.getColumnModel().getColumn(i).setPreferredWidth(100); // Set preferred width
-        }
-
-        // Resize rows
-        table.setRowHeight(40); // Set row height for all rows
-
-        // Add the table to the scroll pane
+        table.getColumnModel().getColumn(0).setPreferredWidth(72);
+        table.getColumnModel().getColumn(1).setPreferredWidth(68);
+        table.getColumnModel().getColumn(4).setPreferredWidth(113);
+        table.getColumnModel().getColumn(5).setPreferredWidth(127);
+        table.getColumnModel().getColumn(6).setPreferredWidth(111);
+        table.getColumnModel().getColumn(7).setPreferredWidth(47);
+        table.getColumnModel().getColumn(9).setPreferredWidth(98);
         scrollPane.setViewportView(table);
-
+        table.setRowHeight(28);
         
         JPanel panel_4 = new JPanel();
-        panel_4.setBounds(1157, 214, 219, 523);
+        panel_4.setBounds(1225, 214, 192, 523);
         backgroundLabel.add(panel_4);
         panel_4.setLayout(null);
         
         JLabel lblNewLabel_4 = new JLabel("That Day's Profit:");
-        lblNewLabel_4.setBounds(9, 18, 190, 37);
+        lblNewLabel_4.setBounds(3, 18, 179, 34);
         panel_4.add(lblNewLabel_4);
         lblNewLabel_4.setHorizontalAlignment(SwingConstants.CENTER);
         lblNewLabel_4.setForeground(new Color(0, 0, 0));
-        lblNewLabel_4.setFont(new Font("Myanmar Text", Font.BOLD, 23));
+        lblNewLabel_4.setFont(new Font("Myanmar Text", Font.BOLD, 21));
         
         JPanel panel_5 = new JPanel();
         panel_5.setBackground(new Color(225, 225, 225));
-        panel_5.setBounds(7, 49, 205, 327);
+        panel_5.setBounds(7, 49, 178, 327);
         panel_4.add(panel_5);
         panel_5.setLayout(null);
         
         JLabel lblNewLabel = new JLabel("Sum of all customer Fees:");
         lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
-        lblNewLabel.setBounds(10, 10, 180, 16);
+        lblNewLabel.setBounds(5, 10, 173, 16);
         panel_5.add(lblNewLabel);
         
         JLabel lblNewLabel_5 = new JLabel("₱ ");
@@ -327,7 +348,7 @@ public class SalesCatalog extends JFrame {
         
         JLabel lblExpenses = new JLabel("Expenses:");
         lblExpenses.setFont(new Font("Tahoma", Font.BOLD, 13));
-        lblExpenses.setBounds(10, 71, 180, 16);
+        lblExpenses.setBounds(5, 71, 136, 16);
         panel_5.add(lblExpenses);
         
         JLabel lblEmployeesSalary = new JLabel("Employee's Salary:");
@@ -352,7 +373,7 @@ public class SalesCatalog extends JFrame {
         
         JPanel panel_6 = new JPanel();
         panel_6.setBackground(new Color(225, 225, 225));
-        panel_6.setBounds(7, 386, 205, 123);
+        panel_6.setBounds(7, 386, 178, 123);
         panel_4.add(panel_6);
         panel_6.setLayout(null);
         
@@ -363,7 +384,7 @@ public class SalesCatalog extends JFrame {
         
         JLabel lblTotalProfit_Int = new JLabel("₱ ");
         lblTotalProfit_Int.setFont(new Font("Tahoma", Font.BOLD, 35));
-        lblTotalProfit_Int.setBounds(20, 50, 161, 42);
+        lblTotalProfit_Int.setBounds(8, 50, 161, 42);
         panel_6.add(lblTotalProfit_Int);
         
         

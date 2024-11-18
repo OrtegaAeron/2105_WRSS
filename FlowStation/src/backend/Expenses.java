@@ -3,7 +3,6 @@ package backend;
 public class Expenses extends Sales{
     private int deliveryManDailySalary = 500, noOfDeliveryMan = 2, wages;
     private double totalExpense;
-    private boolean delivery = true;
 
     //setters--------------------------------------------------------------
     public void setDeliveryManDailySalary(int deliveryManDailySalary) {
@@ -20,10 +19,6 @@ public class Expenses extends Sales{
     
     public void setTotalExpense(double totalExpense) {
         this.totalExpense = totalExpense;
-    }
-    
-    public void setDelivery(boolean delivery) {
-        this.delivery = delivery;
     }
 
     //getters------------------------------------
@@ -42,21 +37,19 @@ public class Expenses extends Sales{
     public double getTotalExpense() {
         return totalExpense;
     }
-    
-    public boolean isDelivery() {
-        return delivery;
-    }
+
     
     //methods-----------------------------------------------------
-    int calculateWages(deliveryManDailySalary, noOfDeliveryMan){
-        return wages;
+    void calculateWages(){
+    	wages = deliveryManDailySalary * noOfDeliveryMan;
     }
     
-    double calculateTotalExpense(wages, travelExpense){
-        return totalExpense;
-    }
-    
-    void ifDelivery(totalExpense){
-        return totalExpense;
+    void calculateTotalExpense(){
+    	if (isDelivery() == true){
+    		totalExpense = wages + getDeliveryFee();
+    	}
+    	else{
+    		totalExpense = wages;
+    	}
     }
 }

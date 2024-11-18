@@ -13,7 +13,12 @@ import java.awt.ScrollPane;
 import java.awt.Toolkit;
 import javax.swing.table.DefaultTableModel;
 
+import backend.Sales;
+import backend.Expenses;
+
 public class DailySales extends JFrame {
+	
+	Sales objSales = new Sales();
 
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
@@ -45,6 +50,7 @@ public class DailySales extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 1440, 780);
         setLocationRelativeTo(null);
+        setResizable(false);
         
         // Setting up content pane
         contentPane = new JPanel();
@@ -205,10 +211,35 @@ public class DailySales extends JFrame {
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setBounds(10, 10, 1060, 406);
         panel_2.add(scrollPane);
-
+        
         table = new JTable();
         table.setModel(new DefaultTableModel(
         	new Object[][] {
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
+        		{null, null, null, null, null, null, null, null, null, null, null},
         		{null, null, null, null, null, null, null, null, null, null, null},
         		{null, null, null, null, null, null, null, null, null, null, null},
         		{null, null, null, null, null, null, null, null, null, null, null},
@@ -264,18 +295,8 @@ public class DailySales extends JFrame {
         		"Daily Sales ID", "Customer ID", "Date", "Time", "Sold Large Containers", "Sold Medium Containers", "Sold Small Containers", "Delivery", "Total Fee", "Customer Payment", "Change"
         	}
         ));
-
-        // Resize columns
-        for (int i = 0; i < table.getColumnModel().getColumnCount(); i++) {
-            table.getColumnModel().getColumn(i).setPreferredWidth(100); // Set preferred width
-        }
-
-        // Resize rows
-        table.setRowHeight(40); // Set row height for all rows
-
-        // Add the table to the scroll pane
         scrollPane.setViewportView(table);
-
+        table.setRowHeight(28);
         
         JPanel panel_3 = new JPanel();
         panel_3.setBounds(288, 562, 1079, 168);

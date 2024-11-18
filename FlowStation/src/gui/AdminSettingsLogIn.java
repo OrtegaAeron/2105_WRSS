@@ -55,7 +55,7 @@ public class AdminSettingsLogIn extends JFrame{
         contentPane.add(lblBackground);
         lblBackground.setLayout(null);
         
-     // Logo label
+        // Logo label
         lblLogo = new JLabel(new ImageIcon(LogIn.class.getResource("/resources/Logo_Big.png")));
         lblBackground.add(lblLogo);
         lblLogo.setBounds(301, 71, 103, 103);
@@ -64,14 +64,14 @@ public class AdminSettingsLogIn extends JFrame{
         textPassword = new JLabel("Pass Key:");
         textPassword.setForeground(new Color(255, 255, 255));
         textPassword.setHorizontalAlignment(SwingConstants.CENTER);
-        textPassword.setFont(new Font("Tahoma", Font.BOLD, 15));
+        textPassword.setFont(new Font("Myanmar Text", Font.BOLD, 15));
         lblBackground.add(textPassword);
-        textPassword.setBounds(172, 298, 82, 18);
+        textPassword.setBounds(176, 265, 82, 18);
         
         //Password Field
         passwordField = new JPasswordField();
         passwordField.setFont(new Font("Tahoma", Font.PLAIN, 20));
-        passwordField.setBounds(253, 291, 199, 35);
+        passwordField.setBounds(253, 256, 199, 35);
         lblBackground.add(passwordField);
 
         // FlowStation title label
@@ -81,9 +81,15 @@ public class AdminSettingsLogIn extends JFrame{
         lblFlowstation.setBounds(206, 183, 293, 42);
         lblBackground.add(lblFlowstation);
         
-     // Log-in Button
+        JLabel lblNewLabel = new JLabel("-Admin Settings-");
+        lblNewLabel.setForeground(new Color(255, 255, 255));
+        lblNewLabel.setFont(new Font("Myanmar Text", Font.PLAIN, 25));
+        lblNewLabel.setBounds(260, 217, 200, 30);
+        lblBackground.add(lblNewLabel);
+        
+        // Log-in Button
         JButton btnLogIn = new JButton("Enter");
-        btnLogIn.setBounds(291, 339, 123, 20);
+        btnLogIn.setBounds(291, 302, 123, 20);
         lblBackground.add(btnLogIn);
         
         btnLogIn.addActionListener(new ActionListener() {
@@ -96,14 +102,8 @@ public class AdminSettingsLogIn extends JFrame{
 
         // Exit Button
         JButton btnExit = new JButton("Exit");
-        btnExit.setBounds(291, 364, 123, 20);
+        btnExit.setBounds(291, 328, 123, 20);
         lblBackground.add(btnExit);
-        
-        JLabel lblNewLabel = new JLabel("-Admin Settings-");
-        lblNewLabel.setForeground(new Color(255, 255, 255));
-        lblNewLabel.setFont(new Font("Myanmar Text", Font.PLAIN, 25));
-        lblNewLabel.setBounds(260, 217, 200, 30);
-        lblBackground.add(lblNewLabel);
         
         btnExit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

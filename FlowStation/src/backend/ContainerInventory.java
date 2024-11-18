@@ -2,16 +2,16 @@ package backend;
 
 public class ContainerInventory extends ReturningContainers{
     private int containerLarge = 5;
-    private int containerMedium = 5;
-    private int containerSmall = 5;
+    private int containerMedium = 3;
+    private double containerSmall = 2.5;
 
     private int containerQuantityLarge;
     private int containerQuantityMedium;
     private int containerQuantitySmall;
     
-    private int outboundContainer_L;
-    private int outboundContainer_M;
-    private int outboundContainer_S;
+    private int outBoundContainer_L;
+    private int outBoundContainer_M;
+    private int outBoundContainer_S;
 
     
 
@@ -24,7 +24,7 @@ public class ContainerInventory extends ReturningContainers{
         this.containerMedium = containerMedium;
     }
 
-    public void setContainerSmall(int containerSmall) {
+    public void setContainerSmall(double containerSmall) {
         this.containerSmall = containerSmall;
     }
 
@@ -41,15 +41,15 @@ public class ContainerInventory extends ReturningContainers{
     }
     
     public void setOutboundContainer_L(int outboundContainer_L) {
-        this.outboundContainer_L = outboundContainer_L;
+        this.outBoundContainer_L = outboundContainer_L;
     }
 
     public void setOutboundContainer_M(int outboundContainer_M) {
-        this.outboundContainer_M = outboundContainer_M;
+        this.outBoundContainer_M = outboundContainer_M;
     }
 
     public void setOutboundContainer_S(int outboundContainer_S) {
-        this.outboundContainer_S = outboundContainer_S;
+        this.outBoundContainer_S = outboundContainer_S;
     }
 
     //getters------------------------------------------------------------------
@@ -61,7 +61,7 @@ public class ContainerInventory extends ReturningContainers{
         return containerMedium;
     }
 
-    public int getContainerSmall() {
+    public double getContainerSmall() {
         return containerSmall;
     }
 
@@ -77,16 +77,16 @@ public class ContainerInventory extends ReturningContainers{
         return containerQuantitySmall;
     }
     
-    public int getOutboundContainer_L() {
-        return outboundContainer_L;
+    public int getOutBoundContainer_L() {
+        return outBoundContainer_L;
     }
 
-    public int getOutboundContainer_M() {
-        return outboundContainer_M;
+    public int getOutBoundContainer_M() {
+        return outBoundContainer_M;
     }
 
-    public int getOutboundContainer_S() {
-        return outboundContainer_S;
+    public int getOutBoundContainer_S() {
+        return outBoundContainer_S;
     }
     
     //methods----------------------------------------------------------------
@@ -99,35 +99,34 @@ public class ContainerInventory extends ReturningContainers{
     }
     
     void removeOldContainer(){
-        
+        //decrease no. of containers
     }
     
-    int increaseContainerQuantity(int containerQuantityLarge){
+    void increaseContainerQuantityLarge(){
         containerQuantityLarge += getInboundContainer_L();
-        return 0;
     }
     
-    int increaseContainerQuantity(int containerQuantityMedium){
+    void increaseContainerQuantityMedium(){
         containerQuantityMedium += getInboundContainer_M();
-        return 0;
     }
     
-    int increaseContainerQuantity(int containerQuantitySmall){
+    void increaseContainerQuantitySmall(){
         containerQuantitySmall += getInboundContainer_S();
-        return 0;
     }
     
-    int decreaseContainerQuantity(int containerQuantityLarge){
-        
-        return setOutboundContainer_L()
+    void decreaseContainerQuantityLarge(){
+        containerQuantityLarge--;
+        outBoundContainer_L++;
     }
     
-    int decreaseContainerQuantity(int containerQuantityMedium){
-        return setOutboundContainer_M()
+    void decreaseContainerQuantityMedium(){
+    	containerQuantityMedium--;
+        outBoundContainer_M++;
     }
     
-    int decreaseContainerQuantity(int containerQuantitySmall){
-        return setOutboundContainer_S;
+    void decreaseContainerQuantity(){
+    	containerQuantitySmall--;
+        outBoundContainer_S++;
     }
     
 }

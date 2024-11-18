@@ -95,7 +95,7 @@ public class AdminSettings extends JFrame {
         panel_1.add(lblNewLabel_2);
         lblNewLabel_2.setFont(new Font("Myanmar Text", Font.BOLD, 25));
         
-      //Transaction Button
+        //Transaction Button
         JButton btnNewButton = new JButton("Transactions");
         btnNewButton.setFont(new Font("Segoe UI", Font.BOLD, 25));
         btnNewButton.setBounds(0, 212, 238, 50);
@@ -233,6 +233,10 @@ public class AdminSettings extends JFrame {
         		{null, null, null},
         		{null, null, null},
         		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
         	},
         	new String[] {
         		"Admin ID", "Admin User Name", "Password"
@@ -240,6 +244,7 @@ public class AdminSettings extends JFrame {
         ));
         table.setBounds(0, 0, 1147, 303);
         scrollPane.setViewportView(table);
+        table.setRowHeight(45);
         
         JPanel panel_3 = new JPanel();
         panel_3.setBounds(488, 455, 682, 93);
@@ -248,31 +253,31 @@ public class AdminSettings extends JFrame {
         
         JLabel lblNewLabel = new JLabel("ADD ADMIN:");
         lblNewLabel.setFont(new Font("Myanmar Text", Font.BOLD, 15));
-        lblNewLabel.setBounds(10, 10, 98, 30);
+        lblNewLabel.setBounds(5, 6, 98, 30);
         panel_3.add(lblNewLabel);
         
         JLabel lblName = new JLabel("Name:");
         lblName.setFont(new Font("Myanmar Text", Font.BOLD, 14));
-        lblName.setBounds(35, 35, 49, 30);
+        lblName.setBounds(42, 36, 49, 19);
         panel_3.add(lblName);
         
         textField = new JTextField();
-        textField.setBounds(116, 39, 438, 19);
+        textField.setBounds(116, 34, 438, 19);
         panel_3.add(textField);
         textField.setColumns(10);
         
         JLabel lblPassworf = new JLabel("Password:");
         lblPassworf.setFont(new Font("Myanmar Text", Font.BOLD, 14));
-        lblPassworf.setBounds(35, 63, 68, 30);
+        lblPassworf.setBounds(42, 61, 68, 23);
         panel_3.add(lblPassworf);
         
         passwordField = new JPasswordField();
-        passwordField.setBounds(117, 67, 438, 19);
+        passwordField.setBounds(117, 61, 438, 19);
         panel_3.add(passwordField);
         
         JButton btnNewButton_7 = new JButton("ADD");
         btnNewButton_7.setFont(new Font("Myanmar Text", Font.BOLD, 15));
-        btnNewButton_7.setBounds(574, 35, 85, 30);
+        btnNewButton_7.setBounds(574, 33, 85, 27);
         panel_3.add(btnNewButton_7);
         
         JPanel panel_3_2 = new JPanel();
@@ -282,12 +287,12 @@ public class AdminSettings extends JFrame {
         
         JLabel lblDeleteAdmin = new JLabel("DELETE ADMIN:");
         lblDeleteAdmin.setFont(new Font("Myanmar Text", Font.BOLD, 15));
-        lblDeleteAdmin.setBounds(10, 10, 122, 30);
+        lblDeleteAdmin.setBounds(5, 6, 122, 30);
         panel_3_2.add(lblDeleteAdmin);
         
         JLabel lblName_1_1 = new JLabel("Name:");
         lblName_1_1.setFont(new Font("Myanmar Text", Font.BOLD, 14));
-        lblName_1_1.setBounds(34, 34, 49, 30);
+        lblName_1_1.setBounds(31, 40, 49, 21);
         panel_3_2.add(lblName_1_1);
         
         JComboBox comboBox = new JComboBox();
@@ -295,7 +300,7 @@ public class AdminSettings extends JFrame {
         panel_3_2.add(comboBox);
         
         JComboBox comboBox_1 = new JComboBox();
-        comboBox_1.setBounds(121, 39, 437, 21);
+        comboBox_1.setBounds(117, 39, 437, 21);
         panel_3_2.add(comboBox_1);
         
         JButton btnNewButton_7_1_1 = new JButton("DELETE");
@@ -310,21 +315,21 @@ public class AdminSettings extends JFrame {
         
         JLabel lblUpdateAdminDetails = new JLabel("UPDATE ADMIN DETAILS:");
         lblUpdateAdminDetails.setFont(new Font("Myanmar Text", Font.BOLD, 15));
-        lblUpdateAdminDetails.setBounds(10, 10, 192, 30);
+        lblUpdateAdminDetails.setBounds(5, 6, 192, 30);
         panel_3_1.add(lblUpdateAdminDetails);
         
         JLabel lblName_1 = new JLabel("Name:");
         lblName_1.setFont(new Font("Myanmar Text", Font.BOLD, 14));
-        lblName_1.setBounds(31, 32, 49, 30);
+        lblName_1.setBounds(31, 35, 49, 18);
         panel_3_1.add(lblName_1);
         
         JLabel lblPassworf_1 = new JLabel("Password:");
         lblPassworf_1.setFont(new Font("Myanmar Text", Font.BOLD, 14));
-        lblPassworf_1.setBounds(31, 60, 68, 30);
+        lblPassworf_1.setBounds(31, 63, 68, 17);
         panel_3_1.add(lblPassworf_1);
         
         passwordField_1 = new JPasswordField();
-        passwordField_1.setBounds(117, 64, 420, 19);
+        passwordField_1.setBounds(117, 61, 420, 19);
         panel_3_1.add(passwordField_1);
         
         JButton btnNewButton_7_1 = new JButton("UPDATE");
@@ -333,9 +338,10 @@ public class AdminSettings extends JFrame {
         panel_3_1.add(btnNewButton_7_1);
         
         JComboBox comboBox_1_1 = new JComboBox();
-        comboBox_1_1.setBounds(116, 35, 440, 21);
+        comboBox_1_1.setBounds(116, 34, 440, 21);
         panel_3_1.add(comboBox_1_1);
         
         
     }
 }
+

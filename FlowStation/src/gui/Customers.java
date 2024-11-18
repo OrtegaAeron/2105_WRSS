@@ -14,7 +14,12 @@ import org.eclipse.wb.swing.FocusTraversalOnArray;
 import java.awt.Component;
 import java.awt.Toolkit;
 
+import backend.Customers_bcknd;
+
+
 public class Customers extends JFrame {
+	
+	Customers_bcknd obj = new Customers_bcknd();
 
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
@@ -54,6 +59,7 @@ public class Customers extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 1440, 780);
         setLocationRelativeTo(null);
+        setResizable(false);
         
         // Setting up content pane
         contentPane = new JPanel();
@@ -383,30 +389,30 @@ public class Customers extends JFrame {
         textField_7.setBounds(904, 68, 40, 26);
         panel_4.add(textField_7);
         
-        JPanel panel_4_1 = new JPanel();
-        panel_4_1.setLayout(null);
-        panel_4_1.setBounds(286, 683, 1092, 52);
-        backgroundLabel.add(panel_4_1);
+        JPanel panel_5 = new JPanel();
+        panel_5.setLayout(null);
+        panel_5.setBounds(286, 683, 1092, 52);
+        backgroundLabel.add(panel_5);
         
         JLabel lblDeleteCustomer = new JLabel("DELETE CUSTOMER:");
         lblDeleteCustomer.setFont(new Font("Myanmar Text", Font.BOLD, 21));
         lblDeleteCustomer.setBounds(6, 17, 212, 24);
-        panel_4_1.add(lblDeleteCustomer);
+        panel_5.add(lblDeleteCustomer);
         
         JLabel lblNewLabel_14 = new JLabel("Name/ID:");
         lblNewLabel_14.setFont(new Font("Myanmar Text", Font.BOLD, 20));
         lblNewLabel_14.setBounds(316, 19, 108, 22);
-        panel_4_1.add(lblNewLabel_14);
+        panel_5.add(lblNewLabel_14);
         
         JButton btnNewButton_9 = new JButton("DELETE");
         btnNewButton_9.setBounds(1000, 6, 82, 41);
-        panel_4_1.add(btnNewButton_9);
+        panel_5.add(btnNewButton_9);
         btnNewButton_9.setFont(new Font("Tahoma", Font.BOLD, 12));
         
         JComboBox comboBox_1 = new JComboBox();
         comboBox_1.setBounds(422, 13, 428, 26);
-        panel_4_1.add(comboBox_1);
-        backgroundLabel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{table, panel, lblNewLabel_3, panel_1, lblNewLabel_1, lblNewLabel_2, btnNewButton, btnNewButton_1, btnNewButton_2, btnNewButton_7, btnNewButton_3, btnNewButton_4, btnNewButton_5, btnNewButton_6, panel_2, scrollPane, panel_3, lblNewLabel, lblNewLabel_4, lblNewLabel_5, textField, textField_1, lblNewLabel_6, textField_3, panel_4, lblNewLabel_7, lblUpdateCustomerDeta, comboBox, lblNewLabel_9, textField_4, lblNewLabel_10, textField_5, btnNewButton_8, lblNewLabel_11, lblNewLabel_12, lblNewLabel_13, textField_2, textField_6, textField_7, panel_4_1, lblDeleteCustomer, lblNewLabel_14, btnNewButton_9, comboBox_1}));
+        panel_5.add(comboBox_1);
+        backgroundLabel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{table, panel, lblNewLabel_3, panel_1, lblNewLabel_1, lblNewLabel_2, btnNewButton, btnNewButton_1, btnNewButton_2, btnNewButton_7, btnNewButton_3, btnNewButton_4, btnNewButton_5, btnNewButton_6, panel_2, scrollPane, panel_3, lblNewLabel, lblNewLabel_4, lblNewLabel_5, textField, textField_1, lblNewLabel_6, textField_3, panel_4, lblNewLabel_7, lblUpdateCustomerDeta, comboBox, lblNewLabel_9, textField_4, lblNewLabel_10, textField_5, btnNewButton_8, lblNewLabel_11, lblNewLabel_12, lblNewLabel_13, textField_2, textField_6, textField_7, panel_5, lblDeleteCustomer, lblNewLabel_14, btnNewButton_9, comboBox_1}));
         
         
     }

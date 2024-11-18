@@ -1,42 +1,73 @@
 package backend;
 
-public class Sales extends Transactions{
+public class Sales extends Transactions_bcknd{
     
-    private double profit;
-    private double totalSales;
+    private double profit, serviceFee = 3.00, customerPayment, change, deliveryFee = 10.00;
 
-    //setters------------------------------------------
+	//setters------------------------------------------
     public void setProfit(double profit) {
         this.profit = profit;
     }
-
-    public void setTotalSales(double totalSales) {
-        this.totalSales = totalSales;
-    }
+    
+    public void setServiceFee(double serviceFee) {
+		this.serviceFee = serviceFee;
+	}
+    
+    public void setCustomerPayment(double customerPayment) {
+		this.customerPayment = customerPayment;
+	}
+    
+    public void setChange(double change) {
+		this.change = change;
+	}
+    
+    public void setDeliveryFee(double deliveryFee) {
+		this.deliveryFee = deliveryFee;
+	}
 
     //getters--------------------------------------------
     public double getProfit() {
         return profit;
     }
-
-    public double getTotalSales() {
-        return totalSales;
-    }
+    
+    public double getServiceFee() {
+		return serviceFee;
+	}
+    
+    public double getCustomerPayment() {
+		return customerPayment;
+	}
+    
+    public double getChange() {
+		return change;
+	}
+    
+    public double getDeliveryFee() {
+		return deliveryFee;
+	}
     
     //methods---------------------------------
-    void calculateSales(getWaterPrice(), getOutBoundContainer_L(){
-        return profit;
+    
+    public double calculateFinalProfit() {
+    	if (isYesLargeContainer() == true){
+    		profit += (getWaterPriceLarge() * getOutBoundContainer_L()) + (serviceFee * getOutBoundContainer_L());
+    	}
+    	else if(isYesMediumContainer() == true) {
+    		profit += (getWaterPriceMedium() * getOutBoundContainer_M()) + (serviceFee * getOutBoundContainer_M());
+    	}
+    	else if(isYesSmallContainer() == true) {
+    		profit += (getWaterPriceSmall() * getOutBoundContainer_S()) + (serviceFee * getOutBoundContainer_S());
+    	}
+    	
+    	if (isDelivery() == true) {
+    		profit += deliveryFee;
+    	}
+    	
+    	return profit;
     }
     
-    void calculateSales(getWaterPrice(), getOutBoundContainer_M(){
-        return profit;
-    }
-    
-    void calculateSales(getWaterPrice(), getOutBoundContainer_S(){
-        return profit;
-    }
-    
-    double calculateTotalSales(double profit){
-        return totalSales;
+    public double calculateTransaction() {
+    	change = customerPayment - profit;
+    	return change;
     }
 }

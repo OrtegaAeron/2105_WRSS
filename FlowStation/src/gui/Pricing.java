@@ -10,8 +10,15 @@ import java.awt.event.ActionListener;
 import java.awt.Panel;
 import java.awt.FlowLayout;
 import java.awt.Toolkit;
+import java.awt.event.KeyListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
+import backend.Pricing_bcknd;
 
 public class Pricing extends JFrame {
+	
+	Pricing_bcknd obj = new Pricing_bcknd();
 
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
@@ -43,6 +50,7 @@ public class Pricing extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 1440, 785);
         setLocationRelativeTo(null);
+        setResizable(false);
         
         // Setting up content pane
         contentPane = new JPanel();
@@ -207,9 +215,8 @@ public class Pricing extends JFrame {
         lblNewLabel.setBounds(39, 25, 487, 55);
         panel_2.add(lblNewLabel);
         
-        JLabel lblNewLabel_6 = new JLabel("₱ 5.00");
+        JLabel lblNewLabel_6 = new JLabel(" ₱       ");
         lblNewLabel_6.setForeground(new Color(0, 0, 0));
-        lblNewLabel_6.setHorizontalAlignment(SwingConstants.CENTER);
         lblNewLabel_6.setFont(new Font("Tahoma", Font.PLAIN, 40));
         lblNewLabel_6.setBounds(520, 24, 195, 57);
         panel_2.add(lblNewLabel_6);
@@ -218,6 +225,13 @@ public class Pricing extends JFrame {
         panel_7.setBackground(new Color(225, 225, 225));
         panel_7.setBounds(520, 24, 195, 57);
         panel_2.add(panel_7);
+        panel_7.setLayout(null);
+        
+        JLabel lblNewLabel_14 = new JLabel("5.00");
+        lblNewLabel_14.setBounds(48, 5, 147, 49);
+        lblNewLabel_14.setForeground(Color.BLACK);
+        lblNewLabel_14.setFont(new Font("Tahoma", Font.PLAIN, 40));
+        panel_7.add(lblNewLabel_14);
         
         JPanel panel_3 = new JPanel();
         panel_3.setBounds(630, 290, 404, 108);
@@ -229,16 +243,51 @@ public class Pricing extends JFrame {
         lblNewLabel_5.setBounds(31, 11, 360, 32);
         panel_3.add(lblNewLabel_5);
         
+        
         txtHello = new JTextField();
         txtHello.setFont(new Font("Tahoma", Font.PLAIN, 20));
         txtHello.setBounds(55, 50, 195, 41);
         panel_3.add(txtHello);
         txtHello.setColumns(10);
         
+        lblNewLabel_14.setText(String.valueOf(obj.getPricePerGalon())+"0");
+        lblNewLabel_6.setEnabled(true);
+        
+        txtHello.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    e.consume(); // Prevent the default "Enter" action
+                }
+            }
+        });
+        
+        txtHello.addActionListener(e -> {
+        	if (txtHello.getText().isEmpty()) {
+        		obj.setPricePerGalon(0);
+        		lblNewLabel_14.setText(String.valueOf(obj.getPricePerGalon()));
+        		lblNewLabel_14.setEnabled(false);
+        		lblNewLabel_6.setEnabled(false);
+        	}
+        	else {
+        		obj.setPricePerGalon(Double.valueOf(txtHello.getText()));
+        		lblNewLabel_14.setText(String.valueOf(obj.getPricePerGalon())+"0");
+        		lblNewLabel_14.setEnabled(true);
+        		lblNewLabel_6.setEnabled(true);
+        	}
+        });
+        
+        
         JButton btnNewButton_7 = new JButton("UPDATE\r\n");
         btnNewButton_7.setFont(new Font("Tahoma", Font.BOLD, 12));
         btnNewButton_7.setBounds(257, 53, 91, 34);
         panel_3.add(btnNewButton_7);
+        
+        btnNewButton_7.addActionListener(e -> {
+            txtHello.postActionEvent();
+            txtHello.postActionEvent();
+        });
+        
         
         JPanel panel_4 = new JPanel();
         panel_4.setBounds(500, 420, 665, 87);
@@ -250,7 +299,7 @@ public class Pricing extends JFrame {
         lblNewLabel_8.setBounds(11, 26, 486, 34);
         panel_4.add(lblNewLabel_8);
         
-        JLabel lblNewLabel_9 = new JLabel("₱ 25.00");
+        JLabel lblNewLabel_9 = new JLabel("₱         ");
         lblNewLabel_9.setHorizontalAlignment(SwingConstants.CENTER);
         lblNewLabel_9.setBackground(new Color(225, 225, 225));
         lblNewLabel_9.setFont(new Font("Tahoma", Font.PLAIN, 28));
@@ -261,6 +310,76 @@ public class Pricing extends JFrame {
         panel_8.setBackground(new Color(225, 225, 225));
         panel_8.setBounds(490, 22, 163, 47);
         panel_4.add(panel_8);
+        panel_8.setLayout(null);
+        
+        
+        /*JLabel lblNewLabel_15 = new JLabel();
+        lblNewLabel_15.setBounds(58, 6, 105, 34);
+        lblNewLabel_15.setFont(new Font("Tahoma", Font.PLAIN, 28));
+        panel_8.add(lblNewLabel_15);
+        
+        double largePrice = obj.calculateWaterPriceLarge();
+        lblNewLabel_15.setText(String.valueOf(obj.getWaterPriceLarge())+"0");
+        lblNewLabel_9.setEnabled(true);
+        
+        txtHello.addActionListener(e -> {
+        	
+        	if (txtHello.getText().isEmpty()) {
+        		obj.setWaterPriceLarge(0);
+        		largePrice = obj.calculateWaterPriceLarge();
+        		lblNewLabel_15.setText(String.valueOf(obj.getWaterPriceLarge()));
+        		lblNewLabel_15.setEnabled(false);
+        		lblNewLabel_9.setEnabled(false);
+        	}
+        	else {
+        		largePrice = obj.calculateWaterPriceLarge();
+        		obj.setWaterPriceLarge(Double.valueOf(largePrice));
+        		lblNewLabel_15.setText(String.valueOf(obj.getWaterPriceLarge())+"0");
+        		lblNewLabel_15.setEnabled(true);
+        		lblNewLabel_9.setEnabled(true);
+        	}
+        });*/
+        
+        JLabel lblNewLabel_15 = new JLabel();
+        lblNewLabel_15.setBounds(58, 6, 105, 34);
+        lblNewLabel_15.setFont(new Font("Tahoma", Font.PLAIN, 28));
+        panel_8.add(lblNewLabel_15);
+
+        // Initial calculation and UI update
+        obj.calculateWaterPriceLarge();
+        lblNewLabel_15.setText(String.format("%.2f", obj.getWaterPriceLarge()));
+        lblNewLabel_15.setEnabled(true);
+        lblNewLabel_9.setEnabled(true);
+
+        txtHello.addActionListener(e -> {
+            String input = txtHello.getText();
+            if (input.isEmpty()) {
+                // Reset if input is empty
+                obj.setWaterPriceLarge(0); 
+                obj.calculateWaterPriceLarge(); // Ensure any dependencies are updated
+                lblNewLabel_15.setText(String.format("%.2f", obj.getWaterPriceLarge()));
+                lblNewLabel_15.setEnabled(false);
+                lblNewLabel_9.setEnabled(false);
+            } else {
+                try {
+                    // Parse input and update the backend
+                    double newPrice = Double.parseDouble(input);
+                    obj.setWaterPriceLarge(newPrice); 
+                    obj.calculateWaterPriceLarge(); // Recalculate after setting new price
+
+                    // Update UI
+                    lblNewLabel_15.setText(String.format("%.2f", obj.getWaterPriceLarge()));
+                    lblNewLabel_15.setEnabled(true);
+                    lblNewLabel_9.setEnabled(true);
+                } catch (NumberFormatException ex) {
+                    // Handle invalid input
+                    JOptionPane.showMessageDialog(null, "Invalid input! Please enter a valid number.");
+                    txtHello.setText("");
+                }
+            }
+        });
+
+
         
         JPanel panel_5 = new JPanel();
         panel_5.setBounds(500, 519, 665, 87);
@@ -272,7 +391,7 @@ public class Pricing extends JFrame {
         lblNewLabel_10.setBounds(11, 26, 501, 34);
         panel_5.add(lblNewLabel_10);
         
-        JLabel lblNewLabel_11 = new JLabel("₱ 15.00");
+        JLabel lblNewLabel_11 = new JLabel("₱         ");
         lblNewLabel_11.setHorizontalAlignment(SwingConstants.CENTER);
         lblNewLabel_11.setBackground(new Color(225, 225, 225));
         lblNewLabel_11.setFont(new Font("Tahoma", Font.PLAIN, 28));
@@ -283,6 +402,68 @@ public class Pricing extends JFrame {
         panel_9.setBackground(new Color(225, 225, 225));
         panel_9.setBounds(490, 22, 163, 47);
         panel_5.add(panel_9);
+        panel_9.setLayout(null);
+        
+        
+        JLabel lblNewLabel_16 = new JLabel();
+        lblNewLabel_16.setBounds(58, 5, 105, 34);
+        lblNewLabel_16.setFont(new Font("Tahoma", Font.PLAIN, 28));
+        panel_9.add(lblNewLabel_16);
+        
+        /*obj.calculateWaterPriceMedium();
+        lblNewLabel_16.setText(String.valueOf(obj.getWaterPriceMedium())+"0");
+        lblNewLabel_11.setEnabled(true);
+        
+        txtHello.addActionListener(e -> {
+        	obj.calculateWaterPriceMedium();
+        	if (txtHello.getText().isEmpty()) {
+        		obj.setWaterPriceMedium(0);
+        		lblNewLabel_16.setText(String.valueOf(obj.getWaterPriceMedium()));
+        		lblNewLabel_16.setEnabled(false);
+        		lblNewLabel_11.setEnabled(false);
+        	}
+        	else {
+        		obj.setWaterPriceMedium(Double.valueOf(lblNewLabel_16.getText()));
+        		lblNewLabel_16.setText(String.valueOf(obj.getWaterPriceMedium())+"0");
+        		lblNewLabel_16.setEnabled(true);
+        		lblNewLabel_11.setEnabled(true);
+        	}
+        });*/
+        
+     // Initial calculation and UI update
+        obj.calculateWaterPriceMedium();
+        lblNewLabel_16.setText(String.format("%.2f", obj.getWaterPriceMedium()));
+        lblNewLabel_16.setEnabled(true);
+        lblNewLabel_11.setEnabled(true);
+
+        txtHello.addActionListener(e -> {
+            String input = txtHello.getText();
+            if (input.isEmpty()) {
+                // Reset if input is empty
+                obj.setWaterPriceMedium(0); 
+                obj.calculateWaterPriceMedium(); // Ensure any dependencies are updated
+                lblNewLabel_16.setText(String.format("%.2f", obj.getWaterPriceMedium()));
+                lblNewLabel_16.setEnabled(false);
+                lblNewLabel_11.setEnabled(false);
+            } else {
+                try {
+                    // Parse input and update the backend
+                    double newPrice2 = Double.parseDouble(input);
+                    obj.setWaterPriceMedium(newPrice2); 
+                    obj.calculateWaterPriceMedium(); // Recalculate after setting new price
+
+                    // Update UI
+                    lblNewLabel_16.setText(String.format("%.2f", obj.getWaterPriceMedium()));
+                    lblNewLabel_16.setEnabled(true);
+                    lblNewLabel_11.setEnabled(true);
+                } catch (NumberFormatException ex) {
+                    // Handle invalid input
+                    JOptionPane.showMessageDialog(null, "Invalid input! Please enter a valid number.");
+                    txtHello.setText("");
+                }
+            }
+        });
+        
         
         JPanel panel_6 = new JPanel();
         panel_6.setBounds(500, 620, 665, 87);
@@ -294,7 +475,7 @@ public class Pricing extends JFrame {
         lblNewLabel_12.setBounds(11, 26, 501, 34);
         panel_6.add(lblNewLabel_12);
         
-        JLabel lblNewLabel_13 = new JLabel("₱ 10.50");
+        JLabel lblNewLabel_13 = new JLabel("₱         ");
         lblNewLabel_13.setHorizontalAlignment(SwingConstants.CENTER);
         lblNewLabel_13.setBackground(new Color(225, 225, 225));
         lblNewLabel_13.setFont(new Font("Tahoma", Font.PLAIN, 28));
@@ -305,6 +486,68 @@ public class Pricing extends JFrame {
         panel_10.setBackground(new Color(225, 225, 225));
         panel_10.setBounds(490, 22, 163, 47);
         panel_6.add(panel_10);
+        panel_10.setLayout(null);
+        
+        
+        JLabel lblNewLabel_17 = new JLabel();
+        lblNewLabel_17.setBounds(58, 5, 105, 34);
+        lblNewLabel_17.setFont(new Font("Tahoma", Font.PLAIN, 28));
+        panel_10.add(lblNewLabel_17);
+        
+        /*obj.calculateWaterPriceSmall();
+        lblNewLabel_17.setText(String.valueOf(obj.getWaterPriceSmall())+"0");
+        lblNewLabel_13.setEnabled(true);
+        
+        txtHello.addActionListener(e -> {
+        	obj.calculateWaterPriceSmall();
+        	if (txtHello.getText().isEmpty()) {
+        		obj.setWaterPriceSmall(0);
+        		lblNewLabel_17.setText(String.valueOf(obj.getWaterPriceSmall()));
+        		lblNewLabel_17.setEnabled(false);
+        		lblNewLabel_13.setEnabled(false);
+        	}
+        	else {
+        		obj.setWaterPriceSmall(Double.valueOf(lblNewLabel_17.getText()));
+        		lblNewLabel_17.setText(String.valueOf(obj.getWaterPriceSmall())+"0");
+        		lblNewLabel_17.setEnabled(true);
+        		lblNewLabel_13.setEnabled(true);
+        	}
+        });*/
+        
+     // Initial calculation and UI update
+        obj.calculateWaterPriceSmall();
+        lblNewLabel_17.setText(String.format("%.2f", obj.getWaterPriceSmall()));
+        lblNewLabel_17.setEnabled(true);
+        lblNewLabel_13.setEnabled(true);
+
+        txtHello.addActionListener(e -> {
+            String input = txtHello.getText();
+            if (input.isEmpty()) {
+                // Reset if input is empty
+                obj.setWaterPriceSmall(0); 
+                obj.calculateWaterPriceSmall(); // Ensure any dependencies are updated
+                lblNewLabel_17.setText(String.format("%.2f", obj.getWaterPriceSmall()));
+                lblNewLabel_17.setEnabled(false);
+                lblNewLabel_13.setEnabled(false);
+            } else {
+                try {
+                    // Parse input and update the backend
+                    double newPrice3 = Double.parseDouble(input);
+                    obj.setWaterPriceSmall(newPrice3); 
+                    obj.calculateWaterPriceSmall(); // Recalculate after setting new price
+
+                    // Update UI
+                    lblNewLabel_17.setText(String.format("%.2f", obj.getWaterPriceSmall()));
+                    lblNewLabel_17.setEnabled(true);
+                    lblNewLabel_13.setEnabled(true);
+                } catch (NumberFormatException ex) {
+                    // Handle invalid input
+                    JOptionPane.showMessageDialog(null, "Invalid input! Please enter a valid number.");
+                    txtHello.setText("");
+                }
+            }
+        });
+        
         
         JLabel lblNewLabel_4 = new JLabel("New label");
         lblNewLabel_4.setBounds(547, 345, 45, 13);

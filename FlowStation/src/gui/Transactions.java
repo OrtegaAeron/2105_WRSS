@@ -13,7 +13,18 @@ import java.awt.List;
 import java.awt.Checkbox;
 import java.awt.Toolkit;
 
+import backend.Transactions_bcknd;
+import backend.Sales;
+import backend.Customers_bcknd;
+import backend.Pricing_bcknd;
+
 public class Transactions extends JFrame {
+	
+	Transactions_bcknd objTrans = new Transactions_bcknd();
+	Sales objSales = new Sales();
+	Customers_bcknd objCstmr = new Customers_bcknd();
+	Pricing_bcknd objPrice = new Pricing_bcknd();
+	
 
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
@@ -21,7 +32,8 @@ public class Transactions extends JFrame {
     private JTextField textFieldAddress;
     private JTextField textFieldContactNumber;
     private JTextField textFieldTime;
-    private JTextField textField;
+    private JTextField textFieldContactNum;
+    private JTextField textFieldPayment;
 
     /**
      * Launch the application.
@@ -48,6 +60,7 @@ public class Transactions extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 1440, 780);
         setLocationRelativeTo(null);
+        setResizable(false);
         
         // Setting up content pane
         contentPane = new JPanel();
@@ -201,6 +214,7 @@ public class Transactions extends JFrame {
             }
         });
         
+//Customer Panel------------------------------------------------------------------------------
         JPanel pnlCustomer = new JPanel();
         lblBackground.add(pnlCustomer);
         pnlCustomer.setBounds(254, 133, 654, 240);
@@ -217,37 +231,72 @@ public class Transactions extends JFrame {
         lblName.setHorizontalAlignment(SwingConstants.CENTER);
         lblName.setForeground(Color.BLACK);
         lblName.setFont(new Font("Myanmar Text", Font.BOLD, 28));
-        lblName.setBounds(40, 72, 83, 29);
+        lblName.setBounds(40, 58, 83, 33);
         pnlCustomer.add(lblName);
         
-        JLabel lblContactNumber = new JLabel("ContactNumber");
-        lblContactNumber.setHorizontalAlignment(SwingConstants.CENTER);
-        lblContactNumber.setForeground(Color.BLACK);
-        lblContactNumber.setFont(new Font("Myanmar Text", Font.BOLD, 27));
-        lblContactNumber.setBounds(40, 186, 208, 30);
-        pnlCustomer.add(lblContactNumber);
+        
+        JComboBox cmboBoxName = new JComboBox();
+        cmboBoxName.setBounds(262, 45, 339, 40);
+        pnlCustomer.add(cmboBoxName);
+        
+        objCstmr.setName((String)cmboBoxName.getSelectedItem());
+        
         
         JLabel lblAddress = new JLabel("Address");
         lblAddress.setHorizontalAlignment(SwingConstants.CENTER);
         lblAddress.setForeground(Color.BLACK);
         lblAddress.setFont(new Font("Myanmar Text", Font.BOLD, 28));
-        lblAddress.setBounds(40, 129, 112, 30);
+        lblAddress.setBounds(40, 105, 112, 30);
         pnlCustomer.add(lblAddress);
+        
         
         textFieldAddress = new JTextField();
         textFieldAddress.setColumns(10);
-        textFieldAddress.setBounds(262, 110, 320, 49);
+        textFieldAddress.setBounds(262, 91, 320, 40);
         pnlCustomer.add(textFieldAddress);
         
-        textFieldContactNumber = new JTextField();
-        textFieldContactNumber.setColumns(10);
-        textFieldContactNumber.setBounds(262, 168, 320, 49);
-        pnlCustomer.add(textFieldContactNumber);
+        objCstmr.setCustomerAddress(textFieldAddress.getText());
         
-        JComboBox cmboBoxName = new JComboBox();
-        cmboBoxName.setBounds(262, 52, 339, 49);
-        pnlCustomer.add(cmboBoxName);
         
+        JLabel lblContactNumber = new JLabel("Contact Number");
+        lblContactNumber.setHorizontalAlignment(SwingConstants.CENTER);
+        lblContactNumber.setForeground(Color.BLACK);
+        lblContactNumber.setFont(new Font("Myanmar Text", Font.BOLD, 27));
+        lblContactNumber.setBounds(40, 150, 211, 30);
+        pnlCustomer.add(lblContactNumber);
+        
+        
+        textFieldContactNum = new JTextField();
+        textFieldContactNum.setColumns(10);
+        textFieldContactNum.setBounds(262, 137, 320, 40);
+        pnlCustomer.add(textFieldContactNum);
+        
+        objCstmr.setContactNumber(textFieldContactNum.getText());
+        
+        
+        JLabel lblPayment = new JLabel("Payment");
+        lblPayment.setForeground(Color.BLACK);
+        lblPayment.setFont(new Font("Myanmar Text", Font.BOLD, 27));
+        lblPayment.setBounds(40, 194, 211, 30);
+        pnlCustomer.add(lblPayment);
+        
+        JLabel lblPayment_Peso = new JLabel("₱ ");
+        lblPayment_Peso.setFont(new Font("Tahoma", Font.PLAIN, 30));
+        lblPayment_Peso.setBackground(new Color(225, 225, 225));
+        lblPayment_Peso.setBounds(269, 182, 33, 41);
+        pnlCustomer.add(lblPayment_Peso);
+        
+        textFieldPayment = new JTextField();
+        textFieldPayment.setColumns(10);
+        textFieldPayment.setBounds(300, 183, 282, 40);
+        pnlCustomer.add(textFieldPayment);
+        
+        if (!textFieldPayment.getText().trim().isEmpty()) {
+        	objSales.setCustomerPayment(Double.valueOf(textFieldPayment.getText()));
+        }
+        
+        
+//Schedule Panel------------------------------------------------------------------------------
         JPanel pnlSchedule = new JPanel();
         pnlSchedule.setLayout(null);
         pnlSchedule.setBounds(924, 133, 485, 238);
@@ -272,14 +321,29 @@ public class Transactions extends JFrame {
         lblTime.setBounds(40, 129, 83, 33);
         pnlSchedule.add(lblTime);
         
+        
+        JComboBox cmboBox_Date = new JComboBox();
+        cmboBox_Date.setBounds(117, 52, 319, 49);
+        pnlSchedule.add(cmboBox_Date);
+        
+        objTrans.setDate((String)cmboBox_Date.getSelectedItem());
+        
+        
         textFieldTime = new JTextField();
         textFieldTime.setColumns(10);
         textFieldTime.setBounds(117, 110, 295, 49);
         pnlSchedule.add(textFieldTime);
         
-        JCheckBox chckbxDateTime = new JCheckBox("");
+        objTrans.setTime(textFieldTime.getText());
+        
+        
+        JCheckBox chckbxDateTime = new JCheckBox();
         chckbxDateTime.setBounds(40, 183, 20, 33);
         pnlSchedule.add(chckbxDateTime);
+        
+        chckbxDateTime.setSelected(true);
+        objTrans.setUseRealDnT(chckbxDateTime.isSelected());
+        
         
         JTextArea txtNote = new JTextArea();
         txtNote.setFont(new Font("Monospaced", Font.PLAIN, 11));
@@ -287,6 +351,7 @@ public class Transactions extends JFrame {
         txtNote.setBackground(new Color(240, 240, 240));
         txtNote.setBounds(70, 191, 415, 47);
         pnlSchedule.add(txtNote);
+        txtNote.setEditable(false);
         
         JTextArea txtrUseRealDate = new JTextArea();
         txtrUseRealDate.setFont(new Font("Monospaced", Font.BOLD, 13));
@@ -294,12 +359,10 @@ public class Transactions extends JFrame {
         txtrUseRealDate.setBackground(UIManager.getColor("Button.background"));
         txtrUseRealDate.setBounds(70, 172, 319, 22);
         pnlSchedule.add(txtrUseRealDate);
+        txtrUseRealDate.setEditable(false);
         
-        textField = new JTextField();
-        textField.setColumns(10);
-        textField.setBounds(117, 56, 295, 49);
-        pnlSchedule.add(textField);
         
+//Order Panel------------------------------------------------------------------------------
         JPanel pnlOrder = new JPanel();
         pnlOrder.setLayout(null);
         pnlOrder.setBounds(254, 384, 564, 236);
@@ -312,10 +375,6 @@ public class Transactions extends JFrame {
         lblOrder.setBounds(10, 15, 126, 41);
         pnlOrder.add(lblOrder);
         
-        JCheckBox chckbxLargeContainer = new JCheckBox("");
-        chckbxLargeContainer.setFont(new Font("Myanmar Text", Font.BOLD, 28));
-        chckbxLargeContainer.setBounds(20, 66, 28, 30);
-        pnlOrder.add(chckbxLargeContainer);
         
         JLabel lblLargeContainer = new JLabel("5gl/Large\r\n");
         lblLargeContainer.setForeground(Color.BLACK);
@@ -323,10 +382,14 @@ public class Transactions extends JFrame {
         lblLargeContainer.setBounds(47, 66, 137, 33);
         pnlOrder.add(lblLargeContainer);
         
-        JCheckBox chckbxMediumContainer = new JCheckBox("");
-        chckbxMediumContainer.setFont(new Font("Myanmar Text", Font.BOLD, 28));
-        chckbxMediumContainer.setBounds(22, 131, 28, 30);
-        pnlOrder.add(chckbxMediumContainer);
+        
+        JCheckBox chckbxLargeContainer = new JCheckBox();
+        chckbxLargeContainer.setFont(new Font("Myanmar Text", Font.BOLD, 28));
+        chckbxLargeContainer.setBounds(20, 66, 28, 30);
+        pnlOrder.add(chckbxLargeContainer);
+        
+        objTrans.setYesLargeContainer(chckbxLargeContainer.isSelected());
+        
         
         JLabel lblMediumContainer = new JLabel("3gl/Medium");
         lblMediumContainer.setForeground(Color.BLACK);
@@ -334,41 +397,100 @@ public class Transactions extends JFrame {
         lblMediumContainer.setBounds(47, 131, 173, 33);
         pnlOrder.add(lblMediumContainer);
         
+        
+        JCheckBox chckbxMediumContainer = new JCheckBox();
+        chckbxMediumContainer.setFont(new Font("Myanmar Text", Font.BOLD, 28));
+        chckbxMediumContainer.setBounds(22, 131, 28, 30);
+        pnlOrder.add(chckbxMediumContainer);
+        
+        objTrans.setYesMediumContainer(chckbxMediumContainer.isSelected());
+        
+
         JLabel lblSmallContainer = new JLabel("2.5gl/Small");
         lblSmallContainer.setForeground(Color.BLACK);
         lblSmallContainer.setFont(new Font("Myanmar Text", Font.BOLD, 28));
         lblSmallContainer.setBounds(47, 193, 160, 33);
         pnlOrder.add(lblSmallContainer);
         
-        JCheckBox chckbxSmallContainer = new JCheckBox("");
+        
+        JCheckBox chckbxSmallContainer = new JCheckBox();
         chckbxSmallContainer.setFont(new Font("Myanmar Text", Font.BOLD, 28));
         chckbxSmallContainer.setBounds(22, 193, 28, 30);
         pnlOrder.add(chckbxSmallContainer);
+        
+        objTrans.setYesSmallContainer(chckbxSmallContainer.isSelected());
+        
         
         JSpinner spnrMediumOrder = new JSpinner();
         spnrMediumOrder.setFont(new Font("Tahoma", Font.PLAIN, 19));
         spnrMediumOrder.setBounds(217, 116, 314, 48);
         pnlOrder.add(spnrMediumOrder);
         
+        
+        spnrMediumOrder.setEnabled(false);
+        chckbxMediumContainer.addActionListener(e -> {
+        	objTrans.setDeliveryMediumContainer((Integer)spnrMediumOrder.getValue());
+        	
+            if (chckbxMediumContainer.isSelected()) {
+                spnrMediumOrder.setEnabled(true);
+            }
+            else {
+                spnrMediumOrder.setEnabled(false);
+                spnrMediumOrder.setValue(0);
+            }});
+        
+        
         JSpinner spnrSmallOrder = new JSpinner();
         spnrSmallOrder.setFont(new Font("Tahoma", Font.PLAIN, 19));
         spnrSmallOrder.setBounds(217, 174, 314, 48);
         pnlOrder.add(spnrSmallOrder);
+        
+        spnrSmallOrder.setEnabled(false);
+        chckbxSmallContainer.addActionListener(e -> {
+        	objTrans.setDeliveryLargeContainer((Integer)spnrSmallOrder.getValue());
+        	
+            if (chckbxSmallContainer.isSelected()) {
+                spnrSmallOrder.setEnabled(true);
+            }
+            else {
+                spnrSmallOrder.setEnabled(false);
+                spnrSmallOrder.setValue(0);
+            }});
+        
         
         JSpinner spnrLargeOrder = new JSpinner();
         spnrLargeOrder.setFont(new Font("Tahoma", Font.PLAIN, 19));
         spnrLargeOrder.setBounds(217, 57, 314, 48);
         pnlOrder.add(spnrLargeOrder);
         
+        
+        spnrLargeOrder.setEnabled(false);
+        chckbxLargeContainer.addActionListener(e -> {
+        	objTrans.setDeliveryLargeContainer((Integer)spnrLargeOrder.getValue());
+        	
+            if (chckbxLargeContainer.isSelected()) {
+                spnrLargeOrder.setEnabled(true);
+            }
+            else {
+                spnrLargeOrder.setEnabled(false);
+                spnrLargeOrder.setValue(0);
+            }});
+        
+        
+//Delivery Panel------------------------------------------------------------------------------
         JPanel pnlDelivery = new JPanel();
         pnlDelivery.setLayout(null);
         pnlDelivery.setBounds(254, 630, 564, 98);
         lblBackground.add(pnlDelivery);
         
+        
         JCheckBox chckbxDelivery = new JCheckBox("");
         chckbxDelivery.setFont(new Font("Myanmar Text", Font.BOLD, 28));
         chckbxDelivery.setBounds(21, 34, 28, 30);
         pnlDelivery.add(chckbxDelivery);
+        
+        chckbxDelivery.setSelected(true);
+        objTrans.setDelivery(chckbxDelivery.isSelected());
         
         JLabel lblDelivery = new JLabel("Delivery");
         lblDelivery.setHorizontalAlignment(SwingConstants.CENTER);
@@ -378,12 +500,15 @@ public class Transactions extends JFrame {
         pnlDelivery.add(lblDelivery);
         
         JTextArea txtrDeliveryNote = new JTextArea();
-        txtrDeliveryNote.setText("Note: This would include a \r\ndelivery fee to the final price        ");
+        txtrDeliveryNote.setText("Note: This would include a \r\ndelivery fee to the final price");
         txtrDeliveryNote.setFont(new Font("Monospaced", Font.PLAIN, 14));
         txtrDeliveryNote.setBackground(UIManager.getColor("Button.background"));
         txtrDeliveryNote.setBounds(190, 26, 288, 47);
         pnlDelivery.add(txtrDeliveryNote);
+        txtrDeliveryNote.setEditable(false);
         
+        
+//Total Fee Panel------------------------------------------------------------------------------
         JPanel pnlTotalFee = new JPanel();
         pnlTotalFee.setBounds(832, 384, 577, 344);
         lblBackground.add(pnlTotalFee);
@@ -397,128 +522,336 @@ public class Transactions extends JFrame {
         pnlTotalFee.add(lblTotalFee);
         
         JPanel pnlRegularFees = new JPanel();
-        pnlRegularFees.setBounds(10, 43, 560, 149);
+        pnlRegularFees.setBounds(10, 42, 560, 131);
         pnlRegularFees.setBackground(new Color(225, 225, 225));
         pnlTotalFee.add(pnlRegularFees);
         pnlRegularFees.setLayout(null);
         
+//Regular Fees Panel------------------------------------------------------------------------------
         JLabel lblPricePerGl = new JLabel("Price per gallon");
-        lblPricePerGl.setFont(new Font("Tahoma", Font.PLAIN, 15));
-        lblPricePerGl.setBounds(26, 0, 118, 28);
+        lblPricePerGl.setFont(new Font("Tahoma", Font.PLAIN, 17));
+        lblPricePerGl.setBounds(26, -1, 118, 28);
         pnlRegularFees.add(lblPricePerGl);
         
         JLabel lblgllargeContainers = new JLabel("5gl/Large Containers:");
-        lblgllargeContainers.setFont(new Font("Tahoma", Font.PLAIN, 15));
-        lblgllargeContainers.setBounds(47, 23, 161, 28);
+        lblgllargeContainers.setFont(new Font("Tahoma", Font.PLAIN, 17));
+        lblgllargeContainers.setBounds(47, 24, 161, 28);
         pnlRegularFees.add(lblgllargeContainers);
         
         JLabel lblglmediumContainers = new JLabel("3gl/Medium Containers:");
-        lblglmediumContainers.setFont(new Font("Tahoma", Font.PLAIN, 15));
-        lblglmediumContainers.setBounds(47, 48, 178, 28);
+        lblglmediumContainers.setFont(new Font("Tahoma", Font.PLAIN, 17));
+        lblglmediumContainers.setBounds(47, 50, 178, 28);
         pnlRegularFees.add(lblglmediumContainers);
         
         JLabel lblgllargeContainers_1_1 = new JLabel("2.5gl/Small Containers:");
-        lblgllargeContainers_1_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
-        lblgllargeContainers_1_1.setBounds(47, 74, 178, 28);
+        lblgllargeContainers_1_1.setFont(new Font("Tahoma", Font.PLAIN, 17));
+        lblgllargeContainers_1_1.setBounds(47, 75, 178, 28);
         pnlRegularFees.add(lblgllargeContainers_1_1);
         
         JLabel lblServiceFee = new JLabel("Service Fee per container:");
-        lblServiceFee.setFont(new Font("Tahoma", Font.PLAIN, 15));
-        lblServiceFee.setBounds(26, 98, 199, 28);
+        lblServiceFee.setFont(new Font("Tahoma", Font.PLAIN, 17));
+        lblServiceFee.setBounds(26, 100, 199, 28);
         pnlRegularFees.add(lblServiceFee);
         
-        JLabel lblPricePerGl_Int = new JLabel("₱ 5.00");
-        lblPricePerGl_Int.setFont(new Font("Tahoma", Font.PLAIN, 15));
-        lblPricePerGl_Int.setBackground(new Color(225, 225, 225));
-        lblPricePerGl_Int.setBounds(458, 1, 71, 27);
-        pnlRegularFees.add(lblPricePerGl_Int);
+        JLabel lblPricePerGl_Peso = new JLabel("₱ ");
+        lblPricePerGl_Peso.setFont(new Font("Tahoma", Font.PLAIN, 17));
+        lblPricePerGl_Peso.setBackground(new Color(225, 225, 225));
+        lblPricePerGl_Peso.setBounds(458, 0, 15, 27);
+        pnlRegularFees.add(lblPricePerGl_Peso);
+        
+        
+        JLabel lblPricePerGl_int = new JLabel();
+        lblPricePerGl_int.setFont(new Font("Tahoma", Font.PLAIN, 17));
+        lblPricePerGl_int.setBackground(new Color(225, 225, 225));
+        lblPricePerGl_int.setBounds(475, 0, 75, 27);
+        pnlRegularFees.add(lblPricePerGl_int);
+        
+        lblPricePerGl_int.setText(String.valueOf(objPrice.getPricePerGalon()));
+        
         
         JLabel lblMediumContainerCount = new JLabel("0");
-        lblMediumContainerCount.setFont(new Font("Tahoma", Font.PLAIN, 15));
+        lblMediumContainerCount.setFont(new Font("Tahoma", Font.PLAIN, 17));
         lblMediumContainerCount.setBackground(new Color(225, 225, 225));
-        lblMediumContainerCount.setBounds(458, 49, 71, 27);
+        lblMediumContainerCount.setBounds(458, 51, 71, 27);
         pnlRegularFees.add(lblMediumContainerCount);
         
+        lblMediumContainerCount.setEnabled(false);
+        
+        spnrMediumOrder.addChangeListener(e -> {
+       	 lblMediumContainerCount.setText(spnrMediumOrder.getValue().toString());
+       	 
+       	if (spnrMediumOrder.isEnabled()&& ((Integer)spnrMediumOrder.getValue())>0) {
+    		lblMediumContainerCount.setEnabled(true);
+        }
+        else {
+        	lblMediumContainerCount.setEnabled(false);
+        	lblMediumContainerCount.setText("0");
+        }
+        });
+        
+        
         JLabel lblSmallContainerCount = new JLabel("0");
-        lblSmallContainerCount.setFont(new Font("Tahoma", Font.PLAIN, 15));
+        lblSmallContainerCount.setFont(new Font("Tahoma", Font.PLAIN, 17));
         lblSmallContainerCount.setBackground(new Color(225, 225, 225));
-        lblSmallContainerCount.setBounds(458, 75, 71, 27);
+        lblSmallContainerCount.setBounds(458, 76, 71, 27);
         pnlRegularFees.add(lblSmallContainerCount);
         
-        JLabel lblServiceFee_Int = new JLabel("₱ 3.00");
-        lblServiceFee_Int.setFont(new Font("Tahoma", Font.PLAIN, 15));
-        lblServiceFee_Int.setBackground(new Color(225, 225, 225));
-        lblServiceFee_Int.setBounds(458, 99, 71, 27);
-        pnlRegularFees.add(lblServiceFee_Int);
+        lblSmallContainerCount.setEnabled(false);
+
+        spnrSmallOrder.addChangeListener(e -> {
+     		lblSmallContainerCount.setText(spnrSmallOrder.getValue().toString());
+        	 
+        	 if (spnrSmallOrder.isEnabled()&& ((Integer)spnrSmallOrder.getValue())>0) {
+         		lblSmallContainerCount.setEnabled(true);
+             }
+             else {
+             	lblSmallContainerCount.setEnabled(false);
+             	lblSmallContainerCount.setText("0");
+             }
+         });
         
-        JLabel lblLargeContainerCount = new JLabel("2");
-        lblLargeContainerCount.setFont(new Font("Tahoma", Font.PLAIN, 15));
+        
+        JLabel lblLargeContainerCount = new JLabel("0");
+        lblLargeContainerCount.setFont(new Font("Tahoma", Font.PLAIN, 17));
         lblLargeContainerCount.setBackground(new Color(225, 225, 225));
         lblLargeContainerCount.setBounds(458, 24, 71, 27);
         pnlRegularFees.add(lblLargeContainerCount);
         
-        JLabel lblDeliveryFee_3 = new JLabel("Delivery Fee:");
-        lblDeliveryFee_3.setFont(new Font("Tahoma", Font.PLAIN, 15));
-        lblDeliveryFee_3.setBounds(26, 120, 199, 28);
-        pnlRegularFees.add(lblDeliveryFee_3);
+        lblLargeContainerCount.setEnabled(false);
         
-        JLabel lblServiceFee_Int_1 = new JLabel("₱ 10.00");
-        lblServiceFee_Int_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
-        lblServiceFee_Int_1.setBackground(new Color(225, 225, 225));
-        lblServiceFee_Int_1.setBounds(458, 121, 71, 27);
-        pnlRegularFees.add(lblServiceFee_Int_1);
+        spnrLargeOrder.addChangeListener(e -> {
+     		lblLargeContainerCount.setText(spnrLargeOrder.getValue().toString());
+        	
+        	if (spnrLargeOrder.isEnabled() && ((Integer)spnrLargeOrder.getValue())>0) {
+        		lblLargeContainerCount.setEnabled(true);
+            }
+            else {
+            	lblLargeContainerCount.setEnabled(false);
+            	lblLargeContainerCount.setText("0");
+            }
+        });
         
+        
+        
+        JLabel lblServiceFee_Peso = new JLabel("₱");
+        lblServiceFee_Peso.setFont(new Font("Tahoma", Font.PLAIN, 17));
+        lblServiceFee_Peso.setBackground(new Color(225, 225, 225));
+        lblServiceFee_Peso.setBounds(458, 100, 15, 27);
+        pnlRegularFees.add(lblServiceFee_Peso);
+        
+        
+        JLabel lblServiceFee_Int = new JLabel();
+        lblServiceFee_Int.setFont(new Font("Tahoma", Font.PLAIN, 17));
+        lblServiceFee_Int.setBackground(new Color(225, 225, 225));
+        lblServiceFee_Int.setBounds(475, 100, 75, 27);
+        pnlRegularFees.add(lblServiceFee_Int);
+        
+        lblServiceFee_Int.setText(String.valueOf(objSales.getServiceFee()));
+        
+        
+//Delivery Fees Panel------------------------------------------------------------------------------
         JPanel pnlDeliveryFees = new JPanel();
         pnlDeliveryFees.setBackground(new Color(225, 225, 225));
-        pnlDeliveryFees.setBounds(10, 195, 560, 46);
+        pnlDeliveryFees.setBounds(10, 177, 560, 35);
         pnlTotalFee.add(pnlDeliveryFees);
         pnlDeliveryFees.setLayout(null);
         
-        JLabel lblDeliveryFee = new JLabel("TOTAL:");
-        lblDeliveryFee.setBounds(26, 12, 118, 21);
-        lblDeliveryFee.setFont(new Font("Tahoma", Font.BOLD, 19));
+        JLabel lblDeliveryFee = new JLabel("Delivery fee:");
+        lblDeliveryFee.setBounds(26, 6, 118, 21);
+        lblDeliveryFee.setFont(new Font("Tahoma", Font.PLAIN, 17));
         pnlDeliveryFees.add(lblDeliveryFee);
         
-        JLabel lblDeliveryFee_Int = new JLabel("₱ 66.00");
-        lblDeliveryFee_Int.setFont(new Font("Tahoma", Font.BOLD, 19));
+        JLabel lblDeliveryFee_Int = new JLabel("₱ ");
+        lblDeliveryFee_Int.setFont(new Font("Tahoma", Font.PLAIN, 17));
         lblDeliveryFee_Int.setBackground(new Color(225, 225, 225));
-        lblDeliveryFee_Int.setBounds(458, 12, 92, 27);
+        lblDeliveryFee_Int.setBounds(458, 6, 15, 27);
         pnlDeliveryFees.add(lblDeliveryFee_Int);
         
-        JPanel pnlDeliveryFees_1 = new JPanel();
-        pnlDeliveryFees_1.setLayout(null);
-        pnlDeliveryFees_1.setBackground(new Color(225, 225, 225));
-        pnlDeliveryFees_1.setBounds(10, 242, 560, 46);
-        pnlTotalFee.add(pnlDeliveryFees_1);
         
-        JLabel lblCustomerPayment = new JLabel("Customer Payment:\r\n");
-        lblCustomerPayment.setFont(new Font("Tahoma", Font.BOLD, 19));
-        lblCustomerPayment.setBounds(26, 12, 190, 21);
-        pnlDeliveryFees_1.add(lblCustomerPayment);
-        
-        JLabel lblDeliveryFee_Int_1 = new JLabel("₱ 100.00");
-        lblDeliveryFee_Int_1.setFont(new Font("Tahoma", Font.PLAIN, 19));
+        JLabel lblDeliveryFee_Int_1 = new JLabel();
+        lblDeliveryFee_Int_1.setFont(new Font("Tahoma", Font.PLAIN, 17));
         lblDeliveryFee_Int_1.setBackground(new Color(225, 225, 225));
-        lblDeliveryFee_Int_1.setBounds(458, 12, 92, 27);
-        pnlDeliveryFees_1.add(lblDeliveryFee_Int_1);
+        lblDeliveryFee_Int_1.setBounds(475, 6, 75, 27);
+        pnlDeliveryFees.add(lblDeliveryFee_Int_1);
         
-        JPanel pnlDeliveryFees_2 = new JPanel();
-        pnlDeliveryFees_2.setLayout(null);
-        pnlDeliveryFees_2.setBackground(new Color(225, 225, 225));
-        pnlDeliveryFees_2.setBounds(10, 288, 560, 46);
-        pnlTotalFee.add(pnlDeliveryFees_2);
+        lblDeliveryFee_Int_1.setText(String.valueOf(objSales.getDeliveryFee()));
+        
+        chckbxDelivery.addActionListener(e -> {
+            if (chckbxDelivery.isSelected()) {
+            	lblDeliveryFee_Int_1.setText(String.valueOf(objSales.getDeliveryFee()));
+            	lblDeliveryFee_Int_1.setEnabled(true);
+            	lblDeliveryFee_Int.setEnabled(true);
+            	lblDeliveryFee.setEnabled(true);
+            	
+            }
+            else {
+            	lblDeliveryFee_Int_1.setText("0.0");
+            	lblDeliveryFee_Int_1.setEnabled(false);
+            	lblDeliveryFee_Int.setEnabled(false);
+            	lblDeliveryFee.setEnabled(false);
+            }});
+        
+//Total Panel------------------------------------------------------------------------------
+        JLabel lblTotal = new JLabel("TOTAL:");
+        lblTotal.setHorizontalAlignment(SwingConstants.LEFT);
+        lblTotal.setBounds(10, 217, 166, 52);
+        pnlTotalFee.add(lblTotal);
+        lblTotal.setForeground(Color.BLACK);
+        lblTotal.setFont(new Font("Myanmar Text", Font.BOLD, 40));
+        
+        JPanel pnlTotal = new JPanel();
+        pnlTotal.setLayout(null);
+        pnlTotal.setBackground(new Color(225, 225, 225));
+        pnlTotal.setBounds(167, 217, 403, 40);
+        pnlTotalFee.add(pnlTotal);
+        
+        
+        JLabel lblTotal_Peso = new JLabel("₱ ");
+        lblTotal_Peso.setFont(new Font("Tahoma", Font.PLAIN, 25));
+        lblTotal_Peso.setBackground(new Color(225, 225, 225));
+        lblTotal_Peso.setBounds(293, 8, 22, 31);
+        pnlTotal.add(lblTotal_Peso);
+        
+        
+        JLabel lblTotal_int = new JLabel();
+        lblTotal_int.setFont(new Font("Tahoma", Font.PLAIN, 25));
+        lblTotal_int.setBackground(new Color(225, 225, 225));
+        lblTotal_int.setBounds(315, 8, 78, 31);
+        pnlTotal.add(lblTotal_int);
+        
+        
+        lblTotal_int.setText(String.valueOf(objSales.getProfit()));
+        lblTotal_int.setEnabled(false);
+        
+        spnrLargeOrder.addChangeListener(e -> {
+        	
+        	
+            if (((Integer) spnrLargeOrder.getValue())>0) {
+            	lblTotal_int.setText(String.valueOf(objSales.getProfit()));
+            	lblTotal_int.setEnabled(true);
+            	lblTotal_Peso.setEnabled(true);
+            }
+            else {
+            	objSales.setPricePerGalon((Double)spnrLargeOrder.getValue());
+            	lblTotal_int.setEnabled(false);
+            	lblTotal_int.setText(" ");
+            	lblTotal_Peso.setEnabled(false);
+            }});
+        
+        spnrMediumOrder.addChangeListener(e -> {
+        	objSales.calculateFinalProfit();
+        	
+            if (((Integer) spnrMediumOrder.getValue())>0) {
+            	lblTotal_int.setText(String.valueOf(objSales.getProfit()));
+            	lblTotal_int.setEnabled(true);
+            	lblTotal_Peso.setEnabled(true);
+            }
+            else {
+            	lblTotal_int.setEnabled(false);
+            	lblTotal_int.setText(" ");
+            	lblTotal_Peso.setEnabled(false);
+            }});
+        
+        spnrSmallOrder.addChangeListener(e -> {
+        	objSales.calculateFinalProfit();
+        	
+            if (((Integer) spnrSmallOrder.getValue())>0) {
+            	lblTotal_int.setText(String.valueOf(objSales.getProfit()));
+            	lblTotal_int.setEnabled(true);
+            	lblTotal_Peso.setEnabled(true);
+            }
+            else {
+            	lblTotal_int.setEnabled(false);
+            	lblTotal_int.setText(" ");
+            	lblTotal_Peso.setEnabled(false);
+            }});
+        
+
+//Payment Panel------------------------------------------------------------------------------
+        JPanel pnlCstmrPayment = new JPanel();
+        pnlCstmrPayment.setLayout(null);
+        pnlCstmrPayment.setBackground(new Color(225, 225, 225));
+        pnlCstmrPayment.setBounds(281, 262, 289, 35);
+        pnlTotalFee.add(pnlCstmrPayment);
+        
+        JLabel lblCstmrPayment = new JLabel("Customer Payment:");
+        lblCstmrPayment.setForeground(Color.BLACK);
+        lblCstmrPayment.setFont(new Font("Myanmar Text", Font.BOLD, 27));
+        lblCstmrPayment.setBounds(10, 262, 289, 41);
+        pnlTotalFee.add(lblCstmrPayment);
+        
+        JLabel lblCstmrPayment_Peso = new JLabel("₱ ");
+        lblCstmrPayment_Peso.setFont(new Font("Tahoma", Font.PLAIN, 17));
+        lblCstmrPayment_Peso.setEnabled(true);
+        lblCstmrPayment_Peso.setBackground(new Color(225, 225, 225));
+        lblCstmrPayment_Peso.setBounds(186, 6, 15, 27);
+        pnlCstmrPayment.add(lblCstmrPayment_Peso);
+        
+        
+        JLabel lblCstmrPayment_int = new JLabel();
+        lblCstmrPayment_int.setFont(new Font("Tahoma", Font.PLAIN, 17));
+        lblCstmrPayment_int.setEnabled(true);
+        lblCstmrPayment_int.setBackground(new Color(225, 225, 225));
+        lblCstmrPayment_int.setBounds(201, 6, 75, 27);
+        pnlCstmrPayment.add(lblCstmrPayment_int);
+        
+        lblCstmrPayment_int.setText(textFieldPayment.getText());
+        lblCstmrPayment_Peso.setEnabled(false);
+        
+        textFieldPayment.addActionListener(e -> {
+        	if (textFieldPayment.getText().isEmpty()) {
+        		lblCstmrPayment_int.setText(textFieldPayment.getText());
+        		lblCstmrPayment_Peso.setEnabled(false);
+        	}
+        	else {
+        		lblCstmrPayment_int.setText(textFieldPayment.getText()+".0");
+        		lblCstmrPayment_Peso.setEnabled(true);
+        	}
+        });
+        
+        
+        
+//Change Panel------------------------------------------------------------------------------
+        JPanel pnlChange = new JPanel();
+        pnlChange.setLayout(null);
+        pnlChange.setBackground(new Color(225, 225, 225));
+        pnlChange.setBounds(133, 301, 437, 35);
+        pnlTotalFee.add(pnlChange);
         
         JLabel lblChange = new JLabel("Change:");
-        lblChange.setFont(new Font("Tahoma", Font.BOLD, 19));
-        lblChange.setBounds(26, 12, 118, 21);
-        pnlDeliveryFees_2.add(lblChange);
+        lblChange.setForeground(Color.BLACK);
+        lblChange.setFont(new Font("Myanmar Text", Font.BOLD, 27));
+        lblChange.setBounds(10, 300, 289, 41);
+        pnlTotalFee.add(lblChange);
         
-        JLabel lblDeliveryFee_Int_2 = new JLabel("₱ 100.00");
-        lblDeliveryFee_Int_2.setFont(new Font("Tahoma", Font.PLAIN, 17));
-        lblDeliveryFee_Int_2.setBackground(new Color(225, 225, 225));
-        lblDeliveryFee_Int_2.setBounds(458, 12, 92, 27);
-        pnlDeliveryFees_2.add(lblDeliveryFee_Int_2);
+        JLabel lblChange_Peso = new JLabel("₱ ");
+        lblChange_Peso.setFont(new Font("Tahoma", Font.PLAIN, 17));
+        lblChange_Peso.setEnabled(true);
+        lblChange_Peso.setBackground(new Color(225, 225, 225));
+        lblChange_Peso.setBounds(334, 6, 15, 27);
+        pnlChange.add(lblChange_Peso);
         
         
+        JLabel lblChange_int = new JLabel();
+        lblChange_int.setFont(new Font("Tahoma", Font.PLAIN, 17));
+        lblChange_int.setEnabled(true);
+        lblChange_int.setBackground(new Color(225, 225, 225));
+        lblChange_int.setBounds(349, 6, 75, 27);
+        pnlChange.add(lblChange_int);
+        
+  
+        lblChange_int.setText(String.valueOf(objSales.getChange()));
+        lblCstmrPayment_Peso.setEnabled(false);
+		
+		
+        	if (objSales.getChange() == 0) {
+        		lblChange_int.setText(" ");
+        		lblChange_Peso.setEnabled(false);
+        	}
+        	else {
+        		objSales.calculateTransaction();
+        		lblChange_int.setText(String.valueOf(objSales.getChange()));
+        		lblChange_Peso.setEnabled(true);
+        	}
     }
 }
