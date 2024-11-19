@@ -15,7 +15,7 @@ import javax.swing.table.DefaultTableModel;
 import org.eclipse.wb.swing.FocusTraversalOnArray;
 import java.awt.Component;
 import java.awt.Toolkit;
-//import java.sql.*;
+import java.sql.*;
 
 import backend.Customers_bcknd;
 
@@ -305,6 +305,11 @@ public class Customers extends JFrame {
             }
         });
         
+        textField.addActionListener(e -> {
+        	
+        	obj.setName(textField.getText());
+        });
+        
         
         JLabel lblNewLabel_5 = new JLabel("Address:");
         lblNewLabel_5.setFont(new Font("Myanmar Text", Font.BOLD, 20));
@@ -323,6 +328,11 @@ public class Customers extends JFrame {
                     e.consume(); // Prevent the default "Enter" action
                 }
             }
+        });
+        
+        textField_1.addActionListener(e -> {
+        	
+        	obj.setCustomerAddress(textField_1.getText());
         });
         
         
@@ -344,6 +354,11 @@ public class Customers extends JFrame {
                     e.consume(); // Prevent the default "Enter" action
                 }
             }
+        });
+        
+        textField_3.addActionListener(e -> {
+        	
+        	obj.setContactNumber(textField_3.getText());
         });
         
         
@@ -390,6 +405,11 @@ public class Customers extends JFrame {
             }
         });
         
+        comboBox.addActionListener(e -> {
+        	
+        	obj.setName((String)comboBox.getSelectedItem());
+        });
+        
         
         JLabel lblNewLabel_9 = new JLabel("Address:");
         lblNewLabel_9.setFont(new Font("Myanmar Text", Font.BOLD, 20));
@@ -409,6 +429,11 @@ public class Customers extends JFrame {
                     e.consume(); // Prevent the default "Enter" action
                 }
             }
+        });
+        
+        textField_4.addActionListener(e -> {
+        	
+        	obj.setCustomerAddress(textField_4.getText());
         });
         
         
@@ -432,6 +457,11 @@ public class Customers extends JFrame {
             }
         });
         
+        textField_5.addActionListener(e -> {
+        	
+        	obj.setContactNumber(textField_5.getText());
+        });
+        
 
         JLabel lblNewLabel_11 = new JLabel("Container L:");
         lblNewLabel_11.setFont(new Font("Myanmar Text", Font.BOLD, 19));
@@ -452,6 +482,10 @@ public class Customers extends JFrame {
             }
         });
         
+        textField_2.addActionListener(e -> {
+        	
+        	obj.setLargeLentContainer(Integer.valueOf(textField_2.getText()));
+        });
         
         JLabel lblNewLabel_12 = new JLabel("M:");
         lblNewLabel_12.setFont(new Font("Myanmar Text", Font.BOLD, 19));
@@ -472,6 +506,12 @@ public class Customers extends JFrame {
             }
         });
         
+        textField_6.addActionListener(e -> {
+        	
+        	obj.setMediumLentContainer(Integer.valueOf(textField_2.getText()));
+        });
+        
+        
         
         JLabel lblNewLabel_13 = new JLabel("S:");
         lblNewLabel_13.setFont(new Font("Myanmar Text", Font.BOLD, 19));
@@ -490,6 +530,11 @@ public class Customers extends JFrame {
                     e.consume(); // Prevent the default "Enter" action
                 }
             }
+        });
+        
+        textField_7.addActionListener(e -> {
+        	
+        	obj.setSmallLentContainer(Integer.valueOf(textField_7.getText()));
         });
         
         
@@ -536,6 +581,11 @@ public class Customers extends JFrame {
                     e.consume(); // Prevent the default "Enter" action
                 }
             }
+        });
+        
+        comboBox_1.addActionListener(e -> {
+        	
+        	obj.setName(String.valueOf(comboBox_1.getSelectedItem()));
         });
         
         

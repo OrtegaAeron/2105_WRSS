@@ -11,6 +11,7 @@ import java.awt.Panel;
 import java.awt.FlowLayout;
 import javax.swing.table.DefaultTableModel;
 import java.awt.Toolkit;
+import java.sql.*;
 
 import backend.ContainerInventory;
 
@@ -358,6 +359,9 @@ public class Inventory extends JFrame {
         
         btnNewButton_7.addActionListener(e -> {
         	//function add to value
+        	obj.setContainerQuantityLarge((Integer)spinner_1.getValue());
+        	obj.setContainerQuantityMedium((Integer)spinner_2.getValue());
+        	obj.setContainerQuantitySmall((Integer)spinner_3.getValue());
         });
         
 
@@ -476,6 +480,9 @@ public class Inventory extends JFrame {
         
         btnNewButton_8.addActionListener(e -> {
              //function decrease value
+        	obj.getContainerQuantityLarge();
+        	obj.getContainerQuantityMedium();
+        	obj.getContainerQuantitySmall();
         });
     }
 }

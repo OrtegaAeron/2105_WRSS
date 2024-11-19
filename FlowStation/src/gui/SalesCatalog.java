@@ -11,6 +11,7 @@ import java.awt.Panel;
 import java.awt.FlowLayout;
 import javax.swing.table.DefaultTableModel;
 import java.awt.Toolkit;
+import java.sql.*;
 
 import backend.SalesCatalog_bcknd;
 
@@ -380,10 +381,13 @@ public class SalesCatalog extends JFrame {
         lblNoOfEmployees_Int.setBounds(19, 166, 28, 23);
         panel_5.add(lblNoOfEmployees_Int);
         
+        
         JLabel lblNewLabel_5_1 = new JLabel("");
         lblNewLabel_5_1.setFont(new Font("Tahoma", Font.PLAIN, 22));
         lblNewLabel_5_1.setBounds(29, 31, 101, 23);
         panel_5.add(lblNewLabel_5_1);
+        //value from database
+        
         
         JLabel lblEmployeesSalary_Int_1 = new JLabel("500.00");
         lblEmployeesSalary_Int_1.setFont(new Font("Tahoma", Font.PLAIN, 22));
@@ -410,6 +414,7 @@ public class SalesCatalog extends JFrame {
         lblTotalProfit_Int_1.setFont(new Font("Tahoma", Font.BOLD, 35));
         lblTotalProfit_Int_1.setBounds(36, 50, 142, 42);
         panel_6.add(lblTotalProfit_Int_1);
+        //value also from databse
         
         
     }

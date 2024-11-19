@@ -1,10 +1,11 @@
 package backend;
+import java.sql.*;
 
 public class Admin {
     
     private String adminName;
     private String password;
-    private String passkey;
+    private String passkey = "supersecret";
 
 	//getters----------------------------------------------
     public String getAdminName() {
@@ -38,9 +39,6 @@ public class Admin {
     	//if they are 
     }
     
-    void login(String passkey){
-        //check if the passkey is correct
-    }
     
     void signup(String username, String password){
         //add new admin to the database table

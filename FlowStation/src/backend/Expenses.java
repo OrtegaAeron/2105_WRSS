@@ -1,4 +1,5 @@
 package backend;
+import java.sql.*;
 
 public class Expenses extends Sales{
     private int deliveryManDailySalary = 500, noOfDeliveryMan = 2, wages;

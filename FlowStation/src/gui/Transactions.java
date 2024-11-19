@@ -12,6 +12,7 @@ import java.awt.FlowLayout;
 import java.awt.List;
 import java.awt.Checkbox;
 import java.awt.Toolkit;
+import java.sql.*;
 
 import backend.Transactions_bcknd;
 import backend.Sales;

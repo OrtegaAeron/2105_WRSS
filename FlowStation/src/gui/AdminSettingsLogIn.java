@@ -9,7 +9,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Toolkit;
 
+import backend.Admin;
+
 public class AdminSettingsLogIn extends JFrame{
+	
+	Admin obj = new Admin();
 
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
@@ -60,6 +64,19 @@ public class AdminSettingsLogIn extends JFrame{
         lblBackground.add(lblLogo);
         lblLogo.setBounds(301, 71, 103, 103);
         
+     // FlowStation title label
+        JLabel lblFlowstation = new JLabel("FLOWSTATION™");
+        lblFlowstation.setForeground(new Color(255, 255, 255));
+        lblFlowstation.setFont(new Font("Myanmar Text", Font.BOLD, 37));
+        lblFlowstation.setBounds(206, 183, 293, 42);
+        lblBackground.add(lblFlowstation);
+        
+        JLabel lblNewLabel = new JLabel("-Admin Settings-");
+        lblNewLabel.setForeground(new Color(255, 255, 255));
+        lblNewLabel.setFont(new Font("Myanmar Text", Font.PLAIN, 25));
+        lblNewLabel.setBounds(260, 217, 200, 30);
+        lblBackground.add(lblNewLabel);
+        
         //Password text
         textPassword = new JLabel("Pass Key:");
         textPassword.setForeground(new Color(255, 255, 255));
@@ -73,19 +90,9 @@ public class AdminSettingsLogIn extends JFrame{
         passwordField.setFont(new Font("Tahoma", Font.PLAIN, 20));
         passwordField.setBounds(253, 256, 199, 35);
         lblBackground.add(passwordField);
-
-        // FlowStation title label
-        JLabel lblFlowstation = new JLabel("FLOWSTATION™");
-        lblFlowstation.setForeground(new Color(255, 255, 255));
-        lblFlowstation.setFont(new Font("Myanmar Text", Font.BOLD, 37));
-        lblFlowstation.setBounds(206, 183, 293, 42);
-        lblBackground.add(lblFlowstation);
         
-        JLabel lblNewLabel = new JLabel("-Admin Settings-");
-        lblNewLabel.setForeground(new Color(255, 255, 255));
-        lblNewLabel.setFont(new Font("Myanmar Text", Font.PLAIN, 25));
-        lblNewLabel.setBounds(260, 217, 200, 30);
-        lblBackground.add(lblNewLabel);
+        char[] passwordChars = passwordField.getPassword();
+        obj.setPassword(new String(passwordChars));
         
         // Log-in Button
         JButton btnLogIn = new JButton("Enter");
@@ -94,9 +101,19 @@ public class AdminSettingsLogIn extends JFrame{
         
         btnLogIn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                dispose(); // Close the current Transactions frame
-                AdminSettings  adminSettingsFrame = new AdminSettings (); // Open the Customers frame
-                adminSettingsFrame.setVisible(true); // Set the Customers frame visible
+            	char[] enteredPassword = passwordField.getPassword();
+            	
+                if (passwordField.getText().equals(obj.getPasskey())) {
+                    dispose(); // Close the current Transactions frame
+                    AdminSettings adminSettingsFrame = new AdminSettings(); // Open the AdminSettings frame
+                    adminSettingsFrame.setVisible(true); // Set the AdminSettings frame visible
+                }
+                else {
+                	JOptionPane.showMessageDialog(null, 
+                            "Incorrect password. Please try again.", 
+                            "Login Error", 
+                            JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
 

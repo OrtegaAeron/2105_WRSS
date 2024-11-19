@@ -12,6 +12,7 @@ import java.awt.FlowLayout;
 import java.awt.ScrollPane;
 import java.awt.Toolkit;
 import javax.swing.table.DefaultTableModel;
+import java.sql.*;
 
 import backend.Sales;
 import backend.Expenses;
@@ -359,11 +360,13 @@ public class DailySales extends JFrame {
         lblNewLabel_7.setBounds(458, 61, 15, 27);
         panel_7.add(lblNewLabel_7);
         
+        
         JLabel lblNewLabel_6_1 = new JLabel("");
         lblNewLabel_6_1.setFont(new Font("Tahoma", Font.PLAIN, 17));
         lblNewLabel_6_1.setBackground(new Color(225, 225, 225));
         lblNewLabel_6_1.setBounds(472, 10, 83, 27);
         panel_7.add(lblNewLabel_6_1);
+        //value is from database
         
         JLabel lblNewLabel_7_1 = new JLabel("500.00");
         lblNewLabel_7_1.setFont(new Font("Tahoma", Font.PLAIN, 17));
@@ -391,6 +394,7 @@ public class DailySales extends JFrame {
         lblTotalProfit_Int_1.setFont(new Font("Tahoma", Font.BOLD, 31));
         lblTotalProfit_Int_1.setBounds(114, 55, 161, 42);
         panel_8.add(lblTotalProfit_Int_1);
+        //also from database based on calculation from transactions
         
         
     }

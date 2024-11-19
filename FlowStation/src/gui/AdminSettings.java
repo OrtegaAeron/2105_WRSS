@@ -15,8 +15,13 @@ import javax.swing.table.DefaultTableModel;
 import org.eclipse.wb.swing.FocusTraversalOnArray;
 import java.awt.Component;
 import java.awt.Toolkit;
+import java.sql.*;
+
+import backend.Admin;
 
 public class AdminSettings extends JFrame {
+	
+	Admin obj = new Admin();
 
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
@@ -279,6 +284,11 @@ public class AdminSettings extends JFrame {
             }
         });
         
+        textField.addActionListener(e -> {
+        	
+        	obj.setAdminName(String.valueOf(textField.getText()));
+        });
+        
         
         JLabel lblPassworf = new JLabel("Password:");
         lblPassworf.setFont(new Font("Myanmar Text", Font.BOLD, 14));
@@ -298,6 +308,9 @@ public class AdminSettings extends JFrame {
                 }
             }
         });
+        
+        char[] passwordChars = passwordField.getPassword();
+        obj.setPassword(new String(passwordChars));
         
         
         JButton btnNewButton_7 = new JButton("ADD");
@@ -363,6 +376,11 @@ public class AdminSettings extends JFrame {
             }
         });
         
+        char[] passwordChars2 = passwordField.getPassword();
+        obj.setPassword(new String(passwordChars2));
+        
+        
+        
         
         JComboBox comboBox_1_1 = new JComboBox();
         comboBox_1_1.setBounds(116, 34, 440, 21);
@@ -375,6 +393,11 @@ public class AdminSettings extends JFrame {
                     e.consume(); // Prevent the default "Enter" action
                 }
             }
+        });
+        
+        comboBox.addActionListener(e -> {
+        	
+        	obj.setAdminName((String)comboBox.getSelectedItem());
         });
         
         
@@ -400,6 +423,11 @@ public class AdminSettings extends JFrame {
                     e.consume(); // Prevent the default "Enter" action
                 }
             }
+        });
+        
+        comboBox_1.addActionListener(e -> {
+        	
+        	obj.setAdminName(String.valueOf(comboBox_1.getSelectedItem()));
         });
         
         JButton btnNewButton_7_1_1 = new JButton("DELETE");

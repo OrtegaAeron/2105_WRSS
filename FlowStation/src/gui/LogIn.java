@@ -10,11 +10,12 @@ import java.awt.event.ActionListener;
 import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.sql.*;
 
 import backend.Admin;
 
 public class LogIn extends JFrame{
-	
+
 	Admin obj = new Admin();
 
     private static final long serialVersionUID = 1L;
@@ -150,9 +151,19 @@ public class LogIn extends JFrame{
         
         btnLogIn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                dispose(); // Close the current Transactions frame
-                Transactions transactionsFrame = new Transactions(); // Open the Customers frame
-                transactionsFrame.setVisible(true); // Set the Customers frame visible
+            	char[] enteredPassword = passwordField.getPassword();
+            	
+                if (passwordField.getText().equals(obj.getPassword())) { //compare to sql============================
+                    dispose(); // Close the current Transactions frame
+                    AdminSettings adminSettingsFrame = new AdminSettings(); // Open the AdminSettings frame
+                    adminSettingsFrame.setVisible(true); // Set the AdminSettings frame visible
+                }
+                else {
+                	JOptionPane.showMessageDialog(null, 
+                            "Incorrect password. Please try again.", 
+                            "Login Error", 
+                            JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
 

@@ -1,4 +1,5 @@
 package backend;
+import java.sql.*;
 
 public class Sales extends Transactions_bcknd{
     
