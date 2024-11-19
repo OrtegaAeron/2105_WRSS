@@ -239,6 +239,8 @@ public class Transactions extends JFrame {
         cmboBoxName.setBounds(262, 45, 339, 40);
         pnlCustomer.add(cmboBoxName);
         
+      //should drop down names from database------------------------------------------
+        
         objCstmr.setName((String)cmboBoxName.getSelectedItem());
         
         
@@ -291,9 +293,22 @@ public class Transactions extends JFrame {
         textFieldPayment.setBounds(300, 183, 282, 40);
         pnlCustomer.add(textFieldPayment);
         
+        textFieldPayment.addActionListener(e -> {
         if (!textFieldPayment.getText().trim().isEmpty()) {
-        	objSales.setCustomerPayment(Double.valueOf(textFieldPayment.getText()));
+        	
+        	try {
+            	objSales.setCustomerPayment(Double.parseDouble(textFieldPayment.getText()));
+            } 
+        	catch(NumberFormatException ex) {
+        		objSales.setCustomerPayment(0);
+        		// Handle invalid input
+                JOptionPane.showMessageDialog(null, "Invalid input! Please enter a valid number.", 
+                        "Input Error", JOptionPane.ERROR_MESSAGE);
+
+            }
         }
+        });
+        
         
         
 //Schedule Panel------------------------------------------------------------------------------
@@ -578,15 +593,34 @@ public class Transactions extends JFrame {
         lblMediumContainerCount.setEnabled(false);
         
         spnrMediumOrder.addChangeListener(e -> {
-       	 lblMediumContainerCount.setText(spnrMediumOrder.getValue().toString());
-       	 
-       	if (spnrMediumOrder.isEnabled()&& ((Integer)spnrMediumOrder.getValue())>0) {
-    		lblMediumContainerCount.setEnabled(true);
-        }
-        else {
-        	lblMediumContainerCount.setEnabled(false);
-        	lblMediumContainerCount.setText("0");
-        }
+            try {
+                // Get the spinner value
+                int value = (Integer) spnrMediumOrder.getValue();
+                
+                // Prevent negative values
+                if (value < 0) {
+                    JOptionPane.showMessageDialog(null, "Value cannot be negative. Resetting to 0.");
+                    spnrMediumOrder.setValue(0); // Reset spinner value to 0
+                    value = 0;
+                }
+                
+                // Update label text with spinner value
+                lblMediumContainerCount.setText(String.valueOf(value));
+                
+                // Enable or disable the label based on the spinner value
+                if (value > 0) {
+                    lblMediumContainerCount.setEnabled(true);
+                } else {
+                    lblMediumContainerCount.setEnabled(false);
+                    lblMediumContainerCount.setText("0");
+                }
+            } catch (ClassCastException ex) {
+                JOptionPane.showMessageDialog(null, "Invalid spinner value. Please enter a valid number.");
+                spnrMediumOrder.setValue(0); // Reset spinner value to 0 in case of error
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "An unexpected error occurred: " + ex.getMessage());
+                spnrMediumOrder.setValue(0); // Reset spinner value to 0 in case of error
+            }
         });
         
         
@@ -599,16 +633,35 @@ public class Transactions extends JFrame {
         lblSmallContainerCount.setEnabled(false);
 
         spnrSmallOrder.addChangeListener(e -> {
-     		lblSmallContainerCount.setText(spnrSmallOrder.getValue().toString());
-        	 
-        	 if (spnrSmallOrder.isEnabled()&& ((Integer)spnrSmallOrder.getValue())>0) {
-         		lblSmallContainerCount.setEnabled(true);
-             }
-             else {
-             	lblSmallContainerCount.setEnabled(false);
-             	lblSmallContainerCount.setText("0");
-             }
-         });
+            try {
+                // Get the spinner value
+                int value = (Integer) spnrSmallOrder.getValue();
+                
+                // Prevent negative values
+                if (value < 0) {
+                    JOptionPane.showMessageDialog(null, "Value cannot be negative. Resetting to 0.");
+                    spnrSmallOrder.setValue(0); // Reset spinner value to 0
+                    value = 0;
+                }
+                
+                // Update label text with spinner value
+                lblSmallContainerCount.setText(String.valueOf(value));
+                
+                // Enable or disable the label based on the spinner value
+                if (value > 0) {
+                    lblSmallContainerCount.setEnabled(true);
+                } else {
+                    lblSmallContainerCount.setEnabled(false);
+                    lblSmallContainerCount.setText("0");
+                }
+            } catch (ClassCastException ex) {
+                JOptionPane.showMessageDialog(null, "Invalid spinner value. Please enter a valid number.");
+                spnrSmallOrder.setValue(0); // Reset spinner value to 0 in case of error
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "An unexpected error occurred: " + ex.getMessage());
+                spnrSmallOrder.setValue(0); // Reset spinner value to 0 in case of error
+            }
+        });
         
         
         JLabel lblLargeContainerCount = new JLabel("0");
@@ -620,14 +673,33 @@ public class Transactions extends JFrame {
         lblLargeContainerCount.setEnabled(false);
         
         spnrLargeOrder.addChangeListener(e -> {
-     		lblLargeContainerCount.setText(spnrLargeOrder.getValue().toString());
-        	
-        	if (spnrLargeOrder.isEnabled() && ((Integer)spnrLargeOrder.getValue())>0) {
-        		lblLargeContainerCount.setEnabled(true);
-            }
-            else {
-            	lblLargeContainerCount.setEnabled(false);
-            	lblLargeContainerCount.setText("0");
+            try {
+                // Get the spinner value
+                int value = (Integer) spnrLargeOrder.getValue();
+                
+                // Prevent negative values
+                if (value < 0) {
+                    JOptionPane.showMessageDialog(null, "Value cannot be negative. Resetting to 0.");
+                    spnrLargeOrder.setValue(0); // Reset spinner value to 0
+                    value = 0;
+                }
+                
+                // Update label text with spinner value
+                lblLargeContainerCount.setText(String.valueOf(value));
+                
+                // Enable or disable the label based on the spinner value
+                if (value > 0) {
+                    lblLargeContainerCount.setEnabled(true);
+                } else {
+                    lblLargeContainerCount.setEnabled(false);
+                    lblLargeContainerCount.setText("0");
+                }
+            } catch (ClassCastException ex) {
+                JOptionPane.showMessageDialog(null, "Invalid spinner value. Please enter a valid number.");
+                spnrLargeOrder.setValue(0); // Reset spinner value to 0 in case of error
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "An unexpected error occurred: " + ex.getMessage());
+                spnrLargeOrder.setValue(0); // Reset spinner value to 0 in case of error
             }
         });
         
@@ -732,7 +804,6 @@ public class Transactions extends JFrame {
             	lblTotal_Peso.setEnabled(true);
             }
             else {
-            	objSales.setPricePerGalon((Double)spnrLargeOrder.getValue());
             	lblTotal_int.setEnabled(false);
             	lblTotal_int.setText(" ");
             	lblTotal_Peso.setEnabled(false);

@@ -124,7 +124,7 @@ public class LogIn extends JFrame{
         textAdmin_1.setBounds(350, 336, 120, 20);
         lblBackground.add(textAdmin_1);
 
-    	textAdmin_1.setText(" ");
+        textAdmin_1.setText(" ");
     	KeyAdapter keyAdapter = new KeyAdapter() {
     	    @Override
     	    public void keyReleased(KeyEvent e) {
@@ -141,7 +141,6 @@ public class LogIn extends JFrame{
     	        textAdmin_1.setText(" ");
     	    }
     	});
-
         
         
         // Log-in Button

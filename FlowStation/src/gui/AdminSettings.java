@@ -7,6 +7,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.Panel;
 import java.awt.FlowLayout;
 import javax.swing.table.DefaultTableModel;
@@ -21,8 +23,8 @@ public class AdminSettings extends JFrame {
     private JLabel lblNewLabel_1;
     private JTable table;
     private JTextField textField;
-    private JPasswordField passwordField;
     private JPasswordField passwordField_1;
+    private JPasswordField passwordField;
 
     /**
      * Launch the application.
@@ -214,6 +216,7 @@ public class AdminSettings extends JFrame {
         
         table = new JTable();
         table.setFont(new Font("Tahoma", Font.BOLD, 15));
+      //sql command to get values and insert to table
         table.setModel(new DefaultTableModel(
         	new Object[][] {
         		{"", null, null},
@@ -261,24 +264,52 @@ public class AdminSettings extends JFrame {
         lblName.setBounds(42, 36, 49, 19);
         panel_3.add(lblName);
         
+        
         textField = new JTextField();
-        textField.setBounds(116, 34, 438, 19);
+        textField.setBounds(116, 34, 438, 21);
         panel_3.add(textField);
         textField.setColumns(10);
         
+        textField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    e.consume(); // Prevent the default "Enter" action
+                }
+            }
+        });
+        
+        
         JLabel lblPassworf = new JLabel("Password:");
         lblPassworf.setFont(new Font("Myanmar Text", Font.BOLD, 14));
-        lblPassworf.setBounds(42, 61, 68, 23);
+        lblPassworf.setBounds(42, 63, 68, 23);
         panel_3.add(lblPassworf);
         
+        
         passwordField = new JPasswordField();
-        passwordField.setBounds(117, 61, 438, 19);
+        passwordField.setBounds(117, 61, 420, 21);
         panel_3.add(passwordField);
         
+        passwordField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    e.consume(); // Prevent the default "Enter" action
+                }
+            }
+        });
+        
+        
         JButton btnNewButton_7 = new JButton("ADD");
-        btnNewButton_7.setFont(new Font("Myanmar Text", Font.BOLD, 15));
+        btnNewButton_7.setFont(new Font("Tahoma", Font.BOLD, 15));
         btnNewButton_7.setBounds(574, 33, 85, 27);
         panel_3.add(btnNewButton_7);
+        
+        btnNewButton_7.addActionListener(e -> {
+        	textField.postActionEvent();
+        	passwordField.postActionEvent();
+        });
+        
         
         JPanel panel_3_2 = new JPanel();
         panel_3_2.setBounds(488, 658, 683, 76);
@@ -299,15 +330,6 @@ public class AdminSettings extends JFrame {
         comboBox.setBounds(347, 35, 0, 21);
         panel_3_2.add(comboBox);
         
-        JComboBox comboBox_1 = new JComboBox();
-        comboBox_1.setBounds(117, 39, 437, 21);
-        panel_3_2.add(comboBox_1);
-        
-        JButton btnNewButton_7_1_1 = new JButton("DELETE");
-        btnNewButton_7_1_1.setFont(new Font("Myanmar Text", Font.BOLD, 15));
-        btnNewButton_7_1_1.setBounds(575, 33, 97, 30);
-        panel_3_2.add(btnNewButton_7_1_1);
-        
         JPanel panel_3_1 = new JPanel();
         backgroundLabel.add(panel_3_1);
         panel_3_1.setBounds(489, 556, 682, 93);
@@ -320,28 +342,74 @@ public class AdminSettings extends JFrame {
         
         JLabel lblName_1 = new JLabel("Name:");
         lblName_1.setFont(new Font("Myanmar Text", Font.BOLD, 14));
-        lblName_1.setBounds(31, 35, 49, 18);
+        lblName_1.setBounds(31, 38, 49, 18);
         panel_3_1.add(lblName_1);
         
         JLabel lblPassworf_1 = new JLabel("Password:");
         lblPassworf_1.setFont(new Font("Myanmar Text", Font.BOLD, 14));
-        lblPassworf_1.setBounds(31, 63, 68, 17);
+        lblPassworf_1.setBounds(31, 66, 68, 17);
         panel_3_1.add(lblPassworf_1);
         
         passwordField_1 = new JPasswordField();
-        passwordField_1.setBounds(117, 61, 420, 19);
+        passwordField_1.setBounds(117, 61, 420, 21);
         panel_3_1.add(passwordField_1);
         
-        JButton btnNewButton_7_1 = new JButton("UPDATE");
-        btnNewButton_7_1.setFont(new Font("Myanmar Text", Font.BOLD, 15));
-        btnNewButton_7_1.setBounds(575, 32, 97, 30);
-        panel_3_1.add(btnNewButton_7_1);
+        passwordField_1.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    e.consume(); // Prevent the default "Enter" action
+                }
+            }
+        });
+        
         
         JComboBox comboBox_1_1 = new JComboBox();
         comboBox_1_1.setBounds(116, 34, 440, 21);
         panel_3_1.add(comboBox_1_1);
         
+        comboBox_1_1.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    e.consume(); // Prevent the default "Enter" action
+                }
+            }
+        });
         
+        
+        JButton btnNewButton_7_1 = new JButton("UPDATE");
+        btnNewButton_7_1.setFont(new Font("Tahoma", Font.BOLD, 15));
+        btnNewButton_7_1.setBounds(575, 32, 97, 30);
+        panel_3_1.add(btnNewButton_7_1);
+        
+        btnNewButton_7.addActionListener(e -> {
+        	//comboBox_1_1.postActionEvent();
+        	passwordField_1.postActionEvent();
+        });
+        
+        
+        JComboBox comboBox_1 = new JComboBox();
+        comboBox_1.setBounds(117, 39, 437, 21);
+        panel_3_2.add(comboBox_1);
+        
+        comboBox_1.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    e.consume(); // Prevent the default "Enter" action
+                }
+            }
+        });
+        
+        JButton btnNewButton_7_1_1 = new JButton("DELETE");
+        btnNewButton_7_1_1.setFont(new Font("Tahoma", Font.BOLD, 15));
+        btnNewButton_7_1_1.setBounds(575, 33, 97, 30);
+        panel_3_2.add(btnNewButton_7_1_1);
+        
+        btnNewButton_7_1_1.addActionListener(e -> {
+        	//comboBox_1.postActionEvent();
+        });
     }
 }
 

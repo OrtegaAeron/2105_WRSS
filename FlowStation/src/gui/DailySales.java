@@ -213,6 +213,7 @@ public class DailySales extends JFrame {
         panel_2.add(scrollPane);
         
         table = new JTable();
+        //sql command to get values and insert to table
         table.setModel(new DefaultTableModel(
         	new Object[][] {
         		{null, null, null, null, null, null, null, null, null, null, null},
@@ -349,14 +350,26 @@ public class DailySales extends JFrame {
         JLabel lblNewLabel_6 = new JLabel("₱ ");
         lblNewLabel_6.setFont(new Font("Tahoma", Font.PLAIN, 17));
         lblNewLabel_6.setBackground(new Color(225, 225, 225));
-        lblNewLabel_6.setBounds(458, 10, 83, 27);
+        lblNewLabel_6.setBounds(458, 10, 15, 27);
         panel_7.add(lblNewLabel_6);
         
-        JLabel lblNewLabel_7 = new JLabel("₱ 500.00");
+        JLabel lblNewLabel_7 = new JLabel("₱");
         lblNewLabel_7.setFont(new Font("Tahoma", Font.PLAIN, 17));
         lblNewLabel_7.setBackground(new Color(225, 225, 225));
-        lblNewLabel_7.setBounds(458, 61, 71, 27);
+        lblNewLabel_7.setBounds(458, 61, 15, 27);
         panel_7.add(lblNewLabel_7);
+        
+        JLabel lblNewLabel_6_1 = new JLabel("");
+        lblNewLabel_6_1.setFont(new Font("Tahoma", Font.PLAIN, 17));
+        lblNewLabel_6_1.setBackground(new Color(225, 225, 225));
+        lblNewLabel_6_1.setBounds(472, 10, 83, 27);
+        panel_7.add(lblNewLabel_6_1);
+        
+        JLabel lblNewLabel_7_1 = new JLabel("500.00");
+        lblNewLabel_7_1.setFont(new Font("Tahoma", Font.PLAIN, 17));
+        lblNewLabel_7_1.setBackground(new Color(225, 225, 225));
+        lblNewLabel_7_1.setBounds(472, 61, 71, 27);
+        panel_7.add(lblNewLabel_7_1);
         
         JPanel panel_8 = new JPanel();
         panel_8.setLayout(null);
@@ -373,6 +386,11 @@ public class DailySales extends JFrame {
         lblTotalProfit_Int.setFont(new Font("Tahoma", Font.BOLD, 31));
         lblTotalProfit_Int.setBounds(89, 55, 161, 42);
         panel_8.add(lblTotalProfit_Int);
+        
+        JLabel lblTotalProfit_Int_1 = new JLabel("");
+        lblTotalProfit_Int_1.setFont(new Font("Tahoma", Font.BOLD, 31));
+        lblTotalProfit_Int_1.setBounds(114, 55, 161, 42);
+        panel_8.add(lblTotalProfit_Int_1);
         
         
     }

@@ -207,20 +207,28 @@ public class SalesCatalog extends JFrame {
         panel_2.setBounds(375, 132, 912, 77);
         panel_2.setLayout(null);
         
+        
         textField = new JTextField();
         textField.setBounds(126, 17, 567, 50);
         panel_2.add(textField);
         textField.setColumns(10);
+        
+        //sql command to search for the date in this txt field
+        
         
         JLabel lblNewLabel_6 = new JLabel("");
         lblNewLabel_6.setIcon(new ImageIcon(SalesCatalog.class.getResource("/resources/search.png")));
         lblNewLabel_6.setBounds(83, 20, 37, 42);
         panel_2.add(lblNewLabel_6);
         
-        JButton btnNewButton_7 = new JButton("");
+        
+        JButton btnNewButton_7 = new JButton();
         btnNewButton_7.setIcon(new ImageIcon(SalesCatalog.class.getResource("/resources/down.png")));
         btnNewButton_7.setBounds(703, 21, 40, 40);
         panel_2.add(btnNewButton_7);
+        
+        //drop down for calendar
+        
         
         JPanel panel_3 = new JPanel();
         panel_3.setBounds(247, 214, 970, 523);
@@ -232,6 +240,7 @@ public class SalesCatalog extends JFrame {
         panel_3.add(scrollPane);
         
         table = new JTable();
+      //sql command to get values and insert to table
         table.setModel(new DefaultTableModel(
         	new Object[][] {
         		{null, null, null, null, null, null, null, null, null, null, null},
@@ -343,7 +352,7 @@ public class SalesCatalog extends JFrame {
         
         JLabel lblNewLabel_5 = new JLabel("₱ ");
         lblNewLabel_5.setFont(new Font("Tahoma", Font.PLAIN, 22));
-        lblNewLabel_5.setBounds(12, 31, 101, 23);
+        lblNewLabel_5.setBounds(12, 31, 19, 23);
         panel_5.add(lblNewLabel_5);
         
         JLabel lblExpenses = new JLabel("Expenses:");
@@ -356,9 +365,9 @@ public class SalesCatalog extends JFrame {
         lblEmployeesSalary.setBounds(19, 90, 180, 16);
         panel_5.add(lblEmployeesSalary);
         
-        JLabel lblEmployeesSalary_Int = new JLabel("₱ 500.00");
+        JLabel lblEmployeesSalary_Int = new JLabel("₱");
         lblEmployeesSalary_Int.setFont(new Font("Tahoma", Font.PLAIN, 22));
-        lblEmployeesSalary_Int.setBounds(19, 106, 101, 23);
+        lblEmployeesSalary_Int.setBounds(19, 106, 19, 23);
         panel_5.add(lblEmployeesSalary_Int);
         
         JLabel lblNoOfEmployees = new JLabel("No. of Employees:");
@@ -370,6 +379,16 @@ public class SalesCatalog extends JFrame {
         lblNoOfEmployees_Int.setFont(new Font("Tahoma", Font.PLAIN, 22));
         lblNoOfEmployees_Int.setBounds(19, 166, 28, 23);
         panel_5.add(lblNoOfEmployees_Int);
+        
+        JLabel lblNewLabel_5_1 = new JLabel("");
+        lblNewLabel_5_1.setFont(new Font("Tahoma", Font.PLAIN, 22));
+        lblNewLabel_5_1.setBounds(29, 31, 101, 23);
+        panel_5.add(lblNewLabel_5_1);
+        
+        JLabel lblEmployeesSalary_Int_1 = new JLabel("500.00");
+        lblEmployeesSalary_Int_1.setFont(new Font("Tahoma", Font.PLAIN, 22));
+        lblEmployeesSalary_Int_1.setBounds(38, 106, 101, 23);
+        panel_5.add(lblEmployeesSalary_Int_1);
         
         JPanel panel_6 = new JPanel();
         panel_6.setBackground(new Color(225, 225, 225));
@@ -384,8 +403,13 @@ public class SalesCatalog extends JFrame {
         
         JLabel lblTotalProfit_Int = new JLabel("₱ ");
         lblTotalProfit_Int.setFont(new Font("Tahoma", Font.BOLD, 35));
-        lblTotalProfit_Int.setBounds(8, 50, 161, 42);
+        lblTotalProfit_Int.setBounds(8, 50, 34, 42);
         panel_6.add(lblTotalProfit_Int);
+        
+        JLabel lblTotalProfit_Int_1 = new JLabel("");
+        lblTotalProfit_Int_1.setFont(new Font("Tahoma", Font.BOLD, 35));
+        lblTotalProfit_Int_1.setBounds(36, 50, 142, 42);
+        panel_6.add(lblTotalProfit_Int_1);
         
         
     }

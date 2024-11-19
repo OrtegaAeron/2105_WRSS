@@ -16,7 +16,7 @@ import backend.ContainerInventory;
 
 public class Inventory extends JFrame {
 	
-//	ContainerInventory obj = new ContainerInventory();
+	ContainerInventory obj = new ContainerInventory();
 
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
@@ -211,6 +211,7 @@ public class Inventory extends JFrame {
         panel_2.add(scrollPane);
         
         table = new JTable();
+      //sql command to get values and insert to table----------------------------------------------------------------
         table.setModel(new DefaultTableModel(
         	new Object[][] {
         		{"  1", "   5gl / Large Container", "   ", "   ", "   "},
@@ -242,6 +243,7 @@ public class Inventory extends JFrame {
         table.setLayout(null);
         scrollPane.setViewportView(table);
         
+        //add new containers panel
         JPanel panel_3 = new JPanel();
         backgroundLabel.add(panel_3);
         panel_3.setLayout(null);
@@ -252,41 +254,114 @@ public class Inventory extends JFrame {
         lblNewLabel.setBounds(18, 18, 382, 36);
         panel_3.add(lblNewLabel);
         
+        
         JLabel lblAddLargeContainer = new JLabel("5gl/L Container:");
         lblAddLargeContainer.setFont(new Font("Myanmar Text", Font.BOLD, 22));
         lblAddLargeContainer.setBounds(18, 71, 271, 36);
         panel_3.add(lblAddLargeContainer);
-        
-        JLabel lblAddMediumContainer = new JLabel("3gl/M Container:");
-        lblAddMediumContainer.setFont(new Font("Myanmar Text", Font.BOLD, 22));
-        lblAddMediumContainer.setBounds(18, 132, 287, 36);
-        panel_3.add(lblAddMediumContainer);
-        
-        JLabel lblAddSmallContainer = new JLabel("2.5gl/S Container:");
-        lblAddSmallContainer.setFont(new Font("Myanmar Text", Font.BOLD, 22));
-        lblAddSmallContainer.setBounds(20, 194, 306, 36);
-        panel_3.add(lblAddSmallContainer);
         
         JSpinner spinner_1 = new JSpinner();
         spinner_1.setFont(new Font("Tahoma", Font.PLAIN, 19));
         spinner_1.setBounds(215, 64, 298, 48);
         panel_3.add(spinner_1);
         
+        spinner_1.addChangeListener(e -> {
+            try {
+                // Get the spinner value
+                int value = (Integer) spinner_1.getValue();
+                
+                // Prevent negative values
+                if (value < 0) {
+                    JOptionPane.showMessageDialog(null, "Value cannot be negative. Resetting to 0.");
+                    spinner_1.setValue(0); // Reset spinner value to 0
+                    value = 0;
+                }
+                
+            } catch (ClassCastException ex) {
+                JOptionPane.showMessageDialog(null, "Invalid spinner value. Please enter a valid number.");
+                spinner_1.setValue(0); // Reset spinner value to 0 in case of error
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "An unexpected error occurred: " + ex.getMessage());
+                spinner_1.setValue(0); // Reset spinner value to 0 in case of error
+            }
+        });
+        
+        
+        JLabel lblAddMediumContainer = new JLabel("3gl/M Container:");
+        lblAddMediumContainer.setFont(new Font("Myanmar Text", Font.BOLD, 22));
+        lblAddMediumContainer.setBounds(18, 132, 287, 36);
+        panel_3.add(lblAddMediumContainer);
+        
         JSpinner spinner_2 = new JSpinner();
         spinner_2.setFont(new Font("Tahoma", Font.PLAIN, 19));
         spinner_2.setBounds(215, 125, 298, 48);
         panel_3.add(spinner_2);
+        
+        spinner_2.addChangeListener(e -> {
+            try {
+                // Get the spinner value
+                int value = (Integer) spinner_2.getValue();
+                
+                // Prevent negative values
+                if (value < 0) {
+                    JOptionPane.showMessageDialog(null, "Value cannot be negative. Resetting to 0.");
+                    spinner_2.setValue(0); // Reset spinner value to 0
+                    value = 0;
+                }
+                
+            } catch (ClassCastException ex) {
+                JOptionPane.showMessageDialog(null, "Invalid spinner value. Please enter a valid number.");
+                spinner_2.setValue(0); // Reset spinner value to 0 in case of error
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "An unexpected error occurred: " + ex.getMessage());
+                spinner_2.setValue(0); // Reset spinner value to 0 in case of error
+            }
+        });
+        
+        
+        JLabel lblAddSmallContainer = new JLabel("2.5gl/S Container:");
+        lblAddSmallContainer.setFont(new Font("Myanmar Text", Font.BOLD, 22));
+        lblAddSmallContainer.setBounds(20, 194, 306, 36);
+        panel_3.add(lblAddSmallContainer);
         
         JSpinner spinner_3 = new JSpinner();
         spinner_3.setFont(new Font("Tahoma", Font.PLAIN, 19));
         spinner_3.setBounds(215, 186, 298, 48);
         panel_3.add(spinner_3);
         
+        spinner_3.addChangeListener(e -> {
+            try {
+                // Get the spinner value
+                int value = (Integer) spinner_3.getValue();
+                
+                // Prevent negative values
+                if (value < 0) {
+                    JOptionPane.showMessageDialog(null, "Value cannot be negative. Resetting to 0.");
+                    spinner_3.setValue(0); // Reset spinner value to 0
+                    value = 0;
+                }
+                
+            } catch (ClassCastException ex) {
+                JOptionPane.showMessageDialog(null, "Invalid spinner value. Please enter a valid number.");
+                spinner_3.setValue(0); // Reset spinner value to 0 in case of error
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "An unexpected error occurred: " + ex.getMessage());
+                spinner_3.setValue(0); // Reset spinner value to 0 in case of error
+            }
+        });
+        
+        
         JButton btnNewButton_7 = new JButton("ADD");
         btnNewButton_7.setFont(new Font("Tahoma", Font.BOLD, 16));
         btnNewButton_7.setBounds(225, 244, 85, 28);
         panel_3.add(btnNewButton_7);
         
+        btnNewButton_7.addActionListener(e -> {
+        	//function add to value
+        });
+        
+
+        //remove old containers panel
         JPanel panel_4 = new JPanel();
         backgroundLabel.add(panel_4);
         panel_4.setLayout(null);
@@ -297,41 +372,110 @@ public class Inventory extends JFrame {
         lblRemoveOldContainers.setBounds(18, 18, 448, 36);
         panel_4.add(lblRemoveOldContainers);
         
+        
         JLabel lblRmvLargeContainer = new JLabel("5gl/L Container:");
         lblRmvLargeContainer.setFont(new Font("Myanmar Text", Font.BOLD, 22));
         lblRmvLargeContainer.setBounds(18, 71, 169, 35);
         panel_4.add(lblRmvLargeContainer);
-        
-        JLabel lblRmvMediumContainer = new JLabel("3gl/M Container:");
-        lblRmvMediumContainer.setFont(new Font("Myanmar Text", Font.BOLD, 22));
-        lblRmvMediumContainer.setBounds(18, 132, 179, 35);
-        panel_4.add(lblRmvMediumContainer);
-        
-        JLabel lblRmvSmallContainer = new JLabel("2.5gl/S Container:");
-        lblRmvSmallContainer.setFont(new Font("Myanmar Text", Font.BOLD, 22));
-        lblRmvSmallContainer.setBounds(20, 194, 190, 35);
-        panel_4.add(lblRmvSmallContainer);
         
         JSpinner spinner_4 = new JSpinner();
         spinner_4.setFont(new Font("Tahoma", Font.PLAIN, 19));
         spinner_4.setBounds(215, 64, 298, 48);
         panel_4.add(spinner_4);
         
+        spinner_4.addChangeListener(e -> {
+            try {
+                // Get the spinner value
+                int value = (Integer) spinner_4.getValue();
+                
+                // Prevent negative values
+                if (value < 0) {
+                    JOptionPane.showMessageDialog(null, "Value cannot be negative. Resetting to 0.");
+                    spinner_4.setValue(0); // Reset spinner value to 0
+                    value = 0;
+                }
+                
+            } catch (ClassCastException ex) {
+                JOptionPane.showMessageDialog(null, "Invalid spinner value. Please enter a valid number.");
+                spinner_4.setValue(0); // Reset spinner value to 0 in case of error
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "An unexpected error occurred: " + ex.getMessage());
+                spinner_4.setValue(0); // Reset spinner value to 0 in case of error
+            }
+        });
+        
+        
+        JLabel lblRmvMediumContainer = new JLabel("3gl/M Container:");
+        lblRmvMediumContainer.setFont(new Font("Myanmar Text", Font.BOLD, 22));
+        lblRmvMediumContainer.setBounds(18, 132, 179, 35);
+        panel_4.add(lblRmvMediumContainer);
+
         JSpinner spinner_5 = new JSpinner();
         spinner_5.setFont(new Font("Tahoma", Font.PLAIN, 19));
         spinner_5.setBounds(215, 125, 298, 48);
         panel_4.add(spinner_5);
+        
+        spinner_5.addChangeListener(e -> {
+            try {
+                // Get the spinner value
+                int value = (Integer) spinner_5.getValue();
+                
+                // Prevent negative values
+                if (value < 0) {
+                    JOptionPane.showMessageDialog(null, "Value cannot be negative. Resetting to 0.");
+                    spinner_5.setValue(0); // Reset spinner value to 0
+                    value = 0;
+                }
+                
+            } catch (ClassCastException ex) {
+                JOptionPane.showMessageDialog(null, "Invalid spinner value. Please enter a valid number.");
+                spinner_5.setValue(0); // Reset spinner value to 0 in case of error
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "An unexpected error occurred: " + ex.getMessage());
+                spinner_5.setValue(0); // Reset spinner value to 0 in case of error
+            }
+        });
+        
+        
+        JLabel lblRmvSmallContainer = new JLabel("2.5gl/S Container:");
+        lblRmvSmallContainer.setFont(new Font("Myanmar Text", Font.BOLD, 22));
+        lblRmvSmallContainer.setBounds(20, 194, 190, 35);
+        panel_4.add(lblRmvSmallContainer);
         
         JSpinner spinner_6 = new JSpinner();
         spinner_6.setFont(new Font("Tahoma", Font.PLAIN, 19));
         spinner_6.setBounds(215, 186, 298, 48);
         panel_4.add(spinner_6);
         
+        spinner_6.addChangeListener(e -> {
+            try {
+                // Get the spinner value
+                int value = (Integer) spinner_6.getValue();
+                
+                // Prevent negative values
+                if (value < 0) {
+                    JOptionPane.showMessageDialog(null, "Value cannot be negative. Resetting to 0.");
+                    spinner_6.setValue(0); // Reset spinner value to 0
+                    value = 0;
+                }
+                
+            } catch (ClassCastException ex) {
+                JOptionPane.showMessageDialog(null, "Invalid spinner value. Please enter a valid number.");
+                spinner_6.setValue(0); // Reset spinner value to 0 in case of error
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "An unexpected error occurred: " + ex.getMessage());
+                spinner_6.setValue(0); // Reset spinner value to 0 in case of error
+            }
+        });
+        
+        
         JButton btnNewButton_8 = new JButton("REMOVE");
         btnNewButton_8.setFont(new Font("Tahoma", Font.BOLD, 16));
         btnNewButton_8.setBounds(215, 244, 103, 28);
         panel_4.add(btnNewButton_8);
         
-        
+        btnNewButton_8.addActionListener(e -> {
+             //function decrease value
+        });
     }
 }
