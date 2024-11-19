@@ -125,20 +125,23 @@ public class LogIn extends JFrame{
         lblBackground.add(textAdmin_1);
 
     	textAdmin_1.setText(" ");
-        chckbxNewCheckBox.addActionListener(e -> {
-        	textAdmin_1.setText(new String(passwordField.getPassword()));
-        	 if (chckbxNewCheckBox.isSelected()) {
-        		 passwordField.addKeyListener(new KeyAdapter() {
-        			    @Override
-        			    public void keyReleased(KeyEvent e) {
-        			        textAdmin_1.setText(new String(passwordField.getPassword()));
-        			    }
-        			});
-             }
-             else {
-            	 textAdmin_1.setText(" ");
-             }
-         });
+    	KeyAdapter keyAdapter = new KeyAdapter() {
+    	    @Override
+    	    public void keyReleased(KeyEvent e) {
+    	        textAdmin_1.setText(new String(passwordField.getPassword()));
+    	    }
+    	};
+
+    	chckbxNewCheckBox.addActionListener(e -> {
+    	    if (chckbxNewCheckBox.isSelected()) {
+    	        passwordField.addKeyListener(keyAdapter);
+    	        textAdmin_1.setText(new String(passwordField.getPassword()));
+    	    } else {
+    	        passwordField.removeKeyListener(keyAdapter);
+    	        textAdmin_1.setText(" ");
+    	    }
+    	});
+
         
         
         // Log-in Button
