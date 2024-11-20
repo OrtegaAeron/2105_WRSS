@@ -27,6 +27,7 @@ public class AdminSettings extends JFrame {
     private JPanel contentPane;
     private JLabel lblNewLabel_1;
     private JTable table;
+    private JComboBox comboBoxName;
     private JTextField textField;
     private JPasswordField passwordField_1;
     private JPasswordField passwordField;
@@ -309,8 +310,7 @@ public class AdminSettings extends JFrame {
             }
         });
         
-        char[] passwordChars = passwordField.getPassword();
-        obj.setPassword(new String(passwordChars));
+      
         
         
         JButton btnNewButton_7 = new JButton("ADD");
@@ -319,9 +319,25 @@ public class AdminSettings extends JFrame {
         panel_3.add(btnNewButton_7);
         
         btnNewButton_7.addActionListener(e -> {
-        	textField.postActionEvent();
-        	passwordField.postActionEvent();
+            // Retrieve admin name and password
+            String adminName = textField.getText();
+            char[] passwordChars = passwordField.getPassword();
+            String password = new String(passwordChars);
+            
+            // Call the signup method to add the new admin to the database
+            boolean success = obj.signup(adminName, password);
+            
+            // Handle the result
+            if (success) {
+                JOptionPane.showMessageDialog(panel_3, "Admin added successfully.");
+                // Optionally clear fields
+                textField.setText("");
+                passwordField.setText("");
+            } else {
+                JOptionPane.showMessageDialog(panel_3, "Failed to add admin.");
+            }
         });
+
         
         
         JPanel panel_3_2 = new JPanel();
