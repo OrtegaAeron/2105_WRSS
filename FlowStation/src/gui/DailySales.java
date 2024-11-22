@@ -14,6 +14,7 @@ import java.awt.Toolkit;
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
 
+import dbConnections.Connections;
 import backend.Sales;
 import backend.Expenses;
 

@@ -1,4 +1,6 @@
 package backend;
+
+import dbConnections.Connections;
 import java.sql.*;
 
 public class Sales extends Transactions_bcknd{
@@ -49,15 +51,9 @@ public class Sales extends Transactions_bcknd{
     
     //methods---------------------------------
     
-    public double calculateFinalProfit() {
+    /*public double calculateFinalProfit_L() {
     	if (isYesLargeContainer() == true){
     		profit += (getWaterPriceLarge() * getOutBoundContainer_L()) + (serviceFee * getOutBoundContainer_L());
-    	}
-    	else if(isYesMediumContainer() == true) {
-    		profit += (getWaterPriceMedium() * getOutBoundContainer_M()) + (serviceFee * getOutBoundContainer_M());
-    	}
-    	else if(isYesSmallContainer() == true) {
-    		profit += (getWaterPriceSmall() * getOutBoundContainer_S()) + (serviceFee * getOutBoundContainer_S());
     	}
     	
     	if (isDelivery() == true) {
@@ -66,6 +62,30 @@ public class Sales extends Transactions_bcknd{
     	
     	return profit;
     }
+    	
+    public double calculateFinalProfit_M() {
+    	if(isYesMediumContainer() == true) {
+    		profit += (getWaterPriceMedium() * getOutBoundContainer_M()) + (serviceFee * getOutBoundContainer_M());
+    	}
+    	
+    	if (isDelivery() == true) {
+    		profit += deliveryFee;
+    	}
+    	
+    	return profit;
+    }
+    	
+    public double calculateFinalProfit_S() {
+    	if(isYesSmallContainer() == true) {
+    		profit += (getWaterPriceSmall() * getOutBoundContainer_S()) + (serviceFee * getOutBoundContainer_S());
+    	}
+    	
+    	if (isDelivery() == true) {
+    		profit += deliveryFee;
+    	}
+    	
+    	return profit;
+    }*/
     
     public double calculateTransaction() {
     	change = customerPayment - profit;

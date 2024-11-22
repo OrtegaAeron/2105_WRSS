@@ -13,6 +13,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.Toolkit;
 import java.sql.*;
 
+import dbConnections.Connections;
 import backend.ContainerInventory;
 
 public class Inventory extends JFrame {

@@ -1,17 +1,13 @@
 package backend;
 
+import dbConnections.Connections;
 import java.sql.*;
 
 public class Admin {
-    
+
     private String username;
     private String password;
     private String passkey = "supersecret"; // You can adjust or remove this depending on your requirements
-
-    // Database connection details
-    private final String DB_URL = "jdbc:mysql://localhost:3306/flowstation_db"; // Replace with your database name
-    private final String DB_USER = "root"; // Replace with your database username
-    private final String DB_PASSWORD = ""; // Replace with your database password
 
     // Getters and Setters
     public String getAdminName() {
@@ -36,7 +32,12 @@ public class Admin {
 
     // Method to validate admin login
     public boolean login(String username, String password) {
-        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
+        try (Connection conn = Connections.getConnection()) { // Use your Connections class
+            if (conn == null) {
+                System.out.println("Connection failed.");
+                return false; // Connection failed
+            }
+
             String query = "SELECT * FROM admin WHERE Admin_Name = ? AND Admin_Password = ?";
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setString(1, username);
@@ -44,65 +45,85 @@ public class Admin {
 
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                return true;
+                return true; // Login successful
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
+        return false; // Login failed
     }
 
     // Method to register a new admin (sign up)
     public boolean signup(String username, String password) {
-        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
+        try (Connection conn = Connections.getConnection()) { // Use your Connections class
+            if (conn == null) {
+                System.out.println("Connection failed.");
+                return false; // Connection failed
+            }
+
             String query = "INSERT INTO admin (Admin_Name, Admin_Password) VALUES (?, ?)";
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setString(1, username);
             stmt.setString(2, password);
 
             int rowsInserted = stmt.executeUpdate();
-            return rowsInserted > 0;
+            return rowsInserted > 0; // Check if insertion was successful
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
+        return false; // Signup failed
     }
 
     // Method to update an existing admin's password
     public boolean updateAdmin(String username, String newPassword) {
-        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
+        try (Connection conn = Connections.getConnection()) { // Use your Connections class
+            if (conn == null) {
+                System.out.println("Connection failed.");
+                return false; // Connection failed
+            }
+
             String query = "UPDATE admin SET Admin_Password = ? WHERE Admin_Name = ?";
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setString(1, newPassword);
             stmt.setString(2, username);
 
             int rowsUpdated = stmt.executeUpdate();
-            return rowsUpdated > 0;
+            return rowsUpdated > 0; // Check if update was successful
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
+        return false; // Update failed
     }
 
     // Method to delete an admin by username
     public boolean deleteAdmin(String username) {
-        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
+        try (Connection conn = Connections.getConnection()) { // Use your Connections class
+            if (conn == null) {
+                System.out.println("Connection failed.");
+                return false; // Connection failed
+            }
+
             String query = "DELETE FROM admin WHERE Admin_Name = ?";
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setString(1, username);
 
             int rowsDeleted = stmt.executeUpdate();
-            return rowsDeleted > 0;
+            return rowsDeleted > 0; // Check if delete was successful
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
+        return false; // Deletion failed
     }
 
     // Method to fetch all admins from the database (for populating the table)
     public ResultSet getAllAdmins() {
         ResultSet rs = null;
-        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
+        try (Connection conn = Connections.getConnection()) { // Use your Connections class
+            if (conn == null) {
+                System.out.println("Connection failed.");
+                return null; // Connection failed
+            }
+
             String query = "SELECT * FROM admin";
             PreparedStatement stmt = conn.prepareStatement(query);
             rs = stmt.executeQuery();

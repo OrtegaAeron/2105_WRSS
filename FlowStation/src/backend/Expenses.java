@@ -1,4 +1,6 @@
 package backend;
+
+import dbConnections.Connections;
 import java.sql.*;
 
 public class Expenses extends Sales{

@@ -1,4 +1,6 @@
 package backend;
+
+import dbConnections.Connections;
 import java.sql.*;
 
 public class ContainerInventory extends ReturningContainers{
@@ -6,9 +8,9 @@ public class ContainerInventory extends ReturningContainers{
     private int containerMedium = 3;
     private double containerSmall = 2.5;
 
-    private int containerQuantityLarge;
-    private int containerQuantityMedium;
-    private int containerQuantitySmall;
+    private int containerQuantityLarge = 100;
+    private int containerQuantityMedium = 100;
+    private int containerQuantitySmall = 100;
     
     private int outBoundContainer_L;
     private int outBoundContainer_M;
@@ -103,31 +105,37 @@ public class ContainerInventory extends ReturningContainers{
         //decrease no. of containers
     }
     
-    void increaseContainerQuantityLarge(){
+    public int increaseContainerQuantityLarge(){
         containerQuantityLarge += getInboundContainer_L();
+        return containerQuantityLarge;
     }
     
-    void increaseContainerQuantityMedium(){
+    public int increaseContainerQuantityMedium(){
         containerQuantityMedium += getInboundContainer_M();
+        return containerQuantityLarge;
     }
     
-    void increaseContainerQuantitySmall(){
+    public int increaseContainerQuantitySmall(){
         containerQuantitySmall += getInboundContainer_S();
+        return containerQuantityLarge;
     }
     
-    void decreaseContainerQuantityLarge(){
+    public int decreaseContainerQuantityLarge(){
         containerQuantityLarge--;
         outBoundContainer_L++;
+        return outBoundContainer_L;
     }
     
-    void decreaseContainerQuantityMedium(){
+    public int decreaseContainerQuantityMedium(){
     	containerQuantityMedium--;
         outBoundContainer_M++;
+        return outBoundContainer_M;
     }
     
-    void decreaseContainerQuantity(){
+    public int decreaseContainerQuantitySmall(){
     	containerQuantitySmall--;
         outBoundContainer_S++;
+        return outBoundContainer_S;
     }
     
 }

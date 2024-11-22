@@ -15,6 +15,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.sql.*;
 
+import dbConnections.Connections;
 import backend.Pricing_bcknd;
 
 public class Pricing extends JFrame {

@@ -13,6 +13,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.Toolkit;
 import java.sql.*;
 
+import dbConnections.Connections;
 import backend.SalesCatalog_bcknd;
 
 public class SalesCatalog extends JFrame {

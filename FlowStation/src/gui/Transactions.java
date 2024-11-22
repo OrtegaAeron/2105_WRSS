@@ -13,11 +13,14 @@ import java.awt.List;
 import java.awt.Checkbox;
 import java.awt.Toolkit;
 import java.sql.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
+import dbConnections.Connections;
 import backend.Transactions_bcknd;
 import backend.Sales;
 import backend.Customers_bcknd;
 import backend.Pricing_bcknd;
+import backend.ContainerInventory;
 
 public class Transactions extends JFrame {
 	
@@ -25,6 +28,7 @@ public class Transactions extends JFrame {
 	Sales objSales = new Sales();
 	Customers_bcknd objCstmr = new Customers_bcknd();
 	Pricing_bcknd objPrice = new Pricing_bcknd();
+	ContainerInventory objInvt = new ContainerInventory();
 	
 
     private static final long serialVersionUID = 1L;
@@ -35,6 +39,9 @@ public class Transactions extends JFrame {
     private JTextField textFieldTime;
     private JTextField textFieldContactNum;
     private JTextField textFieldPayment;
+    
+    double  totalProfitVal = 0;
+    int currentLargeValue = 0, currentMediumValue = 0, currentSmallValue = 0;
 
     /**
      * Launch the application.
@@ -404,7 +411,10 @@ public class Transactions extends JFrame {
         chckbxLargeContainer.setBounds(20, 66, 28, 30);
         pnlOrder.add(chckbxLargeContainer);
         
-        objTrans.setYesLargeContainer(chckbxLargeContainer.isSelected());
+        chckbxLargeContainer.addItemListener(e -> {
+            // Set yesLargeContainer to true if selected, false otherwise
+            objTrans.setYesLargeContainer(chckbxLargeContainer.isSelected());
+        });
         
         
         JLabel lblMediumContainer = new JLabel("3gl/Medium");
@@ -419,7 +429,10 @@ public class Transactions extends JFrame {
         chckbxMediumContainer.setBounds(22, 131, 28, 30);
         pnlOrder.add(chckbxMediumContainer);
         
-        objTrans.setYesMediumContainer(chckbxMediumContainer.isSelected());
+        chckbxMediumContainer.addItemListener(e -> {
+            // Set yesLargeContainer to true if selected, false otherwise
+            objTrans.setYesMediumContainer(chckbxMediumContainer.isSelected());
+        });
         
 
         JLabel lblSmallContainer = new JLabel("2.5gl/Small");
@@ -434,7 +447,10 @@ public class Transactions extends JFrame {
         chckbxSmallContainer.setBounds(22, 193, 28, 30);
         pnlOrder.add(chckbxSmallContainer);
         
-        objTrans.setYesSmallContainer(chckbxSmallContainer.isSelected());
+        chckbxSmallContainer.addItemListener(e -> {
+            // Set yesLargeContainer to true if selected, false otherwise
+            objTrans.setYesSmallContainer(chckbxSmallContainer.isSelected());
+        });
         
         
         JSpinner spnrMediumOrder = new JSpinner();
@@ -506,7 +522,10 @@ public class Transactions extends JFrame {
         pnlDelivery.add(chckbxDelivery);
         
         chckbxDelivery.setSelected(true);
-        objTrans.setDelivery(chckbxDelivery.isSelected());
+        if(chckbxDelivery.isSelected()) {
+        	objTrans.setDelivery(true);
+        }
+        
         
         JLabel lblDelivery = new JLabel("Delivery");
         lblDelivery.setHorizontalAlignment(SwingConstants.CENTER);
@@ -594,6 +613,7 @@ public class Transactions extends JFrame {
         lblMediumContainerCount.setEnabled(false);
         
         spnrMediumOrder.addChangeListener(e -> {
+        	
             try {
                 // Get the spinner value
                 int value = (Integer) spnrMediumOrder.getValue();
@@ -634,6 +654,7 @@ public class Transactions extends JFrame {
         lblSmallContainerCount.setEnabled(false);
 
         spnrSmallOrder.addChangeListener(e -> {
+        	
             try {
                 // Get the spinner value
                 int value = (Integer) spnrSmallOrder.getValue();
@@ -674,6 +695,7 @@ public class Transactions extends JFrame {
         lblLargeContainerCount.setEnabled(false);
         
         spnrLargeOrder.addChangeListener(e -> {
+
             try {
                 // Get the spinner value
                 int value = (Integer) spnrLargeOrder.getValue();
@@ -792,51 +814,156 @@ public class Transactions extends JFrame {
         lblTotal_int.setBounds(315, 8, 78, 31);
         pnlTotal.add(lblTotal_int);
         
-        
         lblTotal_int.setText(String.valueOf(objSales.getProfit()));
         lblTotal_int.setEnabled(false);
         
+        
+        
+        AtomicInteger prevLargeValue = new AtomicInteger((Integer) spnrLargeOrder.getValue());
         spnrLargeOrder.addChangeListener(e -> {
-        	
-        	
-            if (((Integer) spnrLargeOrder.getValue())>0) {
-            	lblTotal_int.setText(String.valueOf(objSales.getProfit()));
-            	lblTotal_int.setEnabled(true);
-            	lblTotal_Peso.setEnabled(true);
+            int currentLargeValue = (Integer) spnrLargeOrder.getValue();
+            double profitVal = 0;
+            objInvt.setContainerQuantityLarge(objInvt.decreaseContainerQuantityLarge());
+            
+            if (currentLargeValue > 0) {
+            	profitVal = 0;
             }
-            else {
-            	lblTotal_int.setEnabled(false);
-            	lblTotal_int.setText(" ");
-            	lblTotal_Peso.setEnabled(false);
-            }});
-        
+
+            if (currentLargeValue > prevLargeValue.get()) {
+                if (objTrans.isYesLargeContainer()) {
+                    profitVal = (objPrice.getWaterPriceLarge() * objInvt.getOutBoundContainer_L()) +
+                                (objSales.getServiceFee() * objInvt.getOutBoundContainer_L());
+                }
+
+                if (objTrans.isDelivery()) {
+                    profitVal += objSales.getDeliveryFee();
+                }
+
+                totalProfitVal += profitVal;
+            } else if (currentLargeValue < prevLargeValue.get()) {
+                if (objTrans.isYesLargeContainer()) {
+                    profitVal = (objPrice.getWaterPriceLarge() * objInvt.getOutBoundContainer_L()) +
+                                (objSales.getServiceFee() * objInvt.getOutBoundContainer_L());
+                }
+
+                if (objTrans.isDelivery()) {
+                    profitVal -= objSales.getDeliveryFee();
+                }
+
+                totalProfitVal -= profitVal;
+            }
+            prevLargeValue.set(currentLargeValue);
+
+            if (currentLargeValue > 0) {
+                lblTotal_int.setText(String.valueOf(totalProfitVal));
+                lblTotal_int.setEnabled(true);
+                lblTotal_Peso.setEnabled(true);
+            } else {
+            	
+                lblTotal_int.setEnabled(false);
+                lblTotal_int.setText(" ");
+                lblTotal_Peso.setEnabled(false);
+            }
+            objSales.setProfit(totalProfitVal);
+        });
+
+        AtomicInteger prevMediumValue = new AtomicInteger((Integer) spnrMediumOrder.getValue());
         spnrMediumOrder.addChangeListener(e -> {
-        	objSales.calculateFinalProfit();
-        	
-            if (((Integer) spnrMediumOrder.getValue())>0) {
-            	lblTotal_int.setText(String.valueOf(objSales.getProfit()));
-            	lblTotal_int.setEnabled(true);
-            	lblTotal_Peso.setEnabled(true);
+            int currentMediumValue = (Integer) spnrMediumOrder.getValue();
+            double profitVal = 0;
+            objInvt.setContainerQuantityMedium(objInvt.decreaseContainerQuantityMedium());
+            
+            if (currentMediumValue > 0) {
+            	profitVal = 0;
             }
-            else {
-            	lblTotal_int.setEnabled(false);
-            	lblTotal_int.setText(" ");
-            	lblTotal_Peso.setEnabled(false);
-            }});
+
+            if (currentMediumValue > prevMediumValue.get()) {
+                if (objTrans.isYesMediumContainer()) {
+                    profitVal = (objPrice.getWaterPriceMedium() * objInvt.getOutBoundContainer_M()) +
+                                (objSales.getServiceFee() * objInvt.getOutBoundContainer_M());
+                }
+
+                if (objTrans.isDelivery()) {
+                    profitVal += objSales.getDeliveryFee();
+                }
+
+                totalProfitVal += profitVal;
+            } else if (currentMediumValue < prevMediumValue.get()) {
+                if (objTrans.isYesMediumContainer()) {
+                    profitVal = (objPrice.getWaterPriceMedium() * objInvt.getOutBoundContainer_M()) +
+                                (objSales.getServiceFee() * objInvt.getOutBoundContainer_M());
+                }
+
+                if (objTrans.isDelivery()) {
+                    profitVal -= objSales.getDeliveryFee();
+                }
+
+                totalProfitVal -= profitVal;
+            }
+            prevMediumValue.set(currentMediumValue);
+
+            if (currentMediumValue > 0) {
+                lblTotal_int.setText(String.valueOf(totalProfitVal));
+                lblTotal_int.setEnabled(true);
+                lblTotal_Peso.setEnabled(true);
+            } else {
+            	profitVal = 0;
+                lblTotal_int.setEnabled(false);
+                lblTotal_int.setText(" ");
+                lblTotal_Peso.setEnabled(false);
+            }
+            objSales.setProfit(totalProfitVal);
+        });
         
+        AtomicInteger prevSmallValue = new AtomicInteger((Integer) spnrSmallOrder.getValue());
         spnrSmallOrder.addChangeListener(e -> {
-        	objSales.calculateFinalProfit();
-        	
-            if (((Integer) spnrSmallOrder.getValue())>0) {
-            	lblTotal_int.setText(String.valueOf(objSales.getProfit()));
-            	lblTotal_int.setEnabled(true);
-            	lblTotal_Peso.setEnabled(true);
+            int currentSmallValue = (Integer) spnrSmallOrder.getValue();
+            double profitVal = 0;
+            objInvt.setContainerQuantitySmall(objInvt.decreaseContainerQuantitySmall());
+            
+            if (currentSmallValue > 0) {
+            	profitVal = 0;
             }
-            else {
-            	lblTotal_int.setEnabled(false);
-            	lblTotal_int.setText(" ");
-            	lblTotal_Peso.setEnabled(false);
-            }});
+
+            if (currentSmallValue > prevSmallValue.get()) {
+                if (objTrans.isYesSmallContainer()) {
+                    profitVal = (objPrice.getWaterPriceSmall() * objInvt.getOutBoundContainer_S()) +
+                                (objSales.getServiceFee() * objInvt.getOutBoundContainer_S());
+                }
+
+                if (objTrans.isDelivery()) {
+                    profitVal += objSales.getDeliveryFee();
+                }
+
+                totalProfitVal += profitVal;
+            } else if (currentSmallValue < prevSmallValue.get()) {
+                if (objTrans.isYesSmallContainer()) {
+                    profitVal = (objPrice.getWaterPriceSmall() * objInvt.getOutBoundContainer_S()) +
+                                (objSales.getServiceFee() * objInvt.getOutBoundContainer_S());
+                }
+
+                if (objTrans.isDelivery()) {
+                    profitVal -= objSales.getDeliveryFee();
+                }
+
+                totalProfitVal -= profitVal;
+            }
+            prevSmallValue.set(currentSmallValue);
+
+            if (currentSmallValue > 0) {
+                lblTotal_int.setText(String.valueOf(totalProfitVal));
+                lblTotal_int.setEnabled(true);
+                lblTotal_Peso.setEnabled(true);
+            } else {
+            	profitVal = 0;
+                lblTotal_int.setEnabled(false);
+                lblTotal_int.setText(" ");
+                lblTotal_Peso.setEnabled(false);
+            }
+            objSales.setProfit(totalProfitVal);
+        });
+
+
         
 
 //Payment Panel------------------------------------------------------------------------------
@@ -915,8 +1042,8 @@ public class Transactions extends JFrame {
         lblChange_int.setText(String.valueOf(objSales.getChange()));
         lblCstmrPayment_Peso.setEnabled(false);
 		
-		
-        	if (objSales.getChange() == 0) {
+        textFieldPayment.addActionListener(e -> {
+        	if (textFieldPayment.getText().isEmpty()) {
         		lblChange_int.setText(" ");
         		lblChange_Peso.setEnabled(false);
         	}
@@ -925,5 +1052,7 @@ public class Transactions extends JFrame {
         		lblChange_int.setText(String.valueOf(objSales.getChange()));
         		lblChange_Peso.setEnabled(true);
         	}
+        });
+        
     }
 }

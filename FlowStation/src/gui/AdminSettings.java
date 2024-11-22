@@ -17,6 +17,7 @@ import java.awt.Component;
 import java.awt.Toolkit;
 import java.sql.*;
 
+import dbConnections.Connections;
 import backend.Admin;
 
 public class AdminSettings extends JFrame {
@@ -27,10 +28,9 @@ public class AdminSettings extends JFrame {
     private JPanel contentPane;
     private JLabel lblNewLabel_1;
     private JTable table;
-    private JComboBox comboBoxName;
     private JTextField textField;
-    private JPasswordField passwordField_1;
-    private JPasswordField passwordField;
+    private JTextField passwordField_1;
+    private JTextField passwordField;
 
     /**
      * Launch the application.
@@ -222,7 +222,7 @@ public class AdminSettings extends JFrame {
         
         table = new JTable();
         table.setFont(new Font("Tahoma", Font.BOLD, 15));
-      //sql command to get values and insert to table
+        //sql command to get values and insert to table
         table.setModel(new DefaultTableModel(
         	new Object[][] {
         		{"", null, null},
@@ -255,6 +255,7 @@ public class AdminSettings extends JFrame {
         scrollPane.setViewportView(table);
         table.setRowHeight(45);
         
+        //add admin panel
         JPanel panel_3 = new JPanel();
         panel_3.setBounds(488, 455, 682, 93);
         backgroundLabel.add(panel_3);
@@ -297,7 +298,7 @@ public class AdminSettings extends JFrame {
         panel_3.add(lblPassworf);
         
         
-        passwordField = new JPasswordField();
+        passwordField = new JTextField();
         passwordField.setBounds(117, 61, 420, 21);
         panel_3.add(passwordField);
         
@@ -310,7 +311,8 @@ public class AdminSettings extends JFrame {
             }
         });
         
-      
+  
+        obj.setPassword(new String(passwordField.getText()));
         
         
         JButton btnNewButton_7 = new JButton("ADD");
@@ -319,27 +321,135 @@ public class AdminSettings extends JFrame {
         panel_3.add(btnNewButton_7);
         
         btnNewButton_7.addActionListener(e -> {
-            // Retrieve admin name and password
-            String adminName = textField.getText();
-            char[] passwordChars = passwordField.getPassword();
-            String password = new String(passwordChars);
-            
-            // Call the signup method to add the new admin to the database
-            boolean success = obj.signup(adminName, password);
-            
-            // Handle the result
-            if (success) {
-                JOptionPane.showMessageDialog(panel_3, "Admin added successfully.");
-                // Optionally clear fields
-                textField.setText("");
-                passwordField.setText("");
-            } else {
-                JOptionPane.showMessageDialog(panel_3, "Failed to add admin.");
+        	textField.postActionEvent();
+        	passwordField.postActionEvent();
+        });
+
+        //update admin panel
+        JPanel panel_3_1 = new JPanel();
+        backgroundLabel.add(panel_3_1);
+        panel_3_1.setBounds(489, 556, 682, 93);
+        panel_3_1.setLayout(null);
+        
+        JLabel lblUpdateAdminDetails = new JLabel("UPDATE ADMIN DETAILS:");
+        lblUpdateAdminDetails.setFont(new Font("Myanmar Text", Font.BOLD, 15));
+        lblUpdateAdminDetails.setBounds(5, 6, 192, 30);
+        panel_3_1.add(lblUpdateAdminDetails);
+        
+        JLabel lblName_1 = new JLabel("Name:");
+        lblName_1.setFont(new Font("Myanmar Text", Font.BOLD, 14));
+        lblName_1.setBounds(31, 38, 49, 18);
+        panel_3_1.add(lblName_1);
+        
+
+        
+        JComboBox<String> comboBox_1_1 = new JComboBox();
+        comboBox_1_1.setBounds(116, 34, 440, 21);
+        panel_3_1.add(comboBox_1_1);
+        
+        try (Connection conn = Connections.getConnection()) { // Use your Connections class
+            if (conn == null) {
+                System.out.println("Database connection failed.");
+                return;
+            }
+
+            String query = "SELECT Admin_Name FROM admin";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+
+            // Add a default empty option
+            comboBox_1_1.addItem("");
+
+            while (rs.next()) {
+                String adminName = rs.getString("Admin_Name");
+                comboBox_1_1.addItem(adminName); // Add each admin name to the combo box
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, 
+                    "Error fetching data for the combo box: " + e.getMessage(), 
+                    "Database Error", 
+                    JOptionPane.ERROR_MESSAGE);
+        }
+        		
+        comboBox_1_1.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    e.consume(); // Prevent the default "Enter" action
+                }
+            }
+        });
+        
+        JLabel lblPassworf_1 = new JLabel("Password:");
+        lblPassworf_1.setFont(new Font("Myanmar Text", Font.BOLD, 14));
+        lblPassworf_1.setBounds(31, 66, 68, 17);
+        panel_3_1.add(lblPassworf_1);
+        
+        passwordField_1 = new JTextField();
+        passwordField_1.setBounds(117, 61, 420, 21);
+        panel_3_1.add(passwordField_1);
+        
+        comboBox_1_1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String selectedAdminName = (String) comboBox_1_1.getSelectedItem();
+
+                if (selectedAdminName == null || selectedAdminName.isEmpty()) {
+                    passwordField_1.setText(""); // Clear the password field if no admin is selected
+                    return;
+                }
+
+                try (Connection conn = Connections.getConnection()) { // Use your Connections class
+                    if (conn == null) {
+                        System.out.println("Database connection failed.");
+                        return;
+                    }
+
+                    String query = "SELECT Admin_Password FROM admin WHERE Admin_Name = ?";
+                    PreparedStatement stmt = conn.prepareStatement(query);
+                    stmt.setString(1, selectedAdminName);
+                    ResultSet rs = stmt.executeQuery();
+
+                    if (rs.next()) {
+                        String adminPassword = rs.getString("Admin_Password");
+                        passwordField_1.setText(adminPassword); // Set the password in the text field
+                    } else {
+                        passwordField_1.setText(""); // Clear the password field if no password is found
+                    }
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, 
+                            "Error fetching password: " + ex.getMessage(), 
+                            "Database Error", 
+                            JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+        
+        passwordField_1.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    e.consume(); // Prevent the default "Enter" action
+                }
             }
         });
 
+        obj.setPassword(new String(passwordField.getText())); 
         
         
+        JButton btnNewButton_7_1 = new JButton("UPDATE");
+        btnNewButton_7_1.setFont(new Font("Tahoma", Font.BOLD, 15));
+        btnNewButton_7_1.setBounds(575, 32, 97, 30);
+        panel_3_1.add(btnNewButton_7_1);
+        
+        btnNewButton_7.addActionListener(e -> {
+        	//comboBox_1_1.postActionEvent();
+        	passwordField_1.postActionEvent();
+        });
+        
+      //delete admin panel
         JPanel panel_3_2 = new JPanel();
         panel_3_2.setBounds(488, 658, 683, 76);
         backgroundLabel.add(panel_3_2);
@@ -359,78 +469,40 @@ public class AdminSettings extends JFrame {
         comboBox.setBounds(347, 35, 0, 21);
         panel_3_2.add(comboBox);
         
-        JPanel panel_3_1 = new JPanel();
-        backgroundLabel.add(panel_3_1);
-        panel_3_1.setBounds(489, 556, 682, 93);
-        panel_3_1.setLayout(null);
-        
-        JLabel lblUpdateAdminDetails = new JLabel("UPDATE ADMIN DETAILS:");
-        lblUpdateAdminDetails.setFont(new Font("Myanmar Text", Font.BOLD, 15));
-        lblUpdateAdminDetails.setBounds(5, 6, 192, 30);
-        panel_3_1.add(lblUpdateAdminDetails);
-        
-        JLabel lblName_1 = new JLabel("Name:");
-        lblName_1.setFont(new Font("Myanmar Text", Font.BOLD, 14));
-        lblName_1.setBounds(31, 38, 49, 18);
-        panel_3_1.add(lblName_1);
-        
-        JLabel lblPassworf_1 = new JLabel("Password:");
-        lblPassworf_1.setFont(new Font("Myanmar Text", Font.BOLD, 14));
-        lblPassworf_1.setBounds(31, 66, 68, 17);
-        panel_3_1.add(lblPassworf_1);
-        
-        passwordField_1 = new JPasswordField();
-        passwordField_1.setBounds(117, 61, 420, 21);
-        panel_3_1.add(passwordField_1);
-        
-        passwordField_1.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    e.consume(); // Prevent the default "Enter" action
-                }
-            }
-        });
-        
-        char[] passwordChars2 = passwordField.getPassword();
-        obj.setPassword(new String(passwordChars2));
-        
-        
-        
-        
-        JComboBox comboBox_1_1 = new JComboBox();
-        comboBox_1_1.setBounds(116, 34, 440, 21);
-        panel_3_1.add(comboBox_1_1);
-        
-        comboBox_1_1.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    e.consume(); // Prevent the default "Enter" action
-                }
-            }
-        });
-        
         comboBox.addActionListener(e -> {
         	
         	obj.setAdminName((String)comboBox.getSelectedItem());
         });
         
         
-        JButton btnNewButton_7_1 = new JButton("UPDATE");
-        btnNewButton_7_1.setFont(new Font("Tahoma", Font.BOLD, 15));
-        btnNewButton_7_1.setBounds(575, 32, 97, 30);
-        panel_3_1.add(btnNewButton_7_1);
-        
-        btnNewButton_7.addActionListener(e -> {
-        	//comboBox_1_1.postActionEvent();
-        	passwordField_1.postActionEvent();
-        });
-        
-        
-        JComboBox comboBox_1 = new JComboBox();
+        JComboBox<String> comboBox_1 = new JComboBox();
         comboBox_1.setBounds(117, 39, 437, 21);
         panel_3_2.add(comboBox_1);
+        
+        try (Connection conn = Connections.getConnection()) { // Use your Connections class
+            if (conn == null) {
+                System.out.println("Database connection failed.");
+                return;
+            }
+
+            String query = "SELECT Admin_Name FROM admin";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+
+            // Add a default empty option
+            comboBox_1.addItem("");
+
+            while (rs.next()) {
+                String adminName = rs.getString("Admin_Name");
+                comboBox_1.addItem(adminName); // Add each admin name to the combo box
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, 
+                    "Error fetching data for the combo box: " + e.getMessage(), 
+                    "Database Error", 
+                    JOptionPane.ERROR_MESSAGE);
+        }
         
         comboBox_1.addKeyListener(new KeyAdapter() {
             @Override
