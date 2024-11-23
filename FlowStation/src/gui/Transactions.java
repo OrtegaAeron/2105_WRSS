@@ -287,7 +287,7 @@ public class Transactions extends JFrame {
 //Schedule Panel------------------------------------------------------------------------------
         JPanel pnlSchedule = new JPanel();
         pnlSchedule.setLayout(null);
-        pnlSchedule.setBounds(924, 133, 485, 238);
+        pnlSchedule.setBounds(924, 133, 485, 200);
         lblBackground.add(pnlSchedule);
         
         JLabel lblSchedule = new JLabel("SCHEDULE:");
@@ -299,19 +299,19 @@ public class Transactions extends JFrame {
         
         JLabel lblDate = new JLabel("Date");
         lblDate.setForeground(Color.BLACK);
-        lblDate.setFont(new Font("Myanmar Text", Font.BOLD, 28));
-        lblDate.setBounds(40, 72, 83, 33);
+        lblDate.setFont(new Font("Myanmar Text", Font.BOLD, 24));
+        lblDate.setBounds(40, 56, 83, 33);
         pnlSchedule.add(lblDate);
         
         JLabel lblTime = new JLabel("Time");
         lblTime.setForeground(Color.BLACK);
-        lblTime.setFont(new Font("Myanmar Text", Font.BOLD, 28));
-        lblTime.setBounds(40, 129, 83, 33);
+        lblTime.setFont(new Font("Myanmar Text", Font.BOLD, 24));
+        lblTime.setBounds(40, 104, 83, 33);
         pnlSchedule.add(lblTime);
         
         
         JComboBox cmboBox_Date = new JComboBox();
-        cmboBox_Date.setBounds(117, 52, 319, 49);
+        cmboBox_Date.setBounds(114, 55, 259, 33);
         pnlSchedule.add(cmboBox_Date);
         
         objTrans.setDate((String)cmboBox_Date.getSelectedItem());
@@ -319,14 +319,14 @@ public class Transactions extends JFrame {
         
         textFieldTime = new JTextField();
         textFieldTime.setColumns(10);
-        textFieldTime.setBounds(117, 110, 295, 49);
+        textFieldTime.setBounds(114, 99, 243, 28);
         pnlSchedule.add(textFieldTime);
         
         objTrans.setTime(textFieldTime.getText());
         
         
         JCheckBox chckbxDateTime = new JCheckBox();
-        chckbxDateTime.setBounds(40, 183, 20, 33);
+        chckbxDateTime.setBounds(10, 157, 20, 33);
         pnlSchedule.add(chckbxDateTime);
         
         chckbxDateTime.setSelected(true);
@@ -334,18 +334,18 @@ public class Transactions extends JFrame {
         
         
         JTextArea txtNote = new JTextArea();
-        txtNote.setFont(new Font("Monospaced", Font.PLAIN, 11));
+        txtNote.setFont(new Font("Monospaced", Font.PLAIN, 12));
         txtNote.setText("Note: This would automatically fill up the above slots with \r\nthe current date and time as of the creation of the entry.");
         txtNote.setBackground(new Color(240, 240, 240));
-        txtNote.setBounds(70, 191, 415, 47);
+        txtNote.setBounds(40, 157, 437, 33);
         pnlSchedule.add(txtNote);
         txtNote.setEditable(false);
         
         JTextArea txtrUseRealDate = new JTextArea();
-        txtrUseRealDate.setFont(new Font("Monospaced", Font.BOLD, 13));
+        txtrUseRealDate.setFont(new Font("Monospaced", Font.BOLD, 12));
         txtrUseRealDate.setText("Use real date and time.");
         txtrUseRealDate.setBackground(UIManager.getColor("Button.background"));
-        txtrUseRealDate.setBounds(70, 172, 319, 22);
+        txtrUseRealDate.setBounds(40, 137, 319, 22);
         pnlSchedule.add(txtrUseRealDate);
         txtrUseRealDate.setEditable(false);
         
@@ -353,7 +353,7 @@ public class Transactions extends JFrame {
 //Order Panel------------------------------------------------------------------------------
         JPanel pnlOrder = new JPanel();
         pnlOrder.setLayout(null);
-        pnlOrder.setBounds(254, 340, 564, 236);
+        pnlOrder.setBounds(254, 345, 570, 236);
         lblBackground.add(pnlOrder);
         
         JLabel lblOrder = new JLabel("ORDER:\r\n");
@@ -477,7 +477,7 @@ public class Transactions extends JFrame {
 //Delivery Panel------------------------------------------------------------------------------
         JPanel pnlDelivery = new JPanel();
         pnlDelivery.setLayout(null);
-        pnlDelivery.setBounds(254, 580, 564, 80);
+        pnlDelivery.setBounds(255, 590, 570, 70);
         lblBackground.add(pnlDelivery);
         
         
@@ -495,13 +495,13 @@ public class Transactions extends JFrame {
         JLabel lblDelivery = new JLabel("Delivery");
         lblDelivery.setHorizontalAlignment(SwingConstants.CENTER);
         lblDelivery.setForeground(Color.BLACK);
-        lblDelivery.setFont(new Font("Myanmar Text", Font.BOLD, 28));
+        lblDelivery.setFont(new Font("Myanmar Text", Font.BOLD, 26));
         lblDelivery.setBounds(55, 20, 116, 44);
         pnlDelivery.add(lblDelivery);
         
         JTextArea txtrDeliveryNote = new JTextArea();
         txtrDeliveryNote.setText("Note: This would include a \r\ndelivery fee to the final price");
-        txtrDeliveryNote.setFont(new Font("Monospaced", Font.PLAIN, 14));
+        txtrDeliveryNote.setFont(new Font("Monospaced", Font.PLAIN, 12));
         txtrDeliveryNote.setBackground(UIManager.getColor("Button.background"));
         txtrDeliveryNote.setBounds(190, 20, 288, 47);
         pnlDelivery.add(txtrDeliveryNote);
@@ -510,7 +510,7 @@ public class Transactions extends JFrame {
         
 //Total Fee Panel------------------------------------------------------------------------------
         JPanel pnlTotalFee = new JPanel();
-        pnlTotalFee.setBounds(832, 384, 577, 344);
+        pnlTotalFee.setBounds(840, 345, 570, 390);
         lblBackground.add(pnlTotalFee);
         pnlTotalFee.setLayout(null);
         
@@ -522,7 +522,7 @@ public class Transactions extends JFrame {
         pnlTotalFee.add(lblTotalFee);
         
         JPanel pnlRegularFees = new JPanel();
-        pnlRegularFees.setBounds(10, 42, 560, 131);
+        pnlRegularFees.setBounds(10, 48, 550, 148);
         pnlRegularFees.setBackground(new Color(225, 225, 225));
         pnlTotalFee.add(pnlRegularFees);
         pnlRegularFees.setLayout(null);
@@ -712,7 +712,7 @@ public class Transactions extends JFrame {
 //Delivery Fees Panel------------------------------------------------------------------------------
         JPanel pnlDeliveryFees = new JPanel();
         pnlDeliveryFees.setBackground(new Color(225, 225, 225));
-        pnlDeliveryFees.setBounds(10, 177, 560, 35);
+        pnlDeliveryFees.setBounds(10, 206, 550, 35);
         pnlTotalFee.add(pnlDeliveryFees);
         pnlDeliveryFees.setLayout(null);
         
@@ -754,7 +754,7 @@ public class Transactions extends JFrame {
 //Total Panel------------------------------------------------------------------------------
         JLabel lblTotal = new JLabel("TOTAL:");
         lblTotal.setHorizontalAlignment(SwingConstants.LEFT);
-        lblTotal.setBounds(10, 217, 166, 52);
+        lblTotal.setBounds(10, 251, 166, 52);
         pnlTotalFee.add(lblTotal);
         lblTotal.setForeground(Color.BLACK);
         lblTotal.setFont(new Font("Myanmar Text", Font.BOLD, 40));
@@ -762,7 +762,7 @@ public class Transactions extends JFrame {
         JPanel pnlTotal = new JPanel();
         pnlTotal.setLayout(null);
         pnlTotal.setBackground(new Color(225, 225, 225));
-        pnlTotal.setBounds(167, 217, 403, 40);
+        pnlTotal.setBounds(167, 249, 393, 41);
         pnlTotalFee.add(pnlTotal);
         
         
@@ -935,13 +935,13 @@ public class Transactions extends JFrame {
         JPanel pnlCstmrPayment = new JPanel();
         pnlCstmrPayment.setLayout(null);
         pnlCstmrPayment.setBackground(new Color(225, 225, 225));
-        pnlCstmrPayment.setBounds(281, 262, 289, 35);
+        pnlCstmrPayment.setBounds(281, 300, 279, 35);
         pnlTotalFee.add(pnlCstmrPayment);
         
         JLabel lblCstmrPayment = new JLabel("Customer Payment:");
         lblCstmrPayment.setForeground(Color.BLACK);
         lblCstmrPayment.setFont(new Font("Myanmar Text", Font.BOLD, 27));
-        lblCstmrPayment.setBounds(10, 262, 289, 41);
+        lblCstmrPayment.setBounds(10, 304, 289, 41);
         pnlTotalFee.add(lblCstmrPayment);
         
         JLabel lblCstmrPayment_Peso = new JLabel("₱ ");
@@ -966,13 +966,13 @@ public class Transactions extends JFrame {
         JPanel pnlChange = new JPanel();
         pnlChange.setLayout(null);
         pnlChange.setBackground(new Color(225, 225, 225));
-        pnlChange.setBounds(133, 301, 437, 35);
+        pnlChange.setBounds(133, 345, 427, 35);
         pnlTotalFee.add(pnlChange);
         
         JLabel lblChange = new JLabel("Change:");
         lblChange.setForeground(Color.BLACK);
         lblChange.setFont(new Font("Myanmar Text", Font.BOLD, 27));
-        lblChange.setBounds(10, 300, 289, 41);
+        lblChange.setBounds(10, 349, 113, 41);
         pnlTotalFee.add(lblChange);
         
         JLabel lblChange_Peso = new JLabel("₱ ");
