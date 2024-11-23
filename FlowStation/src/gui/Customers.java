@@ -12,8 +12,11 @@ import java.awt.event.KeyEvent;
 import java.awt.Panel;
 import java.awt.FlowLayout;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+
 import org.eclipse.wb.swing.FocusTraversalOnArray;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.sql.*;
 
@@ -219,62 +222,85 @@ public class Customers extends JFrame {
         backgroundLabel.add(panel_2);
         panel_2.setBounds(246, 125, 1169, 323);
         panel_2.setLayout(null);
-        
+
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setBounds(10, 10, 1147, 303);
         panel_2.add(scrollPane);
-        
+
         table = new JTable();
-      //sql command to get values and insert to table
+        // SQL command to get values and insert to table
         table.setModel(new DefaultTableModel(
-        	new Object[][] {
-        		{"", null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null},
-        	},
-        	new String[] {
-        		"Customer ID", "Customer Name", "Address", "Contact Number", "Lent Large Containers", "Lent Medium Containers", "Lent Small Containers"
-        	}
+            new Object[][] {
+                {"", null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+            },
+            new String[] {
+                "Customer ID", "Customer Name", "Address", "Contact Number", 
+                "Lent Large Containers", "Lent Medium Containers", "Lent Small Containers"
+            }
         ));
+
+     // Set larger font for the table header
+        table.getTableHeader().setFont(new Font("SansSerif", Font.BOLD, 20));
+
+        // Set header height (optional)
+        table.getTableHeader().setPreferredSize(new Dimension(0, 90));  // Increase header height (e.g., 70px)
+
+        // Enable word wrapping and center the text in the header
+        table.getTableHeader().setDefaultRenderer(new TableCellRenderer() {
+            private TableCellRenderer defaultRenderer = table.getTableHeader().getDefaultRenderer();
+
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                Component component = defaultRenderer.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                if (component instanceof JLabel) {
+                    JLabel label = (JLabel) component;
+                    label.setText("<html><div style='text-align: center;'>" + value.toString() + "</div></html>"); // Center text using HTML
+                    label.setHorizontalAlignment(SwingConstants.CENTER); // Align text horizontally
+                }
+                return component;
+            }
+        });
+
+        // Set row height
+        table.setRowHeight(50); // Adjust the value to your desired row height
+
+        // Set table bounds and add to scrollPane
         table.setBounds(0, 0, 1147, 303);
         scrollPane.setViewportView(table);
-        
+
         //Add customer panel
         JPanel panel_3 = new JPanel();
         panel_3.setLayout(null);

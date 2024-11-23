@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -207,44 +208,47 @@ public class Inventory extends JFrame {
         backgroundLabel.add(panel_2);
         panel_2.setBounds(290, 129, 1093, 310);
         panel_2.setLayout(null);
-        
+
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setBounds(9, 11, 1075, 290);
         panel_2.add(scrollPane);
-        
+
         table = new JTable();
-      //sql command to get values and insert to table----------------------------------------------------------------
+        // SQL command to get values and insert to table
         table.setModel(new DefaultTableModel(
-        	new Object[][] {
-        		{"  1", "   5gl / Large Container", "   ", "   ", "   "},
-        		{"  2", "   3gl / Medium Container", "   ", "   ", "   "},
-        		{"  3", "   2.5gl / Small Container", "   ", "   ", "  "},
-        	},
-        	new String[] {
-        		"Inventory ID", "Container", "In-Storage Quantity", "Lent Quantity", "Total Quantity"
-        	}
+            new Object[][] {
+                {"  1", "   5gl / Large Container", "   ", "   ", "   "},
+                {"  2", "   3gl / Medium Container", "   ", "   ", "   "},
+                {"  3", "   2.5gl / Small Container", "   ", "   ", "  "},
+            },
+            new String[] {
+                "Inventory ID", "Container", "In-Storage Quantity", "Lent Quantity", "Total Quantity"
+            }
         ));
-        table.getColumnModel().getColumn(0).setMaxWidth(150);
-        table.getColumnModel().getColumn(1).setPreferredWidth(300);
-        table.getColumnModel().getColumn(1).setMaxWidth(3000);
-        table.getColumnModel().getColumn(2).setPreferredWidth(99);
-        table.getColumnModel().getColumn(2).setMaxWidth(1500);
-        table.getColumnModel().getColumn(3).setPreferredWidth(100);
-        table.getColumnModel().getColumn(3).setMaxWidth(1500);
-        table.getColumnModel().getColumn(4).setPreferredWidth(100);
-        table.getColumnModel().getColumn(4).setMaxWidth(1500);
-        
+
+        // Set column widths to allow header text to fit
+        table.getColumnModel().getColumn(0).setPreferredWidth(200); // Adjust width for Inventory ID column
+        table.getColumnModel().getColumn(1).setPreferredWidth(400); // Adjust width for Container column
+        table.getColumnModel().getColumn(2).setPreferredWidth(200); // Adjust width for In-Storage Quantity column
+        table.getColumnModel().getColumn(3).setPreferredWidth(150); // Adjust width for Lent Quantity column
+        table.getColumnModel().getColumn(4).setPreferredWidth(150); // Adjust width for Total Quantity column
+
+        // Set header font size and height
+        table.getTableHeader().setFont(new Font("SansSerif", Font.BOLD, 18));  // Increase the font size of the header
+        table.getTableHeader().setPreferredSize(new Dimension(0, 60));  // Increase the header height
+
+        // Adjust row height based on available space
         int rowCount = table.getRowCount();
         int scrollPaneHeight = scrollPane.getHeight();
         if (rowCount > 0) {
             int rowHeight = scrollPaneHeight / rowCount;
-            table.setRowHeight(rowHeight-6);
+            table.setRowHeight(rowHeight - 6);  // Adjust the row height
         }
-        
-        table.setBounds(0, 0, 1075, 290);
-        table.setLayout(null);
+
+        // Add the table to the scroll pane
         scrollPane.setViewportView(table);
-        
+
+
         //add new containers panel
         JPanel panel_3 = new JPanel();
         backgroundLabel.add(panel_3);
@@ -355,7 +359,7 @@ public class Inventory extends JFrame {
         
         JButton btnNewButton_7 = new JButton("ADD");
         btnNewButton_7.setFont(new Font("Tahoma", Font.BOLD, 16));
-        btnNewButton_7.setBounds(225, 244, 85, 28);
+        btnNewButton_7.setBounds(315, 240, 85, 28);
         panel_3.add(btnNewButton_7);
         
         btnNewButton_7.addActionListener(e -> {
@@ -476,7 +480,7 @@ public class Inventory extends JFrame {
         
         JButton btnNewButton_8 = new JButton("REMOVE");
         btnNewButton_8.setFont(new Font("Tahoma", Font.BOLD, 16));
-        btnNewButton_8.setBounds(215, 244, 103, 28);
+        btnNewButton_8.setBounds(315, 244, 103, 28);
         panel_4.add(btnNewButton_8);
         
         btnNewButton_8.addActionListener(e -> {

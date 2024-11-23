@@ -38,7 +38,6 @@ public class Transactions extends JFrame {
     private JTextField textFieldContactNumber;
     private JTextField textFieldTime;
     private JTextField textFieldContactNum;
-    private JTextField textFieldPayment;
     
     double  totalProfitVal = 0;
     int currentLargeValue = 0, currentMediumValue = 0, currentSmallValue = 0;
@@ -225,7 +224,7 @@ public class Transactions extends JFrame {
 //Customer Panel------------------------------------------------------------------------------
         JPanel pnlCustomer = new JPanel();
         lblBackground.add(pnlCustomer);
-        pnlCustomer.setBounds(254, 133, 654, 240);
+        pnlCustomer.setBounds(254, 133, 654, 200);
         pnlCustomer.setLayout(null);
         
         JLabel lblCustomer = new JLabel("CUSTOMER:");
@@ -282,40 +281,6 @@ public class Transactions extends JFrame {
         pnlCustomer.add(textFieldContactNum);
         
         objCstmr.setContactNumber(textFieldContactNum.getText());
-        
-        
-        JLabel lblPayment = new JLabel("Payment");
-        lblPayment.setForeground(Color.BLACK);
-        lblPayment.setFont(new Font("Myanmar Text", Font.BOLD, 27));
-        lblPayment.setBounds(40, 194, 211, 30);
-        pnlCustomer.add(lblPayment);
-        
-        JLabel lblPayment_Peso = new JLabel("₱ ");
-        lblPayment_Peso.setFont(new Font("Tahoma", Font.PLAIN, 30));
-        lblPayment_Peso.setBackground(new Color(225, 225, 225));
-        lblPayment_Peso.setBounds(269, 182, 33, 41);
-        pnlCustomer.add(lblPayment_Peso);
-        
-        textFieldPayment = new JTextField();
-        textFieldPayment.setColumns(10);
-        textFieldPayment.setBounds(300, 183, 282, 40);
-        pnlCustomer.add(textFieldPayment);
-        
-        textFieldPayment.addActionListener(e -> {
-        if (!textFieldPayment.getText().trim().isEmpty()) {
-        	
-        	try {
-            	objSales.setCustomerPayment(Double.parseDouble(textFieldPayment.getText()));
-            } 
-        	catch(NumberFormatException ex) {
-        		objSales.setCustomerPayment(0);
-        		// Handle invalid input
-                JOptionPane.showMessageDialog(null, "Invalid input! Please enter a valid number.", 
-                        "Input Error", JOptionPane.ERROR_MESSAGE);
-
-            }
-        }
-        });
         
         
         
@@ -388,7 +353,7 @@ public class Transactions extends JFrame {
 //Order Panel------------------------------------------------------------------------------
         JPanel pnlOrder = new JPanel();
         pnlOrder.setLayout(null);
-        pnlOrder.setBounds(254, 384, 564, 236);
+        pnlOrder.setBounds(254, 340, 564, 236);
         lblBackground.add(pnlOrder);
         
         JLabel lblOrder = new JLabel("ORDER:\r\n");
@@ -512,13 +477,13 @@ public class Transactions extends JFrame {
 //Delivery Panel------------------------------------------------------------------------------
         JPanel pnlDelivery = new JPanel();
         pnlDelivery.setLayout(null);
-        pnlDelivery.setBounds(254, 630, 564, 98);
+        pnlDelivery.setBounds(254, 580, 564, 80);
         lblBackground.add(pnlDelivery);
         
         
         JCheckBox chckbxDelivery = new JCheckBox("");
         chckbxDelivery.setFont(new Font("Myanmar Text", Font.BOLD, 28));
-        chckbxDelivery.setBounds(21, 34, 28, 30);
+        chckbxDelivery.setBounds(21, 20, 28, 30);
         pnlDelivery.add(chckbxDelivery);
         
         chckbxDelivery.setSelected(true);
@@ -531,14 +496,14 @@ public class Transactions extends JFrame {
         lblDelivery.setHorizontalAlignment(SwingConstants.CENTER);
         lblDelivery.setForeground(Color.BLACK);
         lblDelivery.setFont(new Font("Myanmar Text", Font.BOLD, 28));
-        lblDelivery.setBounds(45, 33, 116, 44);
+        lblDelivery.setBounds(55, 20, 116, 44);
         pnlDelivery.add(lblDelivery);
         
         JTextArea txtrDeliveryNote = new JTextArea();
         txtrDeliveryNote.setText("Note: This would include a \r\ndelivery fee to the final price");
         txtrDeliveryNote.setFont(new Font("Monospaced", Font.PLAIN, 14));
         txtrDeliveryNote.setBackground(UIManager.getColor("Button.background"));
-        txtrDeliveryNote.setBounds(190, 26, 288, 47);
+        txtrDeliveryNote.setBounds(190, 20, 288, 47);
         pnlDelivery.add(txtrDeliveryNote);
         txtrDeliveryNote.setEditable(false);
         
@@ -993,20 +958,7 @@ public class Transactions extends JFrame {
         lblCstmrPayment_int.setBackground(new Color(225, 225, 225));
         lblCstmrPayment_int.setBounds(201, 6, 75, 27);
         pnlCstmrPayment.add(lblCstmrPayment_int);
-        
-        lblCstmrPayment_int.setText(textFieldPayment.getText());
         lblCstmrPayment_Peso.setEnabled(false);
-        
-        textFieldPayment.addActionListener(e -> {
-        	if (textFieldPayment.getText().isEmpty()) {
-        		lblCstmrPayment_int.setText(textFieldPayment.getText());
-        		lblCstmrPayment_Peso.setEnabled(false);
-        	}
-        	else {
-        		lblCstmrPayment_int.setText(textFieldPayment.getText()+".0");
-        		lblCstmrPayment_Peso.setEnabled(true);
-        	}
-        });
         
         
         
@@ -1041,18 +993,11 @@ public class Transactions extends JFrame {
   
         lblChange_int.setText(String.valueOf(objSales.getChange()));
         lblCstmrPayment_Peso.setEnabled(false);
-		
-        textFieldPayment.addActionListener(e -> {
-        	if (textFieldPayment.getText().isEmpty()) {
-        		lblChange_int.setText(" ");
-        		lblChange_Peso.setEnabled(false);
-        	}
-        	else {
-        		objSales.calculateTransaction();
-        		lblChange_int.setText(String.valueOf(objSales.getChange()));
-        		lblChange_Peso.setEnabled(true);
-        	}
-        });
+        
+        JButton btnNewButton = new JButton("Calculate Total");
+        btnNewButton.setFont(new Font("Myanmar Text", Font.BOLD, 19));
+        btnNewButton.setBounds(420, 680, 180, 43);
+        lblBackground.add(btnNewButton);
         
     }
 }
