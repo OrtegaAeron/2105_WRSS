@@ -251,9 +251,44 @@ public class AdminSettings extends JFrame {
         		"Admin ID", "Admin User Name", "Password"
         	}
         ));
+        
         table.setBounds(0, 0, 1147, 303);
         scrollPane.setViewportView(table);
         table.setRowHeight(45);
+        
+        try (Connection conn = Connections.getConnection()) { // Use your Connections class
+            if (conn == null) {
+                System.out.println("Database connection failed.");
+                return;
+            }
+
+            // SQL query to fetch admin details
+            String query = "SELECT AdminID, Admin_Name, Admin_Password FROM admin";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+
+            // Get the table's model
+            DefaultTableModel model = (DefaultTableModel) table.getModel();
+
+            // Clear any existing rows
+            model.setRowCount(0);
+
+            // Populate the table model with data from the ResultSet
+            while (rs.next()) {
+                int adminId = rs.getInt("AdminID");
+                String adminName = rs.getString("Admin_Name");
+                String adminPassword = rs.getString("Admin_Password");
+
+                // Add a new row to the table
+                model.addRow(new Object[]{adminId, adminName, adminPassword});
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, 
+                    "Error fetching admin data: " + e.getMessage(), 
+                    "Database Error", 
+                    JOptionPane.ERROR_MESSAGE);
+        }
         
         //add admin panel
         JPanel panel_3 = new JPanel();

@@ -268,9 +268,48 @@ public class Customers extends JFrame {
             },
             new String[] {
                 "Customer ID", "Customer Name", "Address", "Contact Number", 
-                "Lent Large Containers", "Lent Medium Containers", "Lent Small Containers"
+                "Lent Large Container", "Lent Medium Container", "Lent Small Container"
             }
         ));
+        
+        
+        try (Connection conn = Connections.getConnection()) { // Use your Connections class
+            if (conn == null) {
+                System.out.println("Database connection failed.");
+                return;
+            }
+
+            // SQL query to fetch admin details
+            String query = "SELECT CustomerID, Customer_Name, Address, Contact_Number, Lent_Large_Container, Lent_Medium_Container, Lent_Small_Container  FROM customer";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+
+            // Get the table's model
+            DefaultTableModel model = (DefaultTableModel) table.getModel();
+
+            // Clear any existing rows
+            model.setRowCount(0);
+
+            // Populate the table model with data from the ResultSet
+            while (rs.next()) {
+                int customerId = rs.getInt("CustomerID");
+                String customerName = rs.getString("Customer_Name");
+                String address = rs.getString("Address");
+                String contactNumber = rs.getString("Contact_Number");
+                int lentLargeContainer = rs.getInt("Lent_Large_Container");
+                int lentMediumContainer = rs.getInt("Lent_Medium_Container");
+                int lentSmallContainer = rs.getInt("Lent_Small_Container");
+
+                // Add a new row to the table
+                model.addRow(new Object[]{customerId, customerName, address, contactNumber, lentLargeContainer, lentMediumContainer, lentSmallContainer });
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, 
+                    "Error fetching admin data: " + e.getMessage(), 
+                    "Database Error", 
+                    JOptionPane.ERROR_MESSAGE);
+        }
 
      // Set larger font for the table header
         table.getTableHeader().setFont(new Font("SansSerif", Font.BOLD, 20));
@@ -348,6 +387,8 @@ public class Customers extends JFrame {
         textField_1.setBounds(127, 61, 437, 26);
         panel_3.add(textField_1);
         
+        
+        
         textField_1.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -417,11 +458,34 @@ public class Customers extends JFrame {
         lblNewLabel_7.setBounds(21, 42, 70, 22);
         panel_4.add(lblNewLabel_7);
         
-        JComboBox comboBox = new JComboBox();
+        JComboBox<String> comboBox = new JComboBox();
         comboBox.setBounds(89, 37, 423, 26);
         panel_4.add(comboBox);
         
-      //should drop down names from database------------------------------------------
+        try (Connection conn = Connections.getConnection()) { // Use your Connections class
+            if (conn == null) {
+                System.out.println("Database connection failed.");
+                return;
+            }
+
+            String query = "SELECT Admin_Name FROM admin";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+
+            // Add a default empty option
+            comboBox.addItem("");
+
+            while (rs.next()) {
+                String adminName = rs.getString("Admin_Name");
+                comboBox.addItem(adminName); // Add each admin name to the combo box
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, 
+                    "Error fetching data for the combo box: " + e.getMessage(), 
+                    "Database Error", 
+                    JOptionPane.ERROR_MESSAGE);
+        }
         
         comboBox.addKeyListener(new KeyAdapter() {
             @Override
@@ -449,11 +513,39 @@ public class Customers extends JFrame {
         panel_4.add(textField_4);
         textField_4.setColumns(10);
         
-        textField_4.addKeyListener(new KeyAdapter() {
+        comboBox.addActionListener(new ActionListener() {
             @Override
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    e.consume(); // Prevent the default "Enter" action
+            public void actionPerformed(ActionEvent e) {
+                String selectedCustomer_Name = (String) comboBox.getSelectedItem();
+
+                if (selectedCustomer_Name == null || selectedCustomer_Name.isEmpty()) {
+                	textField_4.setText(""); // Clear the password field if no admin is selected
+                    return;
+                }
+
+                try (Connection conn = Connections.getConnection()) { // Use your Connections class
+                    if (conn == null) {
+                        System.out.println("Database connection failed.");
+                        return;
+                    }
+
+                    String query = "SELECT Address FROM customer WHERE Customer_Name = ?";
+                    PreparedStatement stmt = conn.prepareStatement(query);
+                    stmt.setString(1, selectedCustomer_Name);
+                    ResultSet rs = stmt.executeQuery();
+
+                    if (rs.next()) {
+                        String Address = rs.getString("Address");
+                        textField_4.setText(Address); // Set the password in the text field
+                    } else {
+                    	textField_4.setText(""); // Clear the password field if no password is found
+                    }
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, 
+                            "Error fetching password: " + ex.getMessage(), 
+                            "Database Error", 
+                            JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -475,11 +567,40 @@ public class Customers extends JFrame {
         textField_5.setBounds(747, 37, 232, 26);
         panel_4.add(textField_5);
         
-        textField_5.addKeyListener(new KeyAdapter() {
+
+        comboBox.addActionListener(new ActionListener() {
             @Override
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    e.consume(); // Prevent the default "Enter" action
+            public void actionPerformed(ActionEvent e) {
+                String selectedCustomer_Name = (String) comboBox.getSelectedItem();
+
+                if (selectedCustomer_Name == null || selectedCustomer_Name.isEmpty()) {
+                	textField_5.setText(""); // Clear the password field if no admin is selected
+                    return;
+                }
+
+                try (Connection conn = Connections.getConnection()) { // Use your Connections class
+                    if (conn == null) {
+                        System.out.println("Database connection failed.");
+                        return;
+                    }
+
+                    String query = "SELECT Contact_Number FROM customer WHERE Customer_Name = ?";
+                    PreparedStatement stmt = conn.prepareStatement(query);
+                    stmt.setString(1, selectedCustomer_Name);
+                    ResultSet rs = stmt.executeQuery();
+
+                    if (rs.next()) {
+                        String Contact_Number = String.valueOf(rs.getInt("Contact_Number"));
+                        textField_5.setText(Contact_Number); // Set the password in the text field
+                    } else {
+                    	textField_5.setText(""); // Clear the password field if no password is found
+                    }
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, 
+                            "Error fetching password: " + ex.getMessage(), 
+                            "Database Error", 
+                            JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -500,11 +621,50 @@ public class Customers extends JFrame {
         textField_2.setBounds(724, 68, 40, 26);
         panel_4.add(textField_2);
         
+        comboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String selectedCustomer_Name = (String) comboBox.getSelectedItem();
+
+                if (selectedCustomer_Name == null || selectedCustomer_Name.isEmpty()) {
+                	textField_2.setText(""); // Clear the password field if no admin is selected
+                    return;
+                }
+
+                try (Connection conn = Connections.getConnection()) { // Use your Connections class
+                    if (conn == null) {
+                        System.out.println("Database connection failed.");
+                        return;
+                    }
+
+                    String query = "SELECT Lent_Large_Container FROM customer WHERE Customer_Name = ?";
+                    PreparedStatement stmt = conn.prepareStatement(query);
+                    stmt.setString(1, selectedCustomer_Name);
+                    ResultSet rs = stmt.executeQuery();
+
+                    if (rs.next()) {
+                        String Lent_Large_Container = String.valueOf(rs.getInt("Lent_Large_Container"));
+                        textField_2.setText(Lent_Large_Container); // Set the password in the text field
+                    } else {
+                    	textField_2.setText(""); // Clear the password field if no password is found
+                    }
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, 
+                            "Error fetching password: " + ex.getMessage(), 
+                            "Database Error", 
+                            JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+        
         textField_2.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     e.consume(); // Prevent the default "Enter" action
+                    
+                    
                 }
             }
         });
@@ -524,6 +684,42 @@ public class Customers extends JFrame {
         textField_6.setBounds(822, 68, 40, 26);
         panel_4.add(textField_6);
         
+        comboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String selectedCustomer_Name = (String) comboBox.getSelectedItem();
+
+                if (selectedCustomer_Name == null || selectedCustomer_Name.isEmpty()) {
+                	textField_6.setText(""); // Clear the password field if no admin is selected
+                    return;
+                }
+
+                try (Connection conn = Connections.getConnection()) { // Use your Connections class
+                    if (conn == null) {
+                        System.out.println("Database connection failed.");
+                        return;
+                    }
+
+                    String query = "SELECT Lent_Medium_Container FROM customer WHERE Customer_Name = ?";
+                    PreparedStatement stmt = conn.prepareStatement(query);
+                    stmt.setString(1, selectedCustomer_Name);
+                    ResultSet rs = stmt.executeQuery();
+
+                    if (rs.next()) {
+                        String Lent_Medium_Container = String.valueOf(rs.getInt("Lent_Medium_Container"));
+                        textField_6.setText(Lent_Medium_Container); // Set the password in the text field
+                    } else {
+                    	textField_6.setText(""); // Clear the password field if no password is found
+                    }
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, 
+                            "Error fetching password: " + ex.getMessage(), 
+                            "Database Error", 
+                            JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
         textField_6.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -550,6 +746,42 @@ public class Customers extends JFrame {
         textField_7.setBounds(904, 68, 40, 26);
         panel_4.add(textField_7);
         
+        comboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String selectedCustomer_Name = (String) comboBox.getSelectedItem();
+
+                if (selectedCustomer_Name == null || selectedCustomer_Name.isEmpty()) {
+                	textField_7.setText(""); // Clear the password field if no admin is selected
+                    return;
+                }
+
+                try (Connection conn = Connections.getConnection()) { // Use your Connections class
+                    if (conn == null) {
+                        System.out.println("Database connection failed.");
+                        return;
+                    }
+
+                    String query = "SELECT Lent_Small_Container FROM customer WHERE Customer_Name = ?";
+                    PreparedStatement stmt = conn.prepareStatement(query);
+                    stmt.setString(1, selectedCustomer_Name);
+                    ResultSet rs = stmt.executeQuery();
+
+                    if (rs.next()) {
+                        String Lent_Small_Container = String.valueOf(rs.getInt("Lent_Small_Container"));
+                        textField_7.setText(Lent_Small_Container); // Set the password in the text field
+                    } else {
+                    	textField_7.setText(""); // Clear the password field if no password is found
+                    }
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, 
+                            "Error fetching password: " + ex.getMessage(), 
+                            "Database Error", 
+                            JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
         textField_7.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -595,10 +827,43 @@ public class Customers extends JFrame {
         lblNewLabel_14.setBounds(316, 19, 108, 22);
         panel_5.add(lblNewLabel_14);
         
-        JComboBox comboBox_1 = new JComboBox();
+        JComboBox<String> comboBox_1 = new JComboBox();
         comboBox_1.setBounds(422, 13, 428, 26);
         panel_5.add(comboBox_1);
         
+        try (Connection conn = Connections.getConnection()) { // Use your Connections class
+            if (conn == null) {
+                System.out.println("Database connection failed.");
+                return;
+            }
+
+            String query = "SELECT Admin_Name FROM admin";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+
+            // Add a default empty option
+            comboBox_1.addItem("");
+
+            while (rs.next()) {
+                String adminName = rs.getString("Admin_Name");
+                comboBox_1.addItem(adminName); // Add each admin name to the combo box
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, 
+                    "Error fetching data for the combo box: " + e.getMessage(), 
+                    "Database Error", 
+                    JOptionPane.ERROR_MESSAGE);
+        }
+        
+        comboBox_1.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    e.consume(); // Prevent the default "Enter" action
+                }
+            }
+        });
         //should drop down names from database------------------------------------------
         
         comboBox_1.addKeyListener(new KeyAdapter() {
