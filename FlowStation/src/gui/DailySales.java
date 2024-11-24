@@ -4,6 +4,8 @@ import java.awt.EventQueue;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,6 +14,8 @@ import java.awt.FlowLayout;
 import java.awt.ScrollPane;
 import java.awt.Toolkit;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+
 import java.sql.*;
 
 import dbConnections.Connections;
@@ -209,97 +213,85 @@ public class DailySales extends JFrame {
         backgroundLabel.add(panel_2);
         panel_2.setBounds(288, 130, 1079, 425);
         panel_2.setLayout(null);
-        
+
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setBounds(10, 10, 1060, 406);
         panel_2.add(scrollPane);
-        
+
         table = new JTable();
         //sql command to get values and insert to table
         table.setModel(new DefaultTableModel(
-        	new Object[][] {
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        	},
-        	new String[] {
-        		"Daily Sales ID", "Customer ID", "Date", "Time", "Sold Large Containers", "Sold Medium Containers", "Sold Small Containers", "Delivery", "Total Fee", "Customer Payment", "Change"
-        	}
+            new Object[][] {
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+            },
+            new String[] {
+                "Daily Sales ID", "Customer ID", "Date", "Time", "Sold Large Containers", "Sold Medium Containers", "Sold Small Containers", "Delivery", "Total Fee", "Customer Payment", "Change"
+            }
         ));
         scrollPane.setViewportView(table);
-        table.setRowHeight(28);
+        table.setRowHeight(40); // Increase row height to 40
+        table.getTableHeader().setPreferredSize(new Dimension(table.getTableHeader().getWidth(), 70)); // Set header height
+        table.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 30)); // Set header font
+
+        // Customize header rendering for wrapping and centering text
+        table.getTableHeader().setDefaultRenderer(new TableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                JLabel label = new JLabel("<html><div style='text-align: center;'>" + value.toString() + "</div></html>"); // Wrap text with HTML and center it
+                label.setFont(new Font("Segoe UI", Font.BOLD, 17)); // Set header font
+                label.setHorizontalAlignment(SwingConstants.CENTER); // Center align text within JLabel
+                label.setVerticalAlignment(SwingConstants.CENTER); // Center align vertically
+                label.setBorder(BorderFactory.createLineBorder(Color.GRAY)); // Optional: Add border
+                label.setOpaque(true); // Make background visible
+                return label;
+            }
+        });
+
+
         
         JPanel panel_3 = new JPanel();
         panel_3.setBounds(288, 562, 1079, 168);

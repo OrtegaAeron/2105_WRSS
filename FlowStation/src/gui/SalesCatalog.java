@@ -4,12 +4,16 @@ import java.awt.EventQueue;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Panel;
 import java.awt.FlowLayout;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+
 import java.awt.Toolkit;
 import java.sql.*;
 
@@ -236,34 +240,15 @@ public class SalesCatalog extends JFrame {
         panel_3.setBounds(247, 214, 970, 523);
         backgroundLabel.add(panel_3);
         panel_3.setLayout(null);
-        
+
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setBounds(10, 10, 950, 503);
         panel_3.add(scrollPane);
-        
+
         table = new JTable();
-      //sql command to get values and insert to table
+        // SQL command to get values and insert to table
         table.setModel(new DefaultTableModel(
         	new Object[][] {
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
-        		{null, null, null, null, null, null, null, null, null, null, null},
         		{null, null, null, null, null, null, null, null, null, null, null},
         		{null, null, null, null, null, null, null, null, null, null, null},
         		{null, null, null, null, null, null, null, null, null, null, null},
@@ -319,15 +304,57 @@ public class SalesCatalog extends JFrame {
         		"Daily Sales ID", "Customer ID", "Date", "Time", "Sold Large Containers", "Sold Medium Containers", "Sold Small Containers", "Delivery", "Total Fee", "Customer Payment", "Change"
         	}
         ));
-        table.getColumnModel().getColumn(0).setPreferredWidth(72);
-        table.getColumnModel().getColumn(1).setPreferredWidth(68);
-        table.getColumnModel().getColumn(4).setPreferredWidth(113);
-        table.getColumnModel().getColumn(5).setPreferredWidth(127);
-        table.getColumnModel().getColumn(6).setPreferredWidth(111);
-        table.getColumnModel().getColumn(7).setPreferredWidth(47);
-        table.getColumnModel().getColumn(9).setPreferredWidth(98);
+
+     // Adjust the column widths based on the header text
+        for (int columnIndex = 0; columnIndex < table.getColumnCount(); columnIndex++) {
+            int maxWidth = 0;
+
+            // Get the header text width
+            TableCellRenderer headerRenderer = table.getTableHeader().getDefaultRenderer();
+            Component headerComponent = headerRenderer.getTableCellRendererComponent(
+                table, table.getColumnName(columnIndex), false, false, -1, columnIndex
+            );
+            maxWidth = Math.max(maxWidth, headerComponent.getPreferredSize().width);
+
+            // Check each row in the table to determine the widest cell in that column
+            for (int rowIndex = 0; rowIndex < table.getRowCount(); rowIndex++) {
+                TableCellRenderer cellRenderer = table.getCellRenderer(rowIndex, columnIndex);
+                Component cellComponent = cellRenderer.getTableCellRendererComponent(
+                    table, table.getValueAt(rowIndex, columnIndex), false, false, rowIndex, columnIndex
+                );
+                maxWidth = Math.max(maxWidth, cellComponent.getPreferredSize().width);
+            }
+
+            // Add some padding to the column width
+            table.getColumnModel().getColumn(columnIndex).setPreferredWidth(maxWidth + 80);  // Increase padding to make the columns wider
+        }
+
+        // Customize header font, height, and alignment
+        table.getTableHeader().setFont(new Font("SansSerif", Font.BOLD, 15));  // Larger header font size
+        table.getTableHeader().setPreferredSize(new Dimension(0, 60));  // Adjust header height
+
+        // Override header rendering for centered text
+        table.getTableHeader().setDefaultRenderer(new TableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                JLabel label = new JLabel("<html><div style='text-align: center;'>" + value.toString() + "</div></html>");
+                label.setFont(new Font("SansSerif", Font.BOLD, 15));  // Header font
+                label.setHorizontalAlignment(SwingConstants.CENTER);  // Center align text within JLabel
+                label.setVerticalAlignment(SwingConstants.CENTER);  // Center align vertically
+                label.setBorder(BorderFactory.createLineBorder(Color.GRAY));  // Optional: Add border
+                label.setOpaque(true);  // Make background visible
+                return label;
+            }
+        });
+
+        // Set row height for better readability
+        table.setRowHeight(50);
+
+        // Add table to scroll pane
         scrollPane.setViewportView(table);
-        table.setRowHeight(28);
+
+
+
         
         JPanel panel_4 = new JPanel();
         panel_4.setBounds(1225, 214, 192, 523);
