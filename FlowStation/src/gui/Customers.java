@@ -468,7 +468,7 @@ public class Customers extends JFrame {
                 return;
             }
 
-            String query = "SELECT Admin_Name FROM admin";
+            String query = "SELECT Customer_Name FROM customer";
             PreparedStatement stmt = conn.prepareStatement(query);
             ResultSet rs = stmt.executeQuery();
 
@@ -476,7 +476,7 @@ public class Customers extends JFrame {
             comboBox.addItem("");
 
             while (rs.next()) {
-                String adminName = rs.getString("Admin_Name");
+                String adminName = rs.getString("Customer_Name");
                 comboBox.addItem(adminName); // Add each admin name to the combo box
             }
         } catch (SQLException e) {
@@ -590,7 +590,7 @@ public class Customers extends JFrame {
                     ResultSet rs = stmt.executeQuery();
 
                     if (rs.next()) {
-                        String Contact_Number = String.valueOf(rs.getInt("Contact_Number"));
+                        String Contact_Number = rs.getString("Contact_Number");
                         textField_5.setText(Contact_Number); // Set the password in the text field
                     } else {
                     	textField_5.setText(""); // Clear the password field if no password is found
@@ -837,7 +837,7 @@ public class Customers extends JFrame {
                 return;
             }
 
-            String query = "SELECT Admin_Name FROM admin";
+            String query = "SELECT Customer_Name FROM customer";
             PreparedStatement stmt = conn.prepareStatement(query);
             ResultSet rs = stmt.executeQuery();
 
@@ -845,7 +845,7 @@ public class Customers extends JFrame {
             comboBox_1.addItem("");
 
             while (rs.next()) {
-                String adminName = rs.getString("Admin_Name");
+                String adminName = rs.getString("Customer_Name");
                 comboBox_1.addItem(adminName); // Add each admin name to the combo box
             }
         } catch (SQLException e) {

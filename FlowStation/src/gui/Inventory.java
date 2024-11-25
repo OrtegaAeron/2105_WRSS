@@ -280,7 +280,7 @@ public class Inventory extends JFrame {
         int scrollPaneHeight = scrollPane.getHeight();
         if (rowCount > 0) {
             int rowHeight = scrollPaneHeight / rowCount;
-            table.setRowHeight(rowHeight - 6);  // Adjust the row height
+            table.setRowHeight(rowHeight - 20);  // Adjust the row height
         }
 
         // Add the table to the scroll pane
