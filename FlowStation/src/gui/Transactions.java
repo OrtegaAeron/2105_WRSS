@@ -7,6 +7,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.Panel;
 import java.awt.FlowLayout;
 import java.awt.List;
@@ -246,9 +248,43 @@ public class Transactions extends JFrame {
         pnlCustomer.add(lblName);
         
         
-        JComboBox cmboBoxName = new JComboBox();
+        JComboBox<String> cmboBoxName = new JComboBox();
         cmboBoxName.setBounds(262, 45, 339, 40);
         pnlCustomer.add(cmboBoxName);
+        
+        try (Connection conn = Connections.getConnection()) { // Use your Connections class
+            if (conn == null) {
+                System.out.println("Database connection failed.");
+                return;
+            }
+
+            String query = "SELECT Customer_Name FROM customer";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+
+            // Add a default empty option
+            cmboBoxName.addItem("");
+
+            while (rs.next()) {
+                String adminName = rs.getString("Customer_Name");
+                cmboBoxName.addItem(adminName); // Add each admin name to the combo box
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, 
+                    "Error fetching data for the combo box: " + e.getMessage(), 
+                    "Database Error", 
+                    JOptionPane.ERROR_MESSAGE);
+        }
+        
+        cmboBoxName.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    e.consume(); // Prevent the default "Enter" action
+                }
+            }
+        });
         
       //should drop down names from database------------------------------------------
         
@@ -268,6 +304,45 @@ public class Transactions extends JFrame {
         textFieldAddress.setBounds(262, 91, 320, 40);
         pnlCustomer.add(textFieldAddress);
         
+        cmboBoxName.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String selectedCustomer_Name = (String) cmboBoxName.getSelectedItem();
+
+                if (selectedCustomer_Name == null || selectedCustomer_Name.isEmpty()) {
+                	textFieldAddress.setText(""); // Clear the password field if no admin is selected
+                    return;
+                }
+
+                try (Connection conn = Connections.getConnection()) { // Use your Connections class
+                    if (conn == null) {
+                        System.out.println("Database connection failed.");
+                        return;
+                    }
+
+                    String query = "SELECT Address FROM customer WHERE Customer_Name = ?";
+                    PreparedStatement stmt = conn.prepareStatement(query);
+                    stmt.setString(1, selectedCustomer_Name);
+                    ResultSet rs = stmt.executeQuery();
+
+                    if (rs.next()) {
+                        String Address = rs.getString("Address");
+                        textFieldAddress.setText(Address); // Set the password in the text field
+                    } else {
+                    	textFieldAddress.setText(""); // Clear the password field if no password is found
+                    }
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, 
+                            "Error fetching password: " + ex.getMessage(), 
+                            "Database Error", 
+                            JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+        
+        
+        
         objCstmr.setCustomerAddress(textFieldAddress.getText());
         
         
@@ -283,6 +358,43 @@ public class Transactions extends JFrame {
         textFieldContactNum.setColumns(10);
         textFieldContactNum.setBounds(262, 137, 320, 40);
         pnlCustomer.add(textFieldContactNum);
+        
+        cmboBoxName.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String selectedCustomer_Name = (String) cmboBoxName.getSelectedItem();
+
+                if (selectedCustomer_Name == null || selectedCustomer_Name.isEmpty()) {
+                	textFieldContactNum.setText(""); // Clear the password field if no admin is selected
+                    return;
+                }
+
+                try (Connection conn = Connections.getConnection()) { // Use your Connections class
+                    if (conn == null) {
+                        System.out.println("Database connection failed.");
+                        return;
+                    }
+
+                    String query = "SELECT Contact_Number FROM customer WHERE Customer_Name = ?";
+                    PreparedStatement stmt = conn.prepareStatement(query);
+                    stmt.setString(1, selectedCustomer_Name);
+                    ResultSet rs = stmt.executeQuery();
+
+                    if (rs.next()) {
+                        String Contact_Number = String.valueOf(rs.getString("Contact_Number"));
+                        textFieldContactNum.setText(Contact_Number); // Set the password in the text field
+                    } else {
+                    	textFieldContactNum.setText(""); // Clear the password field if no password is found
+                    }
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, 
+                            "Error fetching password: " + ex.getMessage(), 
+                            "Database Error", 
+                            JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
         
         objCstmr.setContactNumber(textFieldContactNum.getText());
         
@@ -502,7 +614,7 @@ public class Transactions extends JFrame {
         
         spnrMediumOrder.setEnabled(false);
         chckbxMediumContainer.addActionListener(e -> {
-        	//objTrans.setDeliveryMediumContainer((Integer)spnrMediumOrder.getValue());
+        	objTrans.setDeliveryMediumContainer((Integer)spnrMediumOrder.getValue());  //--------
         	
             if (chckbxMediumContainer.isSelected()) {
                 spnrMediumOrder.setEnabled(true);
@@ -520,7 +632,7 @@ public class Transactions extends JFrame {
         
         spnrSmallOrder.setEnabled(false);
         chckbxSmallContainer.addActionListener(e -> {
-        	//objTrans.setDeliveryLargeContainer((Integer)spnrSmallOrder.getValue());
+        	objTrans.setDeliveryLargeContainer((Integer)spnrSmallOrder.getValue()); //-------
         	
             if (chckbxSmallContainer.isSelected()) {
                 spnrSmallOrder.setEnabled(true);
@@ -539,7 +651,7 @@ public class Transactions extends JFrame {
         
         spnrLargeOrder.setEnabled(false);
         chckbxLargeContainer.addActionListener(e -> {
-        	//objTrans.setDeliveryLargeContainer((Integer)spnrLargeOrder.getValue());
+        	objTrans.setDeliveryLargeContainer((Integer)spnrLargeOrder.getValue()); //------
         	
             if (chckbxLargeContainer.isSelected()) {
                 spnrLargeOrder.setEnabled(true);
@@ -656,8 +768,8 @@ public class Transactions extends JFrame {
         spnrMediumOrder.addChangeListener(e -> {
         	
         	/*if("medium spinner increments") {
-        	objInvt.setContainerQuantityMedium(objInvt.decreaseContainerQuantityMedium());
-        	}else if ("medium spinner decrements") {
+        	*/objInvt.setContainerQuantityMedium(objInvt.decreaseContainerQuantityMedium());
+        	/*}else if ("medium spinner decrements") {
         	objInvt.setContainerQuantityMedium(objInvt.increaseContainerQuantityMedium());
         	}*/
         	
@@ -704,7 +816,7 @@ public class Transactions extends JFrame {
 
         spnrSmallOrder.addChangeListener(e -> {
         	
-        	//objInvt.setContainerQuantitySmall(objInvt.decreaseContainerQuantitySmall());
+        	objInvt.setContainerQuantitySmall(objInvt.decreaseContainerQuantitySmall()); //------
         	containerQuantitySmall = (Integer)spnrSmallOrder.getValue();
         	
             try {
@@ -748,7 +860,7 @@ public class Transactions extends JFrame {
         
         spnrLargeOrder.addChangeListener(e -> {
         	
-        	//objInvt.setContainerQuantityLarge(objInvt.decreaseContainerQuantityLarge());
+        	objInvt.setContainerQuantityLarge(objInvt.decreaseContainerQuantityLarge()); //-------------
         	containerQuantityLarge = (Integer)spnrLargeOrder.getValue();
 
             try {
@@ -956,7 +1068,7 @@ public class Transactions extends JFrame {
 // Calculate button----------------------------------------------------------
         JButton btnCalculateTotal = new JButton("CALCULATE");
         btnCalculateTotal.setFont(new Font("Myanmar Text", Font.BOLD, 19));
-        btnCalculateTotal.setBounds(420, 688, 180,38);
+        btnCalculateTotal.setBounds(435, 688, 180,38);
         lblBackground.add(btnCalculateTotal);
         
         objSales.setProfit(0);

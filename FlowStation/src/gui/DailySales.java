@@ -272,6 +272,53 @@ public class DailySales extends JFrame {
                 "Daily Sales ID", "Customer ID", "Date", "Time", "Sold Large Containers", "Sold Medium Containers", "Sold Small Containers", "Delivery", "Total Fee", "Customer Payment", "Change"
             }
         ));
+        
+        try (Connection conn = Connections.getConnection()) { // Use your Connections class
+            if (conn == null) {
+                System.out.println("Database connection failed.");
+                return;
+            }
+
+            // SQL query to fetch admin details
+            String query = "SELECT SalesID, CustomerID, Date, Time, Sold_Large_Container, Sold_Medium_Container, Sold_Small_Container, Delivery, Total_Fees, Customer_Payment, Customer_Change " +
+                    "FROM sales " +
+                    "WHERE Date = '2024-11-25'";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+
+            // Get the table's model
+            DefaultTableModel model = (DefaultTableModel) table.getModel();
+
+            // Clear any existing rows
+            model.setRowCount(0);
+
+            // Populate the table model with data from the ResultSet
+            while (rs.next()) {
+                int salesID = rs.getInt("SalesID");
+                int customerID = rs.getInt("CustomerID");
+                String date = rs.getString("Date");
+                String time = rs.getString("Time");
+                int soldLargeContainers = rs.getInt ("Sold_Large_Container");
+                int soldMediumContainers = rs.getInt ("Sold_Medium_Container");
+                int soldSmallContainers = rs.getInt("Sold_Small_Container");
+                Boolean delivery = rs.getBoolean("Delivery");
+                Double totalFees = rs.getDouble("Total_Fees");
+                Double customerPayment = rs.getDouble("Customer_Payment");
+                Double change = rs.getDouble("Customer_Change");
+                
+
+                // Add a new row to the table
+                model.addRow(new Object[]{salesID, customerID, date, time, soldLargeContainers, soldMediumContainers, soldSmallContainers, delivery, totalFees, customerPayment, change});
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, 
+                    "Error fetching admin data: " + e.getMessage(), 
+                    "Database Error", 
+                    JOptionPane.ERROR_MESSAGE);
+        }
+        
+        
         scrollPane.setViewportView(table);
         table.setRowHeight(40); // Increase row height to 40
         table.getTableHeader().setPreferredSize(new Dimension(table.getTableHeader().getWidth(), 70)); // Set header height

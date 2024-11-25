@@ -31,7 +31,7 @@ public class Inventory extends JFrame {
      */
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
-            public void run() {
+    public void run() {
                 try {
                 	Inventory frame = new Inventory();
                     frame.setVisible(true);
@@ -225,6 +225,44 @@ public class Inventory extends JFrame {
                 "Inventory ID", "Container", "In-Storage Quantity", "Lent Quantity", "Total Quantity"
             }
         ));
+        
+        
+        try (Connection conn = Connections.getConnection()) { // Use your Connections class
+            if (conn == null) {
+                System.out.println("Database connection failed.");
+                return;
+            }
+
+            // SQL query to fetch admin details
+            String query = "SELECT InventoryID, Container_Type, In_Storage_Quantity, Lent_Quantity, Total_Quantity FROM inventory";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+
+            // Get the table's model
+            DefaultTableModel model = (DefaultTableModel) table.getModel();
+
+            // Clear any existing rows
+            model.setRowCount(0);
+
+            // Populate the table model with data from the ResultSet
+            while (rs.next()) {
+                int inventoryID = rs.getInt("InventoryID");
+                String container = rs.getString("Container_Type");
+                int inStorageQuantity = rs.getInt("In_Storage_Quantity");
+                int lentQuantity = rs.getInt("Lent_Quantity");
+                int totalQuantity = rs.getInt ("Total_Quantity");
+                
+
+                // Add a new row to the table
+                model.addRow(new Object[]{inventoryID, container, inStorageQuantity,lentQuantity, totalQuantity});
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, 
+                    "Error fetching admin data: " + e.getMessage(), 
+                    "Database Error", 
+                    JOptionPane.ERROR_MESSAGE);
+        }
 
         // Set column widths to allow header text to fit
         table.getColumnModel().getColumn(0).setPreferredWidth(200); // Adjust width for Inventory ID column
@@ -242,7 +280,7 @@ public class Inventory extends JFrame {
         int scrollPaneHeight = scrollPane.getHeight();
         if (rowCount > 0) {
             int rowHeight = scrollPaneHeight / rowCount;
-            table.setRowHeight(rowHeight - 6);  // Adjust the row height
+            table.setRowHeight(rowHeight - 20);  // Adjust the row height
         }
 
         // Add the table to the scroll pane
