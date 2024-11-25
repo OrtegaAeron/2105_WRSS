@@ -47,6 +47,9 @@ public class Transactions extends JFrame {
     private JTextField textFieldDate;
     
     private int containerQuantityLarge, containerQuantityMedium, containerQuantitySmall;
+    private String selectedCustomer_Name;
+    private DateTimeFormatter dateFormatter1;
+    private DateTimeFormatter timeFormatter1;
 
     /**
      * Launch the application.
@@ -307,7 +310,7 @@ public class Transactions extends JFrame {
         cmboBoxName.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String selectedCustomer_Name = (String) cmboBoxName.getSelectedItem();
+                selectedCustomer_Name = (String) cmboBoxName.getSelectedItem();
 
                 if (selectedCustomer_Name == null || selectedCustomer_Name.isEmpty()) {
                 	textFieldAddress.setText(""); // Clear the password field if no admin is selected
@@ -362,7 +365,7 @@ public class Transactions extends JFrame {
         cmboBoxName.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String selectedCustomer_Name = (String) cmboBoxName.getSelectedItem();
+                selectedCustomer_Name = (String) cmboBoxName.getSelectedItem();
 
                 if (selectedCustomer_Name == null || selectedCustomer_Name.isEmpty()) {
                 	textFieldContactNum.setText(""); // Clear the password field if no admin is selected
@@ -381,7 +384,7 @@ public class Transactions extends JFrame {
                     ResultSet rs = stmt.executeQuery();
 
                     if (rs.next()) {
-                        String Contact_Number = String.valueOf(rs.getString("Contact_Number"));
+                        String Contact_Number = rs.getString("Contact_Number");
                         textFieldContactNum.setText(Contact_Number); // Set the password in the text field
                     } else {
                     	textFieldContactNum.setText(""); // Clear the password field if no password is found
@@ -489,8 +492,8 @@ public class Transactions extends JFrame {
         LocalTime currentTime1 = LocalTime.now();
 
         // Format date and time as needed
-        DateTimeFormatter dateFormatter1 = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        DateTimeFormatter timeFormatter1 = DateTimeFormatter.ofPattern("HH:mm:ss a");
+        dateFormatter1 = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        timeFormatter1 = DateTimeFormatter.ofPattern("HH:mm:ss a");
 
         // Set formatted date and time into the text fields`
         textFieldDate.setText(currentDate1.format(dateFormatter1));
@@ -614,7 +617,7 @@ public class Transactions extends JFrame {
         
         spnrMediumOrder.setEnabled(false);
         chckbxMediumContainer.addActionListener(e -> {
-        	objTrans.setDeliveryMediumContainer((Integer)spnrMediumOrder.getValue());  //--------
+        	//objTrans.setDeliveryMediumContainer((Integer)spnrMediumOrder.getValue());
         	
             if (chckbxMediumContainer.isSelected()) {
                 spnrMediumOrder.setEnabled(true);
@@ -632,7 +635,7 @@ public class Transactions extends JFrame {
         
         spnrSmallOrder.setEnabled(false);
         chckbxSmallContainer.addActionListener(e -> {
-        	objTrans.setDeliveryLargeContainer((Integer)spnrSmallOrder.getValue()); //-------
+        	//objTrans.setDeliveryLargeContainer((Integer)spnrSmallOrder.getValue());
         	
             if (chckbxSmallContainer.isSelected()) {
                 spnrSmallOrder.setEnabled(true);
@@ -651,7 +654,7 @@ public class Transactions extends JFrame {
         
         spnrLargeOrder.setEnabled(false);
         chckbxLargeContainer.addActionListener(e -> {
-        	objTrans.setDeliveryLargeContainer((Integer)spnrLargeOrder.getValue()); //------
+        	//objTrans.setDeliveryLargeContainer((Integer)spnrLargeOrder.getValue());
         	
             if (chckbxLargeContainer.isSelected()) {
                 spnrLargeOrder.setEnabled(true);
@@ -768,8 +771,8 @@ public class Transactions extends JFrame {
         spnrMediumOrder.addChangeListener(e -> {
         	
         	/*if("medium spinner increments") {
-        	*/objInvt.setContainerQuantityMedium(objInvt.decreaseContainerQuantityMedium());
-        	/*}else if ("medium spinner decrements") {
+        	objInvt.setContainerQuantityMedium(objInvt.decreaseContainerQuantityMedium());
+        	}else if ("medium spinner decrements") {
         	objInvt.setContainerQuantityMedium(objInvt.increaseContainerQuantityMedium());
         	}*/
         	
@@ -816,7 +819,7 @@ public class Transactions extends JFrame {
 
         spnrSmallOrder.addChangeListener(e -> {
         	
-        	objInvt.setContainerQuantitySmall(objInvt.decreaseContainerQuantitySmall()); //------
+        	//objInvt.setContainerQuantitySmall(objInvt.decreaseContainerQuantitySmall());
         	containerQuantitySmall = (Integer)spnrSmallOrder.getValue();
         	
             try {
@@ -860,7 +863,7 @@ public class Transactions extends JFrame {
         
         spnrLargeOrder.addChangeListener(e -> {
         	
-        	objInvt.setContainerQuantityLarge(objInvt.decreaseContainerQuantityLarge()); //-------------
+        	//objInvt.setContainerQuantityLarge(objInvt.decreaseContainerQuantityLarge());
         	containerQuantityLarge = (Integer)spnrLargeOrder.getValue();
 
             try {
@@ -1017,7 +1020,7 @@ public class Transactions extends JFrame {
         lblCstmrPayment_int.setText(textFieldPayment.getText());
         lblCstmrPayment_Peso.setEnabled(false);
         
-        textFieldPayment.addActionListener(e -> {
+        /*textFieldPayment.addActionListener(e -> {
         	if (textFieldPayment.getText().isEmpty()) {
         		lblCstmrPayment_int.setText(textFieldPayment.getText());
         		lblCstmrPayment_Peso.setEnabled(false);
@@ -1026,7 +1029,7 @@ public class Transactions extends JFrame {
         		lblCstmrPayment_int.setText(textFieldPayment.getText()+".0");
         		lblCstmrPayment_Peso.setEnabled(true);
         	}
-        });
+        });*/
         
         
         
@@ -1078,17 +1081,40 @@ public class Transactions extends JFrame {
             double totalProfitVal = 0, profitVal = 0, pChange = 0;
             
          
-            profitVal += (objPrice.getWaterPriceLarge() * objInvt.getOutBoundContainer_L()) + (objSales.getServiceFee() * objInvt.getOutBoundContainer_L());
-            profitVal += (objPrice.getWaterPriceMedium() * objInvt.getOutBoundContainer_M()) + (objSales.getServiceFee() * objInvt.getOutBoundContainer_M());
-            profitVal += (objPrice.getWaterPriceSmall() * objInvt.getOutBoundContainer_S()) + (objSales.getServiceFee() * objInvt.getOutBoundContainer_S());
+            profitVal += (objPrice.getWaterPriceLarge() * containerQuantityLarge) + (objSales.getServiceFee() * containerQuantityLarge);
+            profitVal += (objPrice.getWaterPriceMedium() * containerQuantityMedium) + (objSales.getServiceFee() * containerQuantityMedium);
+            profitVal += (objPrice.getWaterPriceSmall() * containerQuantitySmall) + (objSales.getServiceFee() * containerQuantitySmall);
+            
+            
+            if (!textFieldPayment.getText().trim().isEmpty()) {
+            	
+            	lblCstmrPayment_int.setText(textFieldPayment.getText()+".0");
+        		lblCstmrPayment_Peso.setEnabled(true);
+            	
+            	try {
+                	objSales.setCustomerPayment(Double.parseDouble(textFieldPayment.getText()));
+                }
+            	catch(NumberFormatException ex) {
+            		objSales.setCustomerPayment(0);
+            		// Handle invalid input
+                    JOptionPane.showMessageDialog(null, "Invalid input! Please enter a valid number.", 
+                            "Input Error", JOptionPane.ERROR_MESSAGE);
+                }
+            	
+            }
+            else {
+        		lblCstmrPayment_int.setText(textFieldPayment.getText());
+        		lblCstmrPayment_Peso.setEnabled(false);
+        	}
+            
             
             if(profitVal< 0) {
             if (objTrans.isDelivery()) {
             	profitVal += objSales.getDeliveryFee();
             }}
 
-                totalProfitVal = profitVal;
-                objSales.setProfit(totalProfitVal);
+            totalProfitVal = profitVal;
+            objSales.setProfit(totalProfitVal);
                 
                 
             pChange = objSales.calculateTransaction();
@@ -1115,6 +1141,17 @@ public class Transactions extends JFrame {
                 lblChange_Peso.setEnabled(false);
             } 
             
+             /*selectedCustomer_Name
+              *String address = getString(textFieldAddress);
+              *String contactNum = getString(textFieldContactNum);
+              *
+              *dateFormatter1
+              *timeFormatter
+              * 
+              * containerQuantityLarge
+              * containerQuantityMedium
+              * containerQuantitySmall
+              */
         });
         
         

@@ -334,7 +334,7 @@ public class Pricing extends JFrame {
         lblNewLabel_15.setFont(new Font("Tahoma", Font.PLAIN, 28));
         panel_8.add(lblNewLabel_15);
 
-        // Initial calculation and UI update
+     // Initial calculation and UI update
         obj.calculateWaterPriceLarge();
         lblNewLabel_15.setText(String.format("%.2f", obj.getWaterPriceLarge()));
         lblNewLabel_15.setEnabled(true);
@@ -349,6 +349,22 @@ public class Pricing extends JFrame {
                 lblNewLabel_15.setText(String.format("%.2f", obj.getWaterPriceLarge()));
                 lblNewLabel_15.setEnabled(false);
                 lblNewLabel_9.setEnabled(false);
+
+                // Database update for resetting price
+                try (Connection conn = Connections.getConnection()) {
+                    String sql = "UPDATE pricing SET Container_Price = ? WHERE Container_Size = '5'"; // Adjust this if needed
+                    try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                        pstmt.setDouble(1, 0);
+                        int rowsUpdated = pstmt.executeUpdate();
+                        if (rowsUpdated > 0) {
+                            System.out.println("Price reset successfully in database!");
+                        } else {
+                            System.out.println("No rows updated, check if 'Large' container exists.");
+                        }
+                    }
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, "Database error: " + ex.getMessage());
+                }
             } else {
                 try {
                     // Parse input and update the backend
@@ -360,6 +376,22 @@ public class Pricing extends JFrame {
                     lblNewLabel_15.setText(String.format("%.2f", obj.getWaterPriceLarge()));
                     lblNewLabel_15.setEnabled(true);
                     lblNewLabel_9.setEnabled(true);
+
+                    // Save new price to database
+                    try (Connection conn = Connections.getConnection()) {
+                        String sql = "UPDATE pricing SET Container_Price = ? WHERE Container_Size = '5'"; // Adjust if needed
+                        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                            pstmt.setDouble(1, newPrice);
+                            int rowsUpdated = pstmt.executeUpdate();
+                            if (rowsUpdated > 0) {
+                                System.out.println("Price updated successfully in database!");
+                            } else {
+                                System.out.println("No rows updated, check if 'Large' container exists.");
+                            }
+                        }
+                    } catch (SQLException ex) {
+                        JOptionPane.showMessageDialog(null, "Database error: " + ex.getMessage());
+                    }
                 } catch (NumberFormatException ex) {
                     // Handle invalid input
                     JOptionPane.showMessageDialog(null, "Invalid input! Please enter a valid number.");
@@ -401,8 +433,8 @@ public class Pricing extends JFrame {
         
         
      // Initial calculation and UI update
-        obj.calculateWaterPriceMedium();
-        lblNewLabel_16.setText(String.format("%.2f", obj.getWaterPriceMedium()));
+        obj.calculateWaterPriceMedium(); // Adjusted for Medium container
+        lblNewLabel_16.setText(String.format("%.2f", obj.getWaterPriceMedium())); // Adjusted for Medium container
         lblNewLabel_16.setEnabled(true);
         lblNewLabel_11.setEnabled(true);
 
@@ -410,22 +442,54 @@ public class Pricing extends JFrame {
             String input = txtHello.getText();
             if (input.isEmpty()) {
                 // Reset if input is empty
-                obj.setWaterPriceMedium(0); 
-                obj.calculateWaterPriceMedium(); // Ensure any dependencies are updated
-                lblNewLabel_16.setText(String.format("%.2f", obj.getWaterPriceMedium()));
+                obj.setWaterPriceMedium(0); // Adjusted for Medium container
+                obj.calculateWaterPriceMedium(); // Ensure any dependencies are updated for Medium container
+                lblNewLabel_16.setText(String.format("%.2f", obj.getWaterPriceMedium())); // Adjusted for Medium container
                 lblNewLabel_16.setEnabled(false);
                 lblNewLabel_11.setEnabled(false);
+
+                // Database update for resetting price
+                try (Connection conn = Connections.getConnection()) {
+                    String sql = "UPDATE pricing SET Container_Price = ? WHERE Container_Size = '3'"; // Adjusted for Medium container
+                    try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                        pstmt.setDouble(1, 0);
+                        int rowsUpdated = pstmt.executeUpdate();
+                        if (rowsUpdated > 0) {
+                            System.out.println("Price reset successfully in database for Medium container!");
+                        } else {
+                            System.out.println("No rows updated, check if 'Medium' container exists.");
+                        }
+                    }
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, "Database error: " + ex.getMessage());
+                }
             } else {
                 try {
-                    // Parse input and update the backend
-                    double newPrice2 = Double.parseDouble(input);
-                    obj.setWaterPriceMedium(newPrice2); 
-                    obj.calculateWaterPriceMedium(); // Recalculate after setting new price
+                    // Parse input and update the backend for Medium container
+                    double newPrice = Double.parseDouble(input);
+                    obj.setWaterPriceMedium(newPrice); // Adjusted for Medium container
+                    obj.calculateWaterPriceMedium(); // Recalculate after setting new price for Medium container
 
                     // Update UI
-                    lblNewLabel_16.setText(String.format("%.2f", obj.getWaterPriceMedium()));
+                    lblNewLabel_16.setText(String.format("%.2f", obj.getWaterPriceMedium())); // Adjusted for Medium container
                     lblNewLabel_16.setEnabled(true);
                     lblNewLabel_11.setEnabled(true);
+
+                    // Save new price to database for Medium container
+                    try (Connection conn = Connections.getConnection()) {
+                        String sql = "UPDATE pricing SET Container_Price = ? WHERE Container_Size = '3'"; // Adjusted for Medium container
+                        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                            pstmt.setDouble(1, newPrice);
+                            int rowsUpdated = pstmt.executeUpdate();
+                            if (rowsUpdated > 0) {
+                                System.out.println("Price updated successfully in database for Medium container!");
+                            } else {
+                                System.out.println("No rows updated, check if 'Medium' container exists.");
+                            }
+                        }
+                    } catch (SQLException ex) {
+                        JOptionPane.showMessageDialog(null, "Database error: " + ex.getMessage());
+                    }
                 } catch (NumberFormatException ex) {
                     // Handle invalid input
                     JOptionPane.showMessageDialog(null, "Invalid input! Please enter a valid number.");
@@ -466,8 +530,8 @@ public class Pricing extends JFrame {
         
         
      // Initial calculation and UI update
-        obj.calculateWaterPriceSmall();
-        lblNewLabel_17.setText(String.format("%.2f", obj.getWaterPriceSmall()));
+        obj.calculateWaterPriceSmall(); // Adjusted for Small container
+        lblNewLabel_17.setText(String.format("%.2f", obj.getWaterPriceSmall())); // Adjusted for Small container
         lblNewLabel_17.setEnabled(true);
         lblNewLabel_13.setEnabled(true);
 
@@ -475,22 +539,54 @@ public class Pricing extends JFrame {
             String input = txtHello.getText();
             if (input.isEmpty()) {
                 // Reset if input is empty
-                obj.setWaterPriceSmall(0); 
-                obj.calculateWaterPriceSmall(); // Ensure any dependencies are updated
-                lblNewLabel_17.setText(String.format("%.2f", obj.getWaterPriceSmall()));
+                obj.setWaterPriceSmall(0); // Adjusted for Small container
+                obj.calculateWaterPriceSmall(); // Ensure any dependencies are updated for Small container
+                lblNewLabel_17.setText(String.format("%.2f", obj.getWaterPriceSmall())); // Adjusted for Small container
                 lblNewLabel_17.setEnabled(false);
                 lblNewLabel_13.setEnabled(false);
+
+                // Database update for resetting price
+                try (Connection conn = Connections.getConnection()) {
+                    String sql = "UPDATE pricing SET Container_Price = ? WHERE Container_Size = '2.5'"; // Adjusted for Small container
+                    try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                        pstmt.setDouble(1, 0);
+                        int rowsUpdated = pstmt.executeUpdate();
+                        if (rowsUpdated > 0) {
+                            System.out.println("Price reset successfully in database for Small container!");
+                        } else {
+                            System.out.println("No rows updated, check if 'Small' container exists.");
+                        }
+                    }
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, "Database error: " + ex.getMessage());
+                }
             } else {
                 try {
-                    // Parse input and update the backend
-                    double newPrice3 = Double.parseDouble(input);
-                    obj.setWaterPriceSmall(newPrice3); 
-                    obj.calculateWaterPriceSmall(); // Recalculate after setting new price
+                    // Parse input and update the backend for Small container
+                    double newPrice = Double.parseDouble(input);
+                    obj.setWaterPriceSmall(newPrice); // Adjusted for Small container
+                    obj.calculateWaterPriceSmall(); // Recalculate after setting new price for Small container
 
                     // Update UI
-                    lblNewLabel_17.setText(String.format("%.2f", obj.getWaterPriceSmall()));
+                    lblNewLabel_17.setText(String.format("%.2f", obj.getWaterPriceSmall())); // Adjusted for Small container
                     lblNewLabel_17.setEnabled(true);
                     lblNewLabel_13.setEnabled(true);
+
+                    // Save new price to database for Small container
+                    try (Connection conn = Connections.getConnection()) {
+                        String sql = "UPDATE pricing SET Container_Price = ? WHERE Container_Size = '2.5'"; // Adjusted for Small container
+                        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                            pstmt.setDouble(1, newPrice);
+                            int rowsUpdated = pstmt.executeUpdate();
+                            if (rowsUpdated > 0) {
+                                System.out.println("Price updated successfully in database for Small container!");
+                            } else {
+                                System.out.println("No rows updated, check if 'Small' container exists.");
+                            }
+                        }
+                    } catch (SQLException ex) {
+                        JOptionPane.showMessageDialog(null, "Database error: " + ex.getMessage());
+                    }
                 } catch (NumberFormatException ex) {
                     // Handle invalid input
                     JOptionPane.showMessageDialog(null, "Invalid input! Please enter a valid number.");
