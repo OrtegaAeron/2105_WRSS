@@ -436,11 +436,76 @@ public class Customers extends JFrame {
         panel_3.add(btnNewButton_7);
         
         btnNewButton_7.addActionListener(e -> {
-        	textField.postActionEvent();
-        	textField_1.postActionEvent();
-        	textField_3.postActionEvent();
+            // Step 1: Retrieve values from text fields
+            String customerName = textField.getText();
+            String address = textField_1.getText();
+            String contactNumber = textField_3.getText();
+
+            // Step 2: Database connection details
+            String url = "jdbc:mysql://localhost:3306/flowstation_db"; // Correct DB URL
+            String username = "root"; // Ensure this is the correct MySQL username
+            String password = ""; // Correct MySQL password
+
+            // Step 3: SQL query to insert a new customer record
+            String sql = "INSERT INTO customer (Customer_Name, Address, Contact_Number) VALUES (?, ?, ?)";
+
+            try (Connection conn = DriverManager.getConnection(url, username, password);
+                 PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+                // Step 4: Set the parameters for the SQL query (correct order)
+                stmt.setString(1, customerName);
+                stmt.setString(2, address);  // Set Address correctly
+                stmt.setString(3, contactNumber);  // Set Contact Number correctly
+
+                // Step 5: Execute the insert query
+                int rowsAffected = stmt.executeUpdate();
+
+                // Step 6: Provide feedback to the user
+                if (rowsAffected > 0) {
+                    // Successfully inserted the customer
+                    JOptionPane.showMessageDialog(null, "Customer added successfully!");
+
+                    // Clear the text fields after the operation
+                    textField.setText("");
+                    textField_1.setText("");
+                    textField_3.setText("");
+
+                    // Step 7: Refresh the JTable with new data, ordered by CustomerID
+                    String selectSql = "SELECT * FROM customer ORDER BY CustomerID"; // Query to get all customers, ordered by CustomerID
+                    try (Statement selectStmt = conn.createStatement();
+                         ResultSet rs = selectStmt.executeQuery(selectSql)) {
+
+                        // Get the model of the JTable
+                        DefaultTableModel model = (DefaultTableModel) table.getModel();
+
+                        // Clear existing rows in the JTable
+                        model.setRowCount(0);
+
+                        // Add new rows from the ResultSet
+                        while (rs.next()) {
+                            int customerId = rs.getInt("CustomerID");
+                            String customerNameFromDb = rs.getString("Customer_Name");
+                            String addressFromDb = rs.getString("Address");
+                            String contactNumberFromDb = rs.getString("Contact_Number");
+
+                            // Add the row to the table model
+                            model.addRow(new Object[]{customerId, customerNameFromDb, addressFromDb, contactNumberFromDb});
+                        }
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                        JOptionPane.showMessageDialog(null, "Error fetching data: " + ex.getMessage());
+                    }
+                } else {
+                    // Failed to insert the customer
+                    JOptionPane.showMessageDialog(null, "Failed to add customer.");
+                }
+            } catch (SQLException ex) {
+                // Handle database-related errors
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage());
+            }
         });
-        
+
         //update customer panel
         JPanel panel_4 = new JPanel();
         panel_4.setLayout(null);
@@ -803,14 +868,125 @@ public class Customers extends JFrame {
         panel_4.add(btnNewButton_8);
         
         btnNewButton_8.addActionListener(e -> {
-        	//comboBox.postActionEvent();
-        	textField_4.postActionEvent();
-        	textField_5.postActionEvent();
-        	textField_2.postActionEvent();
-        	textField_6.postActionEvent();
-        	textField_7.postActionEvent();
+            // Step 1: Get the selected customer name from the JComboBox
+            String selectedCustomer = (String) comboBox.getSelectedItem();
+
+            // Ensure a customer is selected
+            if (selectedCustomer != null && !selectedCustomer.isEmpty()) {
+                // Step 2: Database connection details
+                String url = "jdbc:mysql://localhost:3306/flowstation_db"; // Your DB URL
+                String username = "root"; // Your DB username
+                String password = ""; // Your DB password
+
+                try (Connection conn = DriverManager.getConnection(url, username, password)) {
+                    // Step 3: Retrieve the customer ID based on the selected customer name
+                    String getCustomerIdQuery = "SELECT CustomerID, Address, Contact_Number, Lent_Large_Container, Lent_Medium_Container, Lent_Small_Container FROM customer WHERE Customer_Name = ?";
+                    int customerId = -1;
+                    String address = "";
+                    String contactNumber = "";
+                    int lentLargeContainer = 0;
+                    int lentMediumContainer = 0;
+                    int lentSmallContainer = 0;
+
+                    // Step 4: Get the current details of the selected customer
+                    try (PreparedStatement stmt = conn.prepareStatement(getCustomerIdQuery)) {
+                        stmt.setString(1, selectedCustomer);
+                        ResultSet rs = stmt.executeQuery();
+
+                        if (rs.next()) {
+                            customerId = rs.getInt("CustomerID");
+                            address = rs.getString("Address");
+                            contactNumber = rs.getString("Contact_Number");
+                            lentLargeContainer = rs.getInt("Lent_Large_Container");
+                            lentMediumContainer = rs.getInt("Lent_Medium_Container");
+                            lentSmallContainer = rs.getInt("Lent_Small_Container");
+
+                            // Update text fields with the existing data
+                            textField_1.setText(address);
+                            textField_2.setText(contactNumber);
+                            textField_3.setText(String.valueOf(lentLargeContainer));
+                            textField_4.setText(String.valueOf(lentMediumContainer));
+                            textField_5.setText(String.valueOf(lentSmallContainer));
+                        }
+                    }
+
+                    // Step 5: Retrieve updated values from text fields
+                    String updatedAddress = textField_1.getText();
+                    String updatedContactNumber = textField_2.getText();
+
+                    // Parse integers for containers, ensure proper conversion
+                    int updatedLentLargeContainer = 0;
+                    int updatedLentMediumContainer = 0;
+                    int updatedLentSmallContainer = 0;
+
+                    try {
+                        updatedLentLargeContainer = Integer.parseInt(textField_3.getText());
+                    } catch (NumberFormatException ex) {
+                        // Handle invalid input, e.g., show a warning or set default value
+                        JOptionPane.showMessageDialog(null, "Invalid value for Lent Large Container. Setting to 0.");
+                        updatedLentLargeContainer = 0;
+                    }
+
+                    try {
+                        updatedLentMediumContainer = Integer.parseInt(textField_4.getText());
+                    } catch (NumberFormatException ex) {
+                        // Handle invalid input, e.g., show a warning or set default value
+                        JOptionPane.showMessageDialog(null, "Invalid value for Lent Medium Container. Setting to 0.");
+                        updatedLentMediumContainer = 0;
+                    }
+
+                    try {
+                        updatedLentSmallContainer = Integer.parseInt(textField_5.getText());
+                    } catch (NumberFormatException ex) {
+                        // Handle invalid input, e.g., show a warning or set default value
+                        JOptionPane.showMessageDialog(null, "Invalid value for Lent Small Container. Setting to 0.");
+                        updatedLentSmallContainer = 0;
+                    }
+
+                    // Step 6: Update the database with the new customer details
+                    String updateCustomerQuery = "UPDATE customer SET Address = ?, Contact_Number = ?, Lent_Large_Container = ?, Lent_Medium_Container = ?, Lent_Small_Container = ? WHERE CustomerID = ?";
+                    try (PreparedStatement updateStmt = conn.prepareStatement(updateCustomerQuery)) {
+                        updateStmt.setString(1, updatedAddress);
+                        updateStmt.setString(2, updatedContactNumber);
+                        updateStmt.setInt(3, updatedLentLargeContainer);
+                        updateStmt.setInt(4, updatedLentMediumContainer);
+                        updateStmt.setInt(5, updatedLentSmallContainer);
+                        updateStmt.setInt(6, customerId);
+
+                        int rowsUpdated = updateStmt.executeUpdate();
+                        if (rowsUpdated > 0) {
+                            JOptionPane.showMessageDialog(null, "Customer updated successfully!");
+
+                            // Step 7: Update the JTable directly without refreshing it fully
+                            DefaultTableModel model = (DefaultTableModel) table.getModel();
+                            for (int i = 0; i < model.getRowCount(); i++) {
+                                // Check if the row corresponds to the updated customer
+                                String customerNameInTable = (String) model.getValueAt(i, 0); // Assuming customer name is in the first column
+                                if (customerNameInTable.equals(selectedCustomer)) {
+                                    // Update the row data (address, contact number, containers)
+                                    model.setValueAt(updatedAddress, i, 2); // Update address (assuming it's in the third column)
+                                    model.setValueAt(updatedContactNumber, i, 3); // Update contact number
+                                    model.setValueAt(updatedLentLargeContainer, i, 4); // Update large container (column 4)
+                                    model.setValueAt(updatedLentMediumContainer, i, 5); // Update medium container (column 5)
+                                    model.setValueAt(updatedLentSmallContainer, i, 6); // Update small container (column 6)
+                                    break;
+                                }
+                            }
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Failed to update customer.");
+                        }
+                    }
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage());
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Please select a customer to update.");
+            }
         });
-        
+
+
+
         //delete customer panel
         JPanel panel_5 = new JPanel();
         panel_5.setLayout(null);
@@ -828,7 +1004,7 @@ public class Customers extends JFrame {
         panel_5.add(lblNewLabel_14);
         
         JComboBox<String> comboBox_1 = new JComboBox();
-        comboBox_1.setBounds(422, 13, 428, 26);
+        comboBox_1.setBounds(414, 15, 428, 26);
         panel_5.add(comboBox_1);
         
         try (Connection conn = Connections.getConnection()) { // Use your Connections class
@@ -885,13 +1061,76 @@ public class Customers extends JFrame {
         btnNewButton_9.setBounds(1000, 6, 82, 41);
         panel_5.add(btnNewButton_9);
         btnNewButton_9.setFont(new Font("Tahoma", Font.BOLD, 12));
-        
         btnNewButton_9.addActionListener(e -> {
-        	//comboBox_1.postActionEvent();
+            // Step 1: Get the selected customer name from the JComboBox
+            String selectedCustomer = (String) comboBox_1.getSelectedItem();
+
+            // Ensure a customer is selected before proceeding
+            if (selectedCustomer != null && !selectedCustomer.isEmpty()) {
+                // Step 2: Database connection details
+                String url = "jdbc:mysql://localhost:3306/flowstation_db"; // Correct DB URL
+                String username = "root"; // Correct MySQL username
+                String password = ""; // Correct MySQL password
+
+                try (Connection conn = DriverManager.getConnection(url, username, password)) {
+                    // Step 3: Fetch the customer ID based on customer name
+                    String getCustomerIdQuery = "SELECT CustomerID FROM customer WHERE Customer_Name = ?";
+                    int customerId = -1;
+                    try (PreparedStatement stmt = conn.prepareStatement(getCustomerIdQuery)) {
+                        stmt.setString(1, selectedCustomer);
+                        ResultSet rs = stmt.executeQuery();
+                        if (rs.next()) {
+                            customerId = rs.getInt("CustomerID"); // Get CustomerID
+                        }
+                    }
+
+                    // If customer ID is found, proceed with deletion
+                    if (customerId != -1) {
+                        // Step 4: Delete related sales records first (Cascade delete or handling foreign key)
+                        String deleteSalesQuery = "DELETE FROM sales WHERE CustomerID = ?";
+                        try (PreparedStatement stmt = conn.prepareStatement(deleteSalesQuery)) {
+                            stmt.setInt(1, customerId);
+                            stmt.executeUpdate();
+                        }
+
+                        // Step 5: Delete the customer record from the database
+                        String deleteCustomerQuery = "DELETE FROM customer WHERE CustomerID = ?";
+                        try (PreparedStatement stmt = conn.prepareStatement(deleteCustomerQuery)) {
+                            stmt.setInt(1, customerId);
+                            int rowsAffected = stmt.executeUpdate();
+
+                            if (rowsAffected > 0) {
+                                // Step 6: Provide feedback that the customer has been deleted
+                                JOptionPane.showMessageDialog(null, "Customer deleted successfully!");
+
+                                // Step 7: Remove the deleted customer from the JComboBox
+                                comboBox_1.removeItem(selectedCustomer);
+                                comboBox_1.setSelectedItem(null); // Reset the selection
+
+                                // Step 8: Remove the row from the JTable without needing to refresh
+                                DefaultTableModel model = (DefaultTableModel) table.getModel();
+                                for (int i = 0; i < model.getRowCount(); i++) {
+                                    // Assuming customer name is in the first column (index 0)
+                                    String customerNameInTable = (String) model.getValueAt(i, 0);
+                                    if (customerNameInTable.equals(selectedCustomer)) {
+                                        model.removeRow(i); // Remove the row
+                                        break; // Exit the loop once the row is removed
+                                    }
+                                }
+                            } else {
+                                JOptionPane.showMessageDialog(null, "Failed to delete customer.");
+                            }
+                        }
+                    }
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage());
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Please select a customer to delete.");
+            }
         });
-        
-        
-        
+
         backgroundLabel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{table, panel, lblNewLabel_3, panel_1, lblNewLabel_1, lblNewLabel_2, btnNewButton, btnNewButton_1, btnNewButton_2, btnNewButton_7, btnNewButton_3, btnNewButton_4, btnNewButton_5, btnNewButton_6, panel_2, scrollPane, panel_3, lblNewLabel, lblNewLabel_4, lblNewLabel_5, textField, textField_1, lblNewLabel_6, textField_3, panel_4, lblNewLabel_7, lblUpdateCustomerDeta, comboBox, lblNewLabel_9, textField_4, lblNewLabel_10, textField_5, btnNewButton_8, lblNewLabel_11, lblNewLabel_12, lblNewLabel_13, textField_2, textField_6, textField_7, panel_5, lblDeleteCustomer, lblNewLabel_14, btnNewButton_9, comboBox_1}));
         
         
