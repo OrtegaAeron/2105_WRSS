@@ -3,6 +3,8 @@ package gui;
 import java.awt.EventQueue;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -229,11 +231,13 @@ public class Pricing extends JFrame {
         panel_2.add(panel_7);
         panel_7.setLayout(null);
         
-        JLabel lblNewLabel_14 = new JLabel("5.00");
+        JLabel lblNewLabel_14 = new JLabel(String.valueOf(obj.getPricePerGalon()));
         lblNewLabel_14.setBounds(48, 5, 147, 49);
         lblNewLabel_14.setForeground(Color.BLACK);
         lblNewLabel_14.setFont(new Font("Tahoma", Font.PLAIN, 40));
         panel_7.add(lblNewLabel_14);
+        
+        
         
         JPanel panel_3 = new JPanel();
         panel_3.setBounds(630, 290, 404, 108);
@@ -294,16 +298,105 @@ public class Pricing extends JFrame {
         });
         
         
-        JButton btnNewButton_7 = new JButton("UPDATE\r\n");
+        JButton btnNewButton_7 = new JButton("UPDATE");
         btnNewButton_7.setFont(new Font("Tahoma", Font.BOLD, 12));
         btnNewButton_7.setBounds(257, 53, 91, 34);
         panel_3.add(btnNewButton_7);
         
+     // Assuming you are initializing the tableModel in your GUI setup code:
+     // Assuming you are initializing the tableModel in your constructor or setup method
+     // Setup for the table model and table
+        String[] columnNames = {"PriceID", "Container Size", "Container Price", "Price per Gallon"};
+        DefaultTableModel tableModel = new DefaultTableModel(new Object[][] {}, columnNames);
+        JTable pricingTable = new JTable(tableModel);
+
+        // Add the table to a JScrollPane
+        JScrollPane scrollPane = new JScrollPane(pricingTable);
+        panel_3.add(scrollPane);  // Or wherever you want to place it
+
+
+
         btnNewButton_7.addActionListener(e -> {
-            txtHello.postActionEvent();
-            txtHello.postActionEvent();
+            // Get the new price per gallon from the text field
+            String input = txtHello.getText();
+            double newPricePerGallon;
+
+            try {
+                // Validate the input (ensure it's a positive number)
+                newPricePerGallon = Double.parseDouble(input);
+                if (newPricePerGallon <= 0) {
+                    throw new NumberFormatException("Price per gallon must be positive.");
+                }
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(null, "Please enter a valid positive number for price per gallon.", "Input Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            Connection connection = null;
+            try {
+                // Establish the database connection
+                connection = dbConnections.Connections.getConnection();
+                connection.setAutoCommit(false); // Start a transaction
+
+                // Update query for the database
+                String updateQuery = "UPDATE pricing SET Price_perGallon = ?, Container_Price = Container_Size * ? WHERE PriceID = ?";
+                PreparedStatement ps = connection.prepareStatement(updateQuery);
+
+                // Execute the update for each PriceID (1, 2, 3)
+                for (int priceID = 1; priceID <= 3; priceID++) {
+                    ps.setDouble(1, newPricePerGallon);  // Set the new price per gallon
+                    ps.setDouble(2, newPricePerGallon);  // Recalculate the container price based on new price per gallon
+                    ps.setInt(3, priceID);  // Update for each PriceID
+                    ps.executeUpdate();
+                }
+
+                connection.commit(); // Commit the transaction
+
+                // Fetch the updated data from the database to display in the table
+                String selectQuery = "SELECT PriceID, Container_Size, Container_Price, Price_perGallon FROM pricing";
+                PreparedStatement selectPs = connection.prepareStatement(selectQuery);
+                ResultSet rs = selectPs.executeQuery();
+
+                // Clear the existing rows in the table model before adding the updated data
+                tableModel.setRowCount(0);
+
+                // Add updated data to the table model
+                while (rs.next()) {
+                    int priceID = rs.getInt("PriceID");
+                    double containerSize = rs.getDouble("Container_Size");
+                    double updatedContainerPrice = rs.getDouble("Container_Price");
+                    double updatedPricePerGallon = rs.getDouble("Price_perGallon");
+
+                    // Add the new row to the table model
+                    tableModel.addRow(new Object[] { priceID, containerSize, updatedContainerPrice, updatedPricePerGallon });
+                }
+
+                // Notify the user of successful update
+                JOptionPane.showMessageDialog(null, "Prices updated successfully!", "Update Successful", JOptionPane.INFORMATION_MESSAGE);
+
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                try {
+                    if (connection != null) {
+                        connection.rollback();  // Rollback the transaction if there was an error
+                    }
+                } catch (SQLException rollbackEx) {
+                    rollbackEx.printStackTrace();
+                }
+                JOptionPane.showMessageDialog(null, "Failed to update prices. Please try again.", "Update Error", JOptionPane.ERROR_MESSAGE);
+
+            } finally {
+                // Ensure the connection is closed after the operation
+                try {
+                    if (connection != null && !connection.isClosed()) {
+                        connection.close();
+                    }
+                } catch (SQLException closeEx) {
+                    closeEx.printStackTrace();
+                }
+            }
         });
-        
+
         
         JPanel panel_4 = new JPanel();
         panel_4.setBounds(500, 420, 665, 87);
@@ -329,7 +422,7 @@ public class Pricing extends JFrame {
         panel_8.setLayout(null);
         
         
-        JLabel lblNewLabel_15 = new JLabel();
+        JLabel lblNewLabel_15 = new JLabel(String.valueOf(obj.getWaterPriceLarge()));
         lblNewLabel_15.setBounds(58, 6, 105, 34);
         lblNewLabel_15.setFont(new Font("Tahoma", Font.PLAIN, 28));
         panel_8.add(lblNewLabel_15);
@@ -347,8 +440,8 @@ public class Pricing extends JFrame {
                 obj.setWaterPriceLarge(0); 
                 obj.calculateWaterPriceLarge(); // Ensure any dependencies are updated
                 lblNewLabel_15.setText(String.format("%.2f", obj.getWaterPriceLarge()));
-                lblNewLabel_15.setEnabled(false);
-                lblNewLabel_9.setEnabled(false);
+                lblNewLabel_15.setEnabled(true);
+                lblNewLabel_9.setEnabled(true);
 
                 // Database update for resetting price
                 try (Connection conn = Connections.getConnection()) {
@@ -426,7 +519,7 @@ public class Pricing extends JFrame {
         panel_9.setLayout(null);
         
         
-        JLabel lblNewLabel_16 = new JLabel();
+        JLabel lblNewLabel_16 = new JLabel(String.valueOf(obj.getWaterPriceMedium()));
         lblNewLabel_16.setBounds(58, 5, 105, 34);
         lblNewLabel_16.setFont(new Font("Tahoma", Font.PLAIN, 28));
         panel_9.add(lblNewLabel_16);
@@ -523,7 +616,7 @@ public class Pricing extends JFrame {
         panel_10.setLayout(null);
         
         
-        JLabel lblNewLabel_17 = new JLabel();
+        JLabel lblNewLabel_17 = new JLabel(String.valueOf(obj.getWaterPriceSmall()));
         lblNewLabel_17.setBounds(58, 5, 105, 34);
         lblNewLabel_17.setFont(new Font("Tahoma", Font.PLAIN, 28));
         panel_10.add(lblNewLabel_17);
