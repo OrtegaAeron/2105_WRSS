@@ -873,19 +873,15 @@ public class Customers extends JFrame {
 
             // Ensure a customer is selected
             if (selectedCustomer != null && !selectedCustomer.isEmpty()) {
-                // Step 2: Database connection details
-                String url = "jdbc:mysql://localhost:3306/flowstation_db"; // Your DB URL
-                String username = "root"; // Your DB username
-                String password = ""; // Your DB password
-
-                try (Connection conn = DriverManager.getConnection(url, username, password)) {
-                    // Step 3: Retrieve the customer ID based on the selected customer name
+                // Step 2: Use the custom Connections class to establish a database connection
+                try (Connection conn = Connections.getConnection()) {  // Use your Connections class to get the connection
+                    // Step 3: Retrieve the customer ID and other details based on the selected customer name
                     String getCustomerIdQuery = "SELECT CustomerID, Address, Contact_Number, Lent_Large_Container, Lent_Medium_Container, Lent_Small_Container FROM customer WHERE Customer_Name = ?";
                     int customerId = -1;
                     String address = "";
                     String contactNumber = "";
-                    int lentLargeContainer = 0;
-                    int lentMediumContainer = 0;
+	                    int lentLargeContainer = 0;
+	                    int lentMediumContainer = 0;
                     int lentSmallContainer = 0;
 
                     // Step 4: Get the current details of the selected customer
@@ -902,11 +898,11 @@ public class Customers extends JFrame {
                             lentSmallContainer = rs.getInt("Lent_Small_Container");
 
                             // Update text fields with the existing data
-                            textField_1.setText(address);
-                            textField_2.setText(contactNumber);
-                            textField_3.setText(String.valueOf(lentLargeContainer));
-                            textField_4.setText(String.valueOf(lentMediumContainer));
-                            textField_5.setText(String.valueOf(lentSmallContainer));
+                            textField_1.setText(address);  // Address field
+                            textField_2.setText(contactNumber);  // Contact number field
+                            textField_3.setText(String.valueOf(lentLargeContainer));  // Lent large container
+                            textField_4.setText(String.valueOf(lentMediumContainer));  // Lent medium container
+                            textField_5.setText(String.valueOf(lentSmallContainer));  // Lent small container
                         }
                     }
 
@@ -947,11 +943,11 @@ public class Customers extends JFrame {
                     String updateCustomerQuery = "UPDATE customer SET Address = ?, Contact_Number = ?, Lent_Large_Container = ?, Lent_Medium_Container = ?, Lent_Small_Container = ? WHERE CustomerID = ?";
                     try (PreparedStatement updateStmt = conn.prepareStatement(updateCustomerQuery)) {
                         updateStmt.setString(1, updatedAddress);
-                        updateStmt.setString(2, updatedContactNumber);
+                        updateStmt.setString(2, updatedContactNumber);  // Set the correct contact number
                         updateStmt.setInt(3, updatedLentLargeContainer);
                         updateStmt.setInt(4, updatedLentMediumContainer);
                         updateStmt.setInt(5, updatedLentSmallContainer);
-                        updateStmt.setInt(6, customerId);
+                        updateStmt.setInt(6, customerId);  // Use the customer ID to update the record
 
                         int rowsUpdated = updateStmt.executeUpdate();
                         if (rowsUpdated > 0) {
@@ -961,14 +957,14 @@ public class Customers extends JFrame {
                             DefaultTableModel model = (DefaultTableModel) table.getModel();
                             for (int i = 0; i < model.getRowCount(); i++) {
                                 // Check if the row corresponds to the updated customer
-                                String customerNameInTable = (String) model.getValueAt(i, 0); // Assuming customer name is in the first column
+                                String customerNameInTable = (String) model.getValueAt(i, 1);  // Assuming customer name is in the second column
                                 if (customerNameInTable.equals(selectedCustomer)) {
-                                    // Update the row data (address, contact number, containers)
-                                    model.setValueAt(updatedAddress, i, 2); // Update address (assuming it's in the third column)
-                                    model.setValueAt(updatedContactNumber, i, 3); // Update contact number
-                                    model.setValueAt(updatedLentLargeContainer, i, 4); // Update large container (column 4)
-                                    model.setValueAt(updatedLentMediumContainer, i, 5); // Update medium container (column 5)
-                                    model.setValueAt(updatedLentSmallContainer, i, 6); // Update small container (column 6)
+                                    // Update the row data in the correct columns:
+                                    model.setValueAt(updatedAddress, i, 3);  // Update address (assuming it's in the 4th column)
+                                    model.setValueAt(updatedContactNumber, i, 4);  // Update contact number (column 5)
+                                    model.setValueAt(updatedLentLargeContainer, i, 5);  // Update large container (column 6)
+                                    model.setValueAt(updatedLentMediumContainer, i, 6);  // Update medium container (column 7)
+                                    model.setValueAt(updatedLentSmallContainer, i, 7);  // Update small container (column 8)
                                     break;
                                 }
                             }
@@ -984,6 +980,9 @@ public class Customers extends JFrame {
                 JOptionPane.showMessageDialog(null, "Please select a customer to update.");
             }
         });
+
+
+
 
 
 
