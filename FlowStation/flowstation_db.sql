@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 27, 2024 at 02:16 AM
+-- Generation Time: Nov 27, 2024 at 08:12 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -64,14 +64,14 @@ CREATE TABLE `customer` (
 --
 
 INSERT INTO `customer` (`CustomerID`, `Customer_Name`, `Contact_Number`, `Address`, `Lent_Large_Container`, `Lent_Medium_Container`, `Lent_Small_Container`) VALUES
-(1, 'Juan dela Cruz', '0917-123-4567', 'Brgy. Wawa, Nasugbu, Batangas', 0, 0, 0),
+(1, 'Juan dela Cruz', '0917-123-4567', 'Brgy. Bucana, Nasugbu, Batangas', 8, 0, 0),
 (2, 'John Smith', '0918-234-5678', 'Brgy. Kaylaway, Nasugbu, Batangas', 0, 0, 0),
-(3, 'Marie Curie', '0919-345-6789', 'Brgy. Calayo, Nasugbu, Batangas', 0, 0, 0),
+(3, 'Marie Curie', '0919-345-0909', 'Brgy. Calayo, Nasugbu, Batangas', 0, 0, 0),
 (4, 'Carlos Santos', '0920-456-7890', 'Brgy. Tumalim, Nasugbu, Batangas', 0, 0, 0),
-(5, 'Emma Johnson', '0921-567-8901', 'Brgy. Lumbangan, Nasugbu, Batangas', 0, 0, 0),
+(5, 'Emma Johnson', '0921-567-9999', 'Brgy. Lumbangan, Nasugbu, Batangas', 0, 0, 0),
 (6, 'Sofia Rossi', '0922-678-9012', 'Brgy. Bilaran, Nasugbu, Batangas', 0, 0, 0),
-(7, 'Andres Bonifacio', '0923-789-0123', 'Brgy. Banilad, Nasugbu, Batangas', 0, 0, 0),
-(8, 'Michael Brown', '0924-890-1234', 'Brgy. Balaytigui, Nasugbu, Batangas', 0, 0, 0),
+(7, 'Andres Bonifacio', '0923-789-0123', 'Brgy. Banilad, Nasugbu, Batangas', 5, 4, 3),
+(8, 'Michael Brown', '0924-890-1234', 'Brgy. Balaytigui, Nasugbu, Batangas', 1, 2, 3),
 (9, 'Lucas Müller', '0925-901-2345', 'Brgy. Aga, Nasugbu, Batangas', 0, 0, 0),
 (10, 'Maria Clara', '0926-012-3456', 'Brgy. Catandaan, Lian, Batangas', 0, 0, 0),
 (11, 'Daniela Silva', '0927-123-4567', 'Brgy. Kapito, Lian, Batangas', 0, 0, 0),
@@ -135,9 +135,9 @@ CREATE TABLE `inventory` (
 --
 
 INSERT INTO `inventory` (`InventoryID`, `PriceID`, `Container_Type`, `In_Storage_Quantity`, `Lent_Quantity`, `Total_Quantity`) VALUES
-(1, 1, '5/gl Large', 500, 0, 500),
-(2, 2, '3/gl Medium', 500, 0, 500),
-(3, 3, '2.5/gl Small', 500, 0, 500);
+(1, 1, '5/gl Large', 500, 10, 501),
+(2, 2, '3/gl Medium', 507, 3, 510),
+(3, 3, '2.5/gl Small', 506, 4, 510);
 
 -- --------------------------------------------------------
 
@@ -409,7 +409,11 @@ INSERT INTO `sales` (`SalesID`, `DateID`, `CustomerID`, `Date`, `Time`, `Sold_La
 (270, 10, 45, '2024-11-27', '06:39:28', 2, 0, 0, 1, 66, 100, 34),
 (271, 10, 20, '2024-11-27', '07:07:32', 2, 0, 0, 1, 66, 66, 0),
 (272, 10, 7, '2024-11-27', '08:55:10', 1, 0, 0, 1, 38, 3000, 2962),
-(273, 10, 7, '2024-11-27', '09:14:45', 1, 0, 0, 1, 38, 9000, 8962);
+(273, 10, 7, '2024-11-27', '09:14:45', 1, 0, 0, 1, 38, 9000, 8962),
+(274, 10, 7, '2024-11-27', '09:28:33', 4, 3, 2, 1, 207, 1000, 793),
+(275, 10, 8, '2024-11-27', '09:32:33', 1, 2, 3, 1, 120.5, 1000, 879.5),
+(276, 10, 1, '2024-11-27', '09:44:41', 8, 0, 0, 1, 234, 5000, 4766),
+(277, 10, 7, '2024-11-27', '12:32:11', 1, 1, 1, 1, 71.5, 100, 28.5);
 
 -- --------------------------------------------------------
 
@@ -497,7 +501,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `CustomerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `CustomerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT for table `inventory`
@@ -515,7 +519,7 @@ ALTER TABLE `pricing`
 -- AUTO_INCREMENT for table `sales`
 --
 ALTER TABLE `sales`
-  MODIFY `SalesID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=274;
+  MODIFY `SalesID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=278;
 
 --
 -- AUTO_INCREMENT for table `salescatalog`
