@@ -479,6 +479,11 @@ public class Inventory extends JFrame {
                 
                 // Show success message to the user
                 JOptionPane.showMessageDialog(null, "Containers added successfully!");
+                
+             // Reset spinners to zero
+                spinner_1.setValue(0);
+                spinner_2.setValue(0);
+                spinner_3.setValue(0);
 
             } catch (SQLException ex) {
                 ex.printStackTrace();
@@ -702,6 +707,11 @@ public class Inventory extends JFrame {
 
                 // Show success message to the user
                 JOptionPane.showMessageDialog(null, "Containers subtracted successfully!");
+                
+             // Reset spinners to zero
+                spinner_4.setValue(0);
+                spinner_5.setValue(0);
+                spinner_6.setValue(0);
 
             } catch (SQLException ex) {
                 ex.printStackTrace();

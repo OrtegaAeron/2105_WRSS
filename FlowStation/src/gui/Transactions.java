@@ -49,7 +49,7 @@ public class Transactions extends JFrame {
     private JTextField textFieldDate;
     
     private int containerQuantityLarge, containerQuantityMedium, containerQuantitySmall;
-    private String selectedCustomer_Name, selectedCustomer_ID;
+    private String selectedCustomer_Name, selectedCustomer_ID, lastDate;
     private DateTimeFormatter dateFormatter1;
     private DateTimeFormatter timeFormatter1;
     private JTextField textFieldID;
@@ -1342,6 +1342,7 @@ public class Transactions extends JFrame {
                         return;
                     }
 
+                    
                     // Determine the Date_ID
                     int dateID = 1;
                     String checkDateQuery = "SELECT MAX(DateID) AS LastDateID, MAX(Date) AS LastDate FROM sales";
@@ -1349,7 +1350,7 @@ public class Transactions extends JFrame {
                         ResultSet rs = stmt.executeQuery();
 
                         if (rs.next()) {
-                            String lastDate = rs.getString("LastDate");
+                            lastDate = rs.getString("LastDate");
                             int lastDateID = rs.getInt("LastDateID");
 
                             if (currentDate.equals(lastDate)) {
@@ -1357,6 +1358,64 @@ public class Transactions extends JFrame {
                             } else {
                                 dateID = lastDateID + 1;
                             }
+                        }
+                    }
+                    
+                 // Check if a record for the current DateID exists in the SalesCatalog table
+                    String checkCatalogQuery = "SELECT COUNT(*) FROM salescatalog WHERE DateID = ?";
+                    try (PreparedStatement checkStmt = conn.prepareStatement(checkCatalogQuery)) {
+                        checkStmt.setInt(1, dateID);
+                        ResultSet rs = checkStmt.executeQuery();
+                        
+                        if (rs.next() && rs.getInt(1) == 0) {
+                            // No record exists for this DateID, insert a new one
+                            String insertSalesCatalogQuery = "INSERT INTO salescatalog (DateID, TotalSales, Expenses, TotalProfit) " +
+                                                             "VALUES (?, ?, ?, ?)"; // Assume Expenses is initially 0
+                            
+                            try (PreparedStatement insertStmt = conn.prepareStatement(insertSalesCatalogQuery)) {
+                            	int expenses = objExps.calculateWages();
+                            	
+                                insertStmt.setInt(1, dateID);   // Set DateID
+                                insertStmt.setDouble(2, 0); // Initial TotalSales
+                                insertStmt.setDouble(3, expenses); // Initial TotalProfit (TotalSales - Expenses)
+                                insertStmt.setDouble(4, 0);
+                                
+                                int rowsInserted = insertStmt.executeUpdate();
+                                if (rowsInserted > 0) {
+                                    System.out.println("New entry added to SalesCatalog for DateID: " + dateID);
+                                }
+                            }
+                        }
+
+                        // Update TotalSales and TotalProfit for the existing record (or newly inserted record)
+                        String updateSalesCatalogQuery = "UPDATE salescatalog " +
+                                                          "SET TotalSales = TotalSales + ?, " +
+                                                          "    TotalProfit = TotalSales - Expenses " +
+                                                          "WHERE DateID = ?";
+                        try (PreparedStatement updateStmt = conn.prepareStatement(updateSalesCatalogQuery)) {
+                            updateStmt.setDouble(1, total); // Add the current transaction's total to TotalSales // Recalculate TotalProfit
+                            updateStmt.setInt(2, dateID);   // Use the current DateID as reference
+
+                            int rowsAffected = updateStmt.executeUpdate();
+                            if (rowsAffected > 0) {
+                                System.out.println("SalesCatalog updated successfully.");
+                            } else {
+                                System.out.println("Failed to update SalesCatalog.");
+                            }
+                        }
+                    }
+                    
+                    if (lastDate != null && !currentDate.equals(lastDate)) {
+                        // Reset customer lent container values to 0
+                        String resetCustomerQuery = "UPDATE customer SET Lent_Large_Container = 0, Lent_Medium_Container = 0, Lent_Small_Container = 0";
+                        try (PreparedStatement stmt = conn.prepareStatement(resetCustomerQuery)) {
+                            stmt.executeUpdate();
+                        }
+
+                        // Reset inventory: Set Lent_Quantity to 0 and In_Storage_Quantity to Total_Quantity
+                        String resetInventoryQuery = "UPDATE inventory SET Lent_Quantity = 0, In_Storage_Quantity = Total_Quantity";
+                        try (PreparedStatement stmt = conn.prepareStatement(resetInventoryQuery)) {
+                            stmt.executeUpdate();
                         }
                     }
 

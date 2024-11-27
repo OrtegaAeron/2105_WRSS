@@ -290,7 +290,7 @@ public class AdminSettings extends JFrame {
                     JOptionPane.ERROR_MESSAGE);
         }
         
-        //add admin panel
+        //add admin panel------------------------------------------------
         JPanel panel_3 = new JPanel();
         panel_3.setBounds(488, 455, 682, 93);
         backgroundLabel.add(panel_3);
@@ -327,10 +327,10 @@ public class AdminSettings extends JFrame {
         });
         
         
-        JLabel lblPassworf = new JLabel("Password:");
-        lblPassworf.setFont(new Font("Myanmar Text", Font.BOLD, 14));
-        lblPassworf.setBounds(42, 63, 68, 23);
-        panel_3.add(lblPassworf);
+        JLabel lblPassword = new JLabel("Password:");
+        lblPassword.setFont(new Font("Myanmar Text", Font.BOLD, 14));
+        lblPassword.setBounds(42, 63, 68, 23);
+        panel_3.add(lblPassword);
         
         
         passwordField = new JTextField();
@@ -348,75 +348,9 @@ public class AdminSettings extends JFrame {
         
   
         obj.setPassword(new String(passwordField.getText()));
+
         
-        
-        JButton btnNewButton_7 = new JButton("ADD");
-        btnNewButton_7.setFont(new Font("Tahoma", Font.BOLD, 15));
-        btnNewButton_7.setBounds(574, 33, 85, 27);
-        panel_3.add(btnNewButton_7);
-        
-        btnNewButton_7.addActionListener(e -> {
-            // Step 1: Retrieve values from text fields
-            String adminName = textField.getText();  // Admin name
-            String adminPassword = String.valueOf(passwordField.getText());  // Password (use getPassword() for password fields)
-
-            // Step 2: Check if fields are empty
-            if (adminName.isEmpty() || adminPassword.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Please fill in all fields.");
-                return;
-            }
-
-            // Step 3: Database connection details
-            String url = "jdbc:mysql://localhost:3306/flowstation_db";  // Change to your database URL
-            String username = "root";  // Your MySQL username
-            String dbPassword = "";  // Your MySQL password
-
-            // Step 4: SQL query to insert a new admin record
-            String sql = "INSERT INTO admin (Admin_Name, Admin_Password) VALUES (?, ?)";  // Adjust column names if necessary
-
-            try (Connection conn = DriverManager.getConnection(url, username, dbPassword);
-                 PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-
-                // Step 5: Set parameters for the SQL query
-                stmt.setString(1, adminName);
-                stmt.setString(2, adminPassword);  // Set password
-
-                // Step 6: Execute the insert query
-                int rowsAffected = stmt.executeUpdate();
-
-                // Step 7: Provide feedback to the user
-                if (rowsAffected > 0) {
-                    JOptionPane.showMessageDialog(null, "Admin added successfully!");
-
-                    // Optionally, clear the fields after successful insertion
-                    textField.setText("");  // Clear the admin name field
-                    passwordField.setText("");  // Clear the password field
-
-                    // Step 8: Retrieve the last inserted Admin_ID
-                    ResultSet rs = stmt.getGeneratedKeys();  // Get generated keys (Admin_ID)
-                    int adminId = -1;
-                    if (rs.next()) {
-                        adminId = rs.getInt(1);  // Retrieve the last inserted Admin_ID
-                    }
-
-                    // Optionally, add the new admin to the JTable (if you want it to update the table immediately)
-                    DefaultTableModel model = (DefaultTableModel) table.getModel();  // Get the table model
-
-                    // Add the new row to the JTable in the correct order: Admin ID, Admin Name, Admin Password
-                    model.addRow(new Object[]{adminId, adminName, adminPassword});
-
-                } else {
-                    JOptionPane.showMessageDialog(null, "Failed to add admin.");
-                }
-            } catch (SQLException ex) {
-                // Handle database-related errors
-                ex.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage());
-            }
-        });
-
-
-        //update admin panel
+        //update admin panel----------------------------------------------------------
         JPanel panel_3_1 = new JPanel();
         backgroundLabel.add(panel_3_1);
         panel_3_1.setBounds(489, 556, 682, 93);
@@ -431,8 +365,6 @@ public class AdminSettings extends JFrame {
         lblName_1.setFont(new Font("Myanmar Text", Font.BOLD, 14));
         lblName_1.setBounds(31, 38, 49, 18);
         panel_3_1.add(lblName_1);
-        
-
         
         JComboBox<String> comboBox_1_1 = new JComboBox();
         comboBox_1_1.setBounds(116, 34, 440, 21);
@@ -530,105 +462,10 @@ public class AdminSettings extends JFrame {
         obj.setPassword(new String(passwordField.getText())); 
         
         
-        JButton btnNewButton_7_1 = new JButton("UPDATE");
-        btnNewButton_7_1.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                // Step 1: Get the selected admin name from the JComboBox
-                String selectedAdminName = (String) comboBox_1_1.getSelectedItem();
-
-                // Step 2: Check if a valid admin is selected
-                if (selectedAdminName == null || selectedAdminName.isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Please select an admin to update.");
-                    return;
-                }
-
-                // Step 3: Get the new password from the password field and convert it to String
-                String newPassword = new String(passwordField_1.getText()).trim(); // Convert char[] to String and trim spaces
-
-                // Step 4: Validate the new password (check if it's empty or just whitespace)
-                if (newPassword.isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Password cannot be empty.");
-                    return;
-                }
-
-                // Step 5: Database connection details
-                String url = "jdbc:mysql://localhost:3306/flowstation_db";  // Change to your database URL
-                String dbUsername = "root";  // Your MySQL username
-                String dbPassword = "";  // Your MySQL password
-
-                // Step 6: Query to get the AdminID for the selected Admin Name
-                String getAdminIdQuery = "SELECT AdminID FROM admin WHERE Admin_Name = ?";
-
-                try (Connection conn = DriverManager.getConnection(url, dbUsername, dbPassword);
-                     PreparedStatement stmt = conn.prepareStatement(getAdminIdQuery)) {
-
-                    stmt.setString(1, selectedAdminName);
-                    ResultSet rs = stmt.executeQuery();
-
-                    int adminId = -1;
-                    if (rs.next()) {
-                        adminId = rs.getInt("AdminID"); // Get the AdminID
-                    }
-
-                    if (adminId == -1) {
-                        JOptionPane.showMessageDialog(null, "Admin not found.");
-                        return;
-                    }
-
-                    // Step 7: SQL query to update the admin password in the database
-                    String updateQuery = "UPDATE admin SET Admin_Password = ? WHERE AdminID = ?";
-
-                    try (PreparedStatement updateStmt = conn.prepareStatement(updateQuery)) {
-                        updateStmt.setString(1, newPassword);  // Set the new password
-                        updateStmt.setInt(2, adminId);
-
-                        int rowsAffected = updateStmt.executeUpdate();
-
-                        // Step 8: Provide feedback to the user
-                        if (rowsAffected > 0) {
-                            JOptionPane.showMessageDialog(null, "Password updated successfully!");
-
-                            // Step 9: Update the JTable without refreshing
-                            DefaultTableModel model = (DefaultTableModel) table.getModel();
-                            
-                            // Loop through rows of the JTable to find the updated admin
-                            for (int row = 0; row < model.getRowCount(); row++) {
-                                if (model.getValueAt(row, 1).equals(selectedAdminName)) { // Assuming column 1 is Admin Name
-                                    // Update the password in the JTable (assuming column 2 is for password)
-                                    model.setValueAt(newPassword, row, 2);  // Column 2 is assumed to be password
-                                    break;
-                                }
-                            }
-
-                            // Step 10: Refresh the table to make sure the changes are reflected
-                            model.fireTableDataChanged();  // This forces the table to repaint itself
-
-                            // Optionally, clear the password field after update
-                            passwordField.setText("");
-
-                        } else {
-                            JOptionPane.showMessageDialog(null, "Failed to update password.");
-                        }
-                    }
-
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                    JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage());
-                }
-            }
-        });
-
-
-        btnNewButton_7_1.setFont(new Font("Tahoma", Font.BOLD, 15));
-        btnNewButton_7_1.setBounds(575, 32, 97, 30);
-        panel_3_1.add(btnNewButton_7_1);
         
-        btnNewButton_7.addActionListener(e -> {
-        	//comboBox_1_1.postActionEvent();
-        	passwordField_1.postActionEvent();
-        });
         
-      //delete admin panel
+        
+      //delete admin panel-------------------------------------------------------------------------
         JPanel panel_3_2 = new JPanel();
         panel_3_2.setBounds(488, 658, 683, 76);
         backgroundLabel.add(panel_3_2);
@@ -643,16 +480,6 @@ public class AdminSettings extends JFrame {
         lblName_1_1.setFont(new Font("Myanmar Text", Font.BOLD, 14));
         lblName_1_1.setBounds(31, 40, 49, 21);
         panel_3_2.add(lblName_1_1);
-        
-        JComboBox comboBox = new JComboBox();
-        comboBox.setBounds(347, 35, 0, 21);
-        panel_3_2.add(comboBox);
-        
-        comboBox.addActionListener(e -> {
-        	
-        	obj.setAdminName((String)comboBox.getSelectedItem());
-        });
-        
         
         JComboBox<String> comboBox_1 = new JComboBox();
         comboBox_1.setBounds(117, 39, 437, 21);
@@ -697,38 +524,249 @@ public class AdminSettings extends JFrame {
         	obj.setAdminName(String.valueOf(comboBox_1.getSelectedItem()));
         });
         
+        
+        
+        
+        // add button---------------------------------------------------------------------------
+        JButton btnNewButton_7 = new JButton("ADD");
+        btnNewButton_7.setFont(new Font("Tahoma", Font.BOLD, 15));
+        btnNewButton_7.setBounds(574, 33, 85, 27);
+        panel_3.add(btnNewButton_7);
+        
+        btnNewButton_7.addActionListener(e -> {
+        	//comboBox_1_1.postActionEvent();
+        	passwordField_1.postActionEvent();
+        });
+        
+        btnNewButton_7.addActionListener(e -> {
+            // Retrieve values from the text fields
+            String adminName = textField.getText();
+            String adminPassword = passwordField.getText(); // Use getText() for simplicity
+
+            // Validate the input fields
+            if (adminName.isEmpty() || adminPassword.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Please fill in all fields.");
+                return;
+            }
+
+            // Show a confirmation dialog
+            int confirm = JOptionPane.showConfirmDialog(
+                null,
+                "Are you sure you want to add this admin?",
+                "Confirm Add Admin",
+                JOptionPane.YES_NO_OPTION
+            );
+
+            if (confirm != JOptionPane.YES_OPTION) {
+                return; // Exit if the user selects "No"
+            }
+
+            // Database interaction
+            try (Connection conn = Connections.getConnection()) {
+                if (conn == null) {
+                    JOptionPane.showMessageDialog(null, "Database connection failed.");
+                    return;
+                }
+
+                String sql = "INSERT INTO admin (Admin_Name, Admin_Password) VALUES (?, ?)";
+                try (PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+                    stmt.setString(1, adminName);
+                    stmt.setString(2, adminPassword);
+
+                    int rowsAffected = stmt.executeUpdate();
+
+                    if (rowsAffected > 0) {
+                        JOptionPane.showMessageDialog(null, "Admin added successfully!");
+                        textField.setText(""); // Clear the admin name field
+                        passwordField.setText(""); // Clear the password field
+
+                        // Get the generated Admin ID
+                        ResultSet rs = stmt.getGeneratedKeys();
+                        int adminId = -1;
+                        if (rs.next()) {
+                            adminId = rs.getInt(1); // Retrieve the new Admin ID
+                        }
+
+                        // Update the JTable
+                        DefaultTableModel model = (DefaultTableModel) table.getModel();
+                        model.addRow(new Object[]{adminId, adminName, adminPassword});
+
+                        // Update both comboBox_1 and comboBox_1_1
+                        comboBox_1.removeAllItems();
+                        comboBox_1_1.removeAllItems();
+                        comboBox_1.addItem("");
+                        comboBox_1_1.addItem("");
+
+                        // Fetch all admin names from the database
+                        String fetchAdminQuery = "SELECT Admin_Name FROM admin";
+                        try (PreparedStatement fetchStmt = conn.prepareStatement(fetchAdminQuery);
+                             ResultSet adminRs = fetchStmt.executeQuery()) {
+                            while (adminRs.next()) {
+                                String fetchedAdminName = adminRs.getString("Admin_Name");
+                                comboBox_1.addItem(fetchedAdminName);
+                                comboBox_1_1.addItem(fetchedAdminName);
+                            }
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Failed to add admin.");
+                    }
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage());
+            }
+        });
+
+
+        
+        
+      //update button--------------------------------------------------------
+        JButton btnNewButton_7_1 = new JButton("UPDATE");
+        btnNewButton_7_1.setFont(new Font("Tahoma", Font.BOLD, 15));
+        btnNewButton_7_1.setBounds(575, 32, 97, 30);
+        panel_3_1.add(btnNewButton_7_1);
+        
+        btnNewButton_7_1.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Step 1: Get the selected admin name from the JComboBox
+                String selectedAdminName = (String) comboBox_1_1.getSelectedItem();
+
+                // Step 2: Check if a valid admin is selected
+                if (selectedAdminName == null || selectedAdminName.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Please select an admin to update.");
+                    return;
+                }
+
+                // Step 3: Get the new password from the password field and convert it to String
+                String newPassword = new String(passwordField_1.getText()).trim(); // Convert char[] to String and trim spaces
+
+                // Step 4: Validate the new password (check if it's empty or just whitespace)
+                if (newPassword.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Password cannot be empty.");
+                    return;
+                }
+
+                // Show a confirmation dialog
+                int confirm = JOptionPane.showConfirmDialog(
+                    null,
+                    "Are you sure you want to update the password for admin: " + selectedAdminName + "?",
+                    "Confirm Update",
+                    JOptionPane.YES_NO_OPTION
+                );
+
+                if (confirm != JOptionPane.YES_OPTION) {
+                    return; // Exit if the user selects "No"
+                }
+
+                // Step 5: Query to get the AdminID for the selected Admin Name
+                String getAdminIdQuery = "SELECT AdminID FROM admin WHERE Admin_Name = ?";
+
+                try (Connection conn = Connections.getConnection()) {
+                    if (conn == null) {
+                        JOptionPane.showMessageDialog(null, "Database connection failed.");
+                        return;
+                    }
+
+                    int adminId = -1;
+                    try (PreparedStatement stmt = conn.prepareStatement(getAdminIdQuery)) {
+                        stmt.setString(1, selectedAdminName);
+                        ResultSet rs = stmt.executeQuery();
+
+                        if (rs.next()) {
+                            adminId = rs.getInt("AdminID"); // Get the AdminID
+                        }
+                    }
+
+                    if (adminId == -1) {
+                        JOptionPane.showMessageDialog(null, "Admin not found.");
+                        return;
+                    }
+
+                    // Step 6: SQL query to update the admin password in the database
+                    String updateQuery = "UPDATE admin SET Admin_Password = ? WHERE AdminID = ?";
+
+                    try (PreparedStatement updateStmt = conn.prepareStatement(updateQuery)) {
+                        updateStmt.setString(1, newPassword); // Set the new password
+                        updateStmt.setInt(2, adminId);
+
+                        int rowsAffected = updateStmt.executeUpdate();
+
+                        // Step 7: Provide feedback to the user
+                        if (rowsAffected > 0) {
+                            JOptionPane.showMessageDialog(null, "Password updated successfully!");
+
+                            // Step 8: Update the JTable
+                            DefaultTableModel model = (DefaultTableModel) table.getModel();
+
+                            // Loop through rows of the JTable to find the updated admin
+                            for (int row = 0; row < model.getRowCount(); row++) {
+                                if (model.getValueAt(row, 1).equals(selectedAdminName)) { // Assuming column 1 is Admin Name
+                                    model.setValueAt(newPassword, row, 2); // Assuming column 2 is for password
+                                    break;
+                                }
+                            }
+
+                            model.fireTableDataChanged(); // Force the table to repaint itself
+
+                            // Clear the password field after update
+                            passwordField_1.setText("");
+
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Failed to update password.");
+                        }
+                    }
+
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage());
+                }
+            }
+        });
+
+        
+        
+        //delete button--------------------------------------------------------------------------
         JButton btnNewButton_7_1_1 = new JButton("DELETE");
         btnNewButton_7_1_1.setFont(new Font("Tahoma", Font.BOLD, 15));
         btnNewButton_7_1_1.setBounds(575, 33, 97, 30);
         panel_3_2.add(btnNewButton_7_1_1);
-        
+
         btnNewButton_7_1_1.addActionListener(e -> {
-            // Step 1: Get the selected admin name from JComboBox
             String selectedAdminName = (String) comboBox_1.getSelectedItem();
 
-            // Check if a customer is selected
             if (selectedAdminName == null || selectedAdminName.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Please select an admin to delete.");
                 return;
             }
 
-            // Step 2: Database connection details
-            String url = "jdbc:mysql://localhost:3306/flowstation_db"; // Adjust to your DB URL
-            String username = "root"; // Your MySQL username
-            String password = ""; // Your MySQL password
+            // Show a confirmation dialog
+            int confirm = JOptionPane.showConfirmDialog(
+                null, 
+                "Are you sure you want to delete the admin: " + selectedAdminName + "?", 
+                "Confirm Deletion", 
+                JOptionPane.YES_NO_OPTION
+            );
 
-            // Step 3: Query to get the AdminID for the selected Admin Name
-            String getAdminIdQuery = "SELECT AdminID FROM admin WHERE Admin_Name = ?";
+            if (confirm != JOptionPane.YES_OPTION) {
+                return; // Exit if the user selects "No"
+            }
 
-            try (Connection conn = DriverManager.getConnection(url, username, password);
-                 PreparedStatement stmt = conn.prepareStatement(getAdminIdQuery)) {
+            try (Connection conn = Connections.getConnection()) {
+                if (conn == null) {
+                    JOptionPane.showMessageDialog(null, "Database connection failed.");
+                    return;
+                }
 
-                stmt.setString(1, selectedAdminName);
-                ResultSet rs = stmt.executeQuery();
-
+                String getAdminIdQuery = "SELECT AdminID FROM admin WHERE Admin_Name = ?";
                 int adminId = -1;
-                if (rs.next()) {
-                    adminId = rs.getInt("AdminID"); // Get the AdminID
+
+                try (PreparedStatement stmt = conn.prepareStatement(getAdminIdQuery)) {
+                    stmt.setString(1, selectedAdminName);
+                    ResultSet rs = stmt.executeQuery();
+
+                    if (rs.next()) {
+                        adminId = rs.getInt("AdminID");
+                    }
                 }
 
                 if (adminId == -1) {
@@ -736,51 +774,58 @@ public class AdminSettings extends JFrame {
                     return;
                 }
 
-                // Step 4: SQL query to delete the admin record
                 String deleteQuery = "DELETE FROM admin WHERE AdminID = ?";
-
                 try (PreparedStatement deleteStmt = conn.prepareStatement(deleteQuery)) {
                     deleteStmt.setInt(1, adminId);
                     int rowsAffected = deleteStmt.executeUpdate();
 
-                    // Step 5: Provide feedback to the user
                     if (rowsAffected > 0) {
                         JOptionPane.showMessageDialog(null, "Admin deleted successfully!");
 
-                        // Step 6: Remove the deleted admin from JComboBox
-                        comboBox_1.removeItem(selectedAdminName);
+                        // Update comboBox_1 and comboBox_1_1
+                        comboBox_1.removeAllItems();
+                        comboBox_1_1.removeAllItems();
+                        comboBox_1.addItem("");
+                        comboBox_1_1.addItem("");
 
-                        // Step 7: Optionally, update the JTable (if needed)
-                        // You can refresh the JTable with updated data if necessary
-                        DefaultTableModel model = (DefaultTableModel) table.getModel();
-                        model.setRowCount(0); // Clear existing rows in the table
+                        String updateComboBoxQuery = "SELECT Admin_Name FROM admin";
 
-                        // Retrieve and display the updated admin list
-                        String selectQuery = "SELECT * FROM admin";
-                        try (Statement selectStmt = conn.createStatement();
-                             ResultSet resultSet = selectStmt.executeQuery(selectQuery)) {
-
-                            // Loop through the result set and populate the JTable
-                            while (resultSet.next()) {
-                                int adminIdFromDb = resultSet.getInt("AdminID");
-                                String adminName = resultSet.getString("Admin_Name");
-                                String adminPassword = resultSet.getString("Admin_Password");
-
-                                // Add the row to the table model
-                                model.addRow(new Object[]{adminIdFromDb, adminName, adminPassword});
+                        try (PreparedStatement stmt = conn.prepareStatement(updateComboBoxQuery);
+                             ResultSet rs = stmt.executeQuery()) {
+                            while (rs.next()) {
+                                String adminName = rs.getString("Admin_Name");
+                                comboBox_1.addItem(adminName);
+                                comboBox_1_1.addItem(adminName);
                             }
                         }
 
+                        // Update JTable
+                        DefaultTableModel model = (DefaultTableModel) table.getModel();
+                        model.setRowCount(0);
+                        String selectQuery = "SELECT * FROM admin";
+
+                        try (PreparedStatement stmt = conn.prepareStatement(selectQuery);
+                             ResultSet rs = stmt.executeQuery()) {
+                            while (rs.next()) {
+                                int adminIdFromDb = rs.getInt("AdminID");
+                                String adminName = rs.getString("Admin_Name");
+                                String adminPassword = rs.getString("Admin_Password");
+
+                                model.addRow(new Object[]{adminIdFromDb, adminName, adminPassword});
+                            }
+                        }
                     } else {
                         JOptionPane.showMessageDialog(null, "Failed to delete admin.");
                     }
                 }
-
             } catch (SQLException ex) {
                 ex.printStackTrace();
                 JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage());
             }
         });
+
+
+
 
     }
 }
