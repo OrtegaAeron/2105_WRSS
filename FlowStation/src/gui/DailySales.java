@@ -25,6 +25,7 @@ import backend.Expenses;
 public class DailySales extends JFrame {
 	
 	Sales objSales = new Sales();
+	Expenses objExps = new Expenses();
 
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
@@ -240,9 +241,11 @@ public class DailySales extends JFrame {
             }
 
             // SQL query to fetch admin details
-            String query = "SELECT SalesID, CustomerID, Date, Time, Sold_Large_Container, Sold_Medium_Container, Sold_Small_Container, Delivery, Total_Fees, Customer_Payment, Customer_Change " +
+            String query = "SELECT SalesID, CustomerID, Date, Time, Sold_Large_Container, Sold_Medium_Container, " +
+                    "Sold_Small_Container, Delivery, Total_Fees, Customer_Payment, Customer_Change " +
                     "FROM sales " +
-                    "WHERE DATE(Date) = CURRENT_DATE";
+                    "WHERE DATE(Date) = CURRENT_DATE " +
+                    "ORDER BY Date DESC, Time DESC";
             PreparedStatement stmt = conn.prepareStatement(query);
             ResultSet rs = stmt.executeQuery();
 
@@ -266,7 +269,6 @@ public class DailySales extends JFrame {
                 Double customerPayment = rs.getDouble("Customer_Payment");
                 Double change = rs.getDouble("Customer_Change");
                 
-
                 // Add a new row to the table
                 model.addRow(new Object[]{salesID, customerID, date, time, soldLargeContainers, soldMediumContainers, soldSmallContainers, delivery, totalFees, customerPayment, change});
             }
@@ -336,7 +338,7 @@ public class DailySales extends JFrame {
         lblEmployeeNo.setBounds(44, 86, 178, 28);
         panel_7.add(lblEmployeeNo);
         
-        JLabel lblNewLabel_4 = new JLabel("2");
+        JLabel lblNewLabel_4 = new JLabel(String.valueOf(objExps.getNoOfDeliveryMan()));
         lblNewLabel_4.setFont(new Font("Tahoma", Font.PLAIN, 17));
         lblNewLabel_4.setBackground(new Color(225, 225, 225));
         lblNewLabel_4.setBounds(458, 86, 71, 27);
@@ -366,9 +368,31 @@ public class DailySales extends JFrame {
         lblNewLabel_6_1.setBackground(new Color(225, 225, 225));
         lblNewLabel_6_1.setBounds(472, 10, 83, 27);
         panel_7.add(lblNewLabel_6_1);
-        //value is from database
+
+        // Fetch today's TotalSales and set it to the label
+        try (Connection conn = Connections.getConnection()) {
+            if (conn == null) {
+                System.out.println("Database connection failed.");
+            } else {
+                String query = "SELECT TotalSales " +
+                               "FROM salescatalog " +
+                               "WHERE DateID = (SELECT DateID FROM sales WHERE Date = CURDATE() LIMIT 1)";
+                try (PreparedStatement stmt = conn.prepareStatement(query)) {
+                    ResultSet rs = stmt.executeQuery();
+                    if (rs.next()) {
+                        double totalSales = rs.getDouble("TotalSales");
+                        lblNewLabel_6_1.setText(String.format("%.2f", totalSales));
+                    } else {
+                        lblNewLabel_6_1.setText("0.00");
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            lblNewLabel_6_1.setText("Error");
+        }
         
-        JLabel lblNewLabel_7_1 = new JLabel("500.00");
+        JLabel lblNewLabel_7_1 = new JLabel(String.valueOf(objExps.getDeliveryManDailySalary()));
         lblNewLabel_7_1.setFont(new Font("Tahoma", Font.PLAIN, 17));
         lblNewLabel_7_1.setBackground(new Color(225, 225, 225));
         lblNewLabel_7_1.setBounds(472, 61, 71, 27);
@@ -394,7 +418,29 @@ public class DailySales extends JFrame {
         lblTotalProfit_Int_1.setFont(new Font("Tahoma", Font.BOLD, 31));
         lblTotalProfit_Int_1.setBounds(114, 55, 161, 42);
         panel_8.add(lblTotalProfit_Int_1);
-        //also from database based on calculation from transactions
+        
+     // Fetch today's TotalProfit and set it to the label
+        try (Connection conn = Connections.getConnection()) {
+            if (conn == null) {
+                System.out.println("Database connection failed.");
+            } else {
+                String query = "SELECT TotalProfit " +
+                               "FROM salescatalog " +
+                               "WHERE DateID = (SELECT DateID FROM sales WHERE Date = CURDATE() LIMIT 1)";
+                try (PreparedStatement stmt = conn.prepareStatement(query)) {
+                    ResultSet rs = stmt.executeQuery();
+                    if (rs.next()) {
+                        double totalProfit = rs.getDouble("TotalProfit");
+                        lblTotalProfit_Int_1.setText(String.format("%.2f", totalProfit));
+                    } else {
+                        lblTotalProfit_Int_1.setText("0.00"); // Default if no profit for today
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            lblTotalProfit_Int_1.setText("Error"); // Show an error if something goes wrong
+        }
         
         
     }

@@ -26,6 +26,7 @@ public class Inventory extends JFrame {
     private JLabel lblNewLabel_1;
     private JTable table;
 
+
     /**
      * Launch the application.
      */
@@ -41,6 +42,8 @@ public class Inventory extends JFrame {
             }
         });
     }
+
+    
 
     /**
      * Create the frame.
@@ -213,18 +216,20 @@ public class Inventory extends JFrame {
         scrollPane.setBounds(9, 11, 1075, 290);
         panel_2.add(scrollPane);
 
-        table = new JTable();
-        // SQL command to get values and insert to table
+     // Create the table
+        JTable table = new JTable();
         table.setModel(new DefaultTableModel(
-            new Object[][] {
-                {"  1", "   5gl / Large Container", "   ", "   ", "   "},
-                {"  2", "   3gl / Medium Container", "   ", "   ", "   "},
-                {"  3", "   2.5gl / Small Container", "   ", "   ", "  "},
-            },
-            new String[] {
-                "Inventory ID", "Container", "In-Storage Quantity", "Lent Quantity", "Total Quantity"
-            }
-        ));
+        	    new Object[][] {
+        	        {"1", "5gl / Large Container", null, null, null},
+        	        {"2", "3gl / Medium Container",null, null, null},
+        	        {"3", "2.5gl / Small Container", null,null, null}
+        	    },
+        	    new String[] {
+        	        "Inventory ID", "Container", "In-Storage Quantity", "Lent Quantity", "Total Quantity"
+        	    }
+        	));
+
+
         
         
         try (Connection conn = Connections.getConnection()) { // Use your Connections class
@@ -288,28 +293,34 @@ public class Inventory extends JFrame {
 
 
         //add new containers panel
+     // Initialize ContainerInventory object
+        ContainerInventory obj = new ContainerInventory();  // Initialize the object
+
+        // Panel 3 setup
         JPanel panel_3 = new JPanel();
         backgroundLabel.add(panel_3);
         panel_3.setLayout(null);
         panel_3.setBounds(290, 451, 537, 282);
-        
+
+        // Add title label
         JLabel lblNewLabel = new JLabel("ADD NEW CONTAINERS:");
         lblNewLabel.setFont(new Font("Myanmar Text", Font.BOLD, 30));
         lblNewLabel.setBounds(18, 18, 382, 36);
         panel_3.add(lblNewLabel);
-        
-        
+
+        // Large container label and spinner
         JLabel lblAddLargeContainer = new JLabel("5gl/L Container:");
         lblAddLargeContainer.setFont(new Font("Myanmar Text", Font.BOLD, 22));
         lblAddLargeContainer.setBounds(18, 71, 271, 36);
         panel_3.add(lblAddLargeContainer);
-        
+
         JSpinner spinner_1 = new JSpinner();
         spinner_1.setFont(new Font("Tahoma", Font.PLAIN, 19));
         spinner_1.setBounds(215, 64, 298, 48);
         panel_3.add(spinner_1);
         
         spinner_1.addChangeListener(e -> {
+
             try {
                 // Get the spinner value
                 int value = (Integer) spinner_1.getValue();
@@ -321,6 +332,7 @@ public class Inventory extends JFrame {
                     value = 0;
                 }
                 
+                
             } catch (ClassCastException ex) {
                 JOptionPane.showMessageDialog(null, "Invalid spinner value. Please enter a valid number.");
                 spinner_1.setValue(0); // Reset spinner value to 0 in case of error
@@ -329,30 +341,31 @@ public class Inventory extends JFrame {
                 spinner_1.setValue(0); // Reset spinner value to 0 in case of error
             }
         });
-        
-        
+
+        // Medium container label and spinner
         JLabel lblAddMediumContainer = new JLabel("3gl/M Container:");
         lblAddMediumContainer.setFont(new Font("Myanmar Text", Font.BOLD, 22));
         lblAddMediumContainer.setBounds(18, 132, 287, 36);
         panel_3.add(lblAddMediumContainer);
-        
+
         JSpinner spinner_2 = new JSpinner();
         spinner_2.setFont(new Font("Tahoma", Font.PLAIN, 19));
         spinner_2.setBounds(215, 125, 298, 48);
         panel_3.add(spinner_2);
         
         spinner_2.addChangeListener(e -> {
+
             try {
                 // Get the spinner value
                 int value = (Integer) spinner_2.getValue();
-                
+
                 // Prevent negative values
                 if (value < 0) {
                     JOptionPane.showMessageDialog(null, "Value cannot be negative. Resetting to 0.");
                     spinner_2.setValue(0); // Reset spinner value to 0
                     value = 0;
                 }
-                
+
             } catch (ClassCastException ex) {
                 JOptionPane.showMessageDialog(null, "Invalid spinner value. Please enter a valid number.");
                 spinner_2.setValue(0); // Reset spinner value to 0 in case of error
@@ -361,30 +374,32 @@ public class Inventory extends JFrame {
                 spinner_2.setValue(0); // Reset spinner value to 0 in case of error
             }
         });
-        
-        
+
+
+        // Small container label and spinner
         JLabel lblAddSmallContainer = new JLabel("2.5gl/S Container:");
         lblAddSmallContainer.setFont(new Font("Myanmar Text", Font.BOLD, 22));
         lblAddSmallContainer.setBounds(20, 194, 306, 36);
         panel_3.add(lblAddSmallContainer);
-        
+
         JSpinner spinner_3 = new JSpinner();
         spinner_3.setFont(new Font("Tahoma", Font.PLAIN, 19));
         spinner_3.setBounds(215, 186, 298, 48);
         panel_3.add(spinner_3);
         
         spinner_3.addChangeListener(e -> {
+
             try {
                 // Get the spinner value
                 int value = (Integer) spinner_3.getValue();
-                
+
                 // Prevent negative values
                 if (value < 0) {
                     JOptionPane.showMessageDialog(null, "Value cannot be negative. Resetting to 0.");
                     spinner_3.setValue(0); // Reset spinner value to 0
                     value = 0;
                 }
-                
+
             } catch (ClassCastException ex) {
                 JOptionPane.showMessageDialog(null, "Invalid spinner value. Please enter a valid number.");
                 spinner_3.setValue(0); // Reset spinner value to 0 in case of error
@@ -393,20 +408,123 @@ public class Inventory extends JFrame {
                 spinner_3.setValue(0); // Reset spinner value to 0 in case of error
             }
         });
-        
-        
+
+
+        // Add button to add container values
         JButton btnNewButton_7 = new JButton("ADD");
         btnNewButton_7.setFont(new Font("Tahoma", Font.BOLD, 16));
-        btnNewButton_7.setBounds(315, 240, 85, 28);
+        btnNewButton_7.setBounds(316, 240, 85, 28);
         panel_3.add(btnNewButton_7);
-        
+
         btnNewButton_7.addActionListener(e -> {
-        	//function add to value
-        	obj.setContainerQuantityLarge((Integer)spinner_1.getValue());
-        	obj.setContainerQuantityMedium((Integer)spinner_2.getValue());
-        	obj.setContainerQuantitySmall((Integer)spinner_3.getValue());
+            int largeQuantity = (Integer) spinner_1.getValue();
+            int mediumQuantity = (Integer) spinner_2.getValue();
+            int smallQuantity = (Integer) spinner_3.getValue();
+            
+         // Show confirmation dialog
+            int confirmation = JOptionPane.showConfirmDialog(
+                    null,
+                    "Are you sure you want to add these values?\n" +
+                    "Large: " + largeQuantity + "\n" +
+                    "Medium: " + mediumQuantity + "\n" +
+                    "Small: " + smallQuantity,
+                    "Confirm Addition",
+                    JOptionPane.YES_NO_OPTION
+            );
+
+            if (confirmation != JOptionPane.YES_OPTION) {
+                // Exit the action if the user selects "No"
+                return;
+            }
+
+            try (Connection conn = Connections.getConnection()) {
+                if (conn == null) {
+                    throw new SQLException("Failed to connect to the database.");
+                }
+
+                String updateInventoryQuery = "UPDATE inventory SET " +
+                        "In_Storage_Quantity = In_Storage_Quantity + ?, " +
+                        "Total_Quantity = Total_Quantity + ? " +
+                        "WHERE Container_Type = ?";
+
+                // Update for large containers
+                if (largeQuantity > 0) {
+                    try (PreparedStatement stmt = conn.prepareStatement(updateInventoryQuery)) {
+                        stmt.setInt(1, largeQuantity); // Increase In_Storage_Quantity
+                        stmt.setInt(2, largeQuantity); // Increase Total_Quantity
+                        stmt.setString(3, "5/gl Large"); // Container_Type for large
+                        stmt.executeUpdate();
+                    }
+                }
+
+                // Update for medium containers
+                if (mediumQuantity > 0) {
+                    try (PreparedStatement stmt = conn.prepareStatement(updateInventoryQuery)) {
+                        stmt.setInt(1, mediumQuantity); // Increase In_Storage_Quantity
+                        stmt.setInt(2, mediumQuantity); // Increase Total_Quantity
+                        stmt.setString(3, "3/gl Medium"); // Container_Type for medium
+                        stmt.executeUpdate();
+                    }
+                }
+
+                // Update for small containers
+                if (smallQuantity > 0) {
+                    try (PreparedStatement stmt = conn.prepareStatement(updateInventoryQuery)) {
+                        stmt.setInt(1, smallQuantity); // Increase In_Storage_Quantity
+                        stmt.setInt(2, smallQuantity); // Increase Total_Quantity
+                        stmt.setString(3, "2.5/gl Small"); // Container_Type for small
+                        stmt.executeUpdate();
+                    }
+                }
+                
+                // Show success message to the user
+                JOptionPane.showMessageDialog(null, "Containers added successfully!");
+
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Error updating database: " + ex.getMessage());
+            }
+            
+            try (Connection conn = Connections.getConnection()) { // Use your Connections class
+                if (conn == null) {
+                    System.out.println("Database connection failed.");
+                    return;
+                }
+
+                // SQL query to fetch admin details
+                String query = "SELECT InventoryID, Container_Type, In_Storage_Quantity, Lent_Quantity, Total_Quantity FROM inventory";
+                PreparedStatement stmt = conn.prepareStatement(query);
+                ResultSet rs = stmt.executeQuery();
+
+                // Get the table's model
+                DefaultTableModel model = (DefaultTableModel) table.getModel();
+
+                // Clear any existing rows
+                model.setRowCount(0);
+
+                // Populate the table model with data from the ResultSet
+                while (rs.next()) {
+                    int inventoryID = rs.getInt("InventoryID");
+                    String container = rs.getString("Container_Type");
+                    int inStorageQuantity = rs.getInt("In_Storage_Quantity");
+                    int lentQuantity = rs.getInt("Lent_Quantity");
+                    int totalQuantity = rs.getInt ("Total_Quantity");
+                    
+
+                    // Add a new row to the table
+                    model.addRow(new Object[]{inventoryID, container, inStorageQuantity,lentQuantity, totalQuantity});
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(null, 
+                        "Error fetching admin data: " + ex.getMessage(), 
+                        "Database Error", 
+                        JOptionPane.ERROR_MESSAGE);
+            }
+            
         });
-        
+
+
 
         //remove old containers panel
         JPanel panel_4 = new JPanel();
@@ -522,10 +640,115 @@ public class Inventory extends JFrame {
         panel_4.add(btnNewButton_8);
         
         btnNewButton_8.addActionListener(e -> {
-             //function decrease value
-        	obj.getContainerQuantityLarge();
-        	obj.getContainerQuantityMedium();
-        	obj.getContainerQuantitySmall();
+            int largeQuantity = (Integer) spinner_4.getValue();
+            int mediumQuantity = (Integer) spinner_5.getValue();
+            int smallQuantity = (Integer) spinner_6.getValue();
+            
+         // Show confirmation dialog
+            int confirmation = JOptionPane.showConfirmDialog(
+                    null,
+                    "Are you sure you want to add these values?\n" +
+                    "Large: " + largeQuantity + "\n" +
+                    "Medium: " + mediumQuantity + "\n" +
+                    "Small: " + smallQuantity,
+                    "Confirm Addition",
+                    JOptionPane.YES_NO_OPTION
+            );
+
+            if (confirmation != JOptionPane.YES_OPTION) {
+                // Exit the action if the user selects "No"
+                return;
+            }
+
+            try (Connection conn = Connections.getConnection()) {
+                if (conn == null) {
+                    throw new SQLException("Failed to connect to the database.");
+                }
+
+                String updateInventoryQuery = "UPDATE inventory SET " +
+                        "In_Storage_Quantity = In_Storage_Quantity - ?, " +
+                        "Total_Quantity = Total_Quantity - ? " +
+                        "WHERE Container_Type = ?";
+
+                // Subtract for large containers
+                if (largeQuantity > 0) {
+                    try (PreparedStatement stmt = conn.prepareStatement(updateInventoryQuery)) {
+                        stmt.setInt(1, largeQuantity); // Decrease In_Storage_Quantity
+                        stmt.setInt(2, largeQuantity); // Decrease Total_Quantity
+                        stmt.setString(3, "5/gl Large"); // Container_Type for large
+                        stmt.executeUpdate();
+                    }
+                }
+
+                // Subtract for medium containers
+                if (mediumQuantity > 0) {
+                    try (PreparedStatement stmt = conn.prepareStatement(updateInventoryQuery)) {
+                        stmt.setInt(1, mediumQuantity); // Decrease In_Storage_Quantity
+                        stmt.setInt(2, mediumQuantity); // Decrease Total_Quantity
+                        stmt.setString(3, "3/gl Medium"); // Container_Type for medium
+                        stmt.executeUpdate();
+                    }
+                }
+
+                // Subtract for small containers
+                if (smallQuantity > 0) {
+                    try (PreparedStatement stmt = conn.prepareStatement(updateInventoryQuery)) {
+                        stmt.setInt(1, smallQuantity); // Decrease In_Storage_Quantity
+                        stmt.setInt(2, smallQuantity); // Decrease Total_Quantity
+                        stmt.setString(3, "2.5/gl Small"); // Container_Type for small
+                        stmt.executeUpdate();
+                    }
+                }
+
+                // Show success message to the user
+                JOptionPane.showMessageDialog(null, "Containers subtracted successfully!");
+
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Error updating database: " + ex.getMessage());
+            }
+            
+            try (Connection conn = Connections.getConnection()) { // Use your Connections class
+                if (conn == null) {
+                    System.out.println("Database connection failed.");
+                    return;
+                }
+
+                // SQL query to fetch admin details
+                String query = "SELECT InventoryID, Container_Type, In_Storage_Quantity, Lent_Quantity, Total_Quantity FROM inventory";
+                PreparedStatement stmt = conn.prepareStatement(query);
+                ResultSet rs = stmt.executeQuery();
+
+                // Get the table's model
+                DefaultTableModel model = (DefaultTableModel) table.getModel();
+
+                // Clear any existing rows
+                model.setRowCount(0);
+
+                // Populate the table model with data from the ResultSet
+                while (rs.next()) {
+                    int inventoryID = rs.getInt("InventoryID");
+                    String container = rs.getString("Container_Type");
+                    int inStorageQuantity = rs.getInt("In_Storage_Quantity");
+                    int lentQuantity = rs.getInt("Lent_Quantity");
+                    int totalQuantity = rs.getInt ("Total_Quantity");
+                    
+
+                    // Add a new row to the table
+                    model.addRow(new Object[]{inventoryID, container, inStorageQuantity,lentQuantity, totalQuantity});
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(null, 
+                        "Error fetching admin data: " + ex.getMessage(), 
+                        "Database Error", 
+                        JOptionPane.ERROR_MESSAGE);
+            }
+            
         });
+
+
+        
     }
 }
+

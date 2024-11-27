@@ -26,6 +26,7 @@ import backend.Sales;
 import backend.Customers_bcknd;
 import backend.Pricing_bcknd;
 import backend.ContainerInventory;
+import backend.Expenses;
 
 public class Transactions extends JFrame {
 	
@@ -34,6 +35,7 @@ public class Transactions extends JFrame {
 	Customers_bcknd objCstmr = new Customers_bcknd();
 	Pricing_bcknd objPrice = new Pricing_bcknd();
 	ContainerInventory objInvt = new ContainerInventory();
+	Expenses objExps = new Expenses();
 	
 
     private static final long serialVersionUID = 1L;
@@ -47,9 +49,10 @@ public class Transactions extends JFrame {
     private JTextField textFieldDate;
     
     private int containerQuantityLarge, containerQuantityMedium, containerQuantitySmall;
-    private String selectedCustomer_Name;
+    private String selectedCustomer_Name, selectedCustomer_ID;
     private DateTimeFormatter dateFormatter1;
     private DateTimeFormatter timeFormatter1;
+    private JTextField textFieldID;
 
     /**
      * Launch the application.
@@ -252,7 +255,7 @@ public class Transactions extends JFrame {
         
         
         JComboBox<String> cmboBoxName = new JComboBox();
-        cmboBoxName.setBounds(262, 45, 339, 40);
+        cmboBoxName.setBounds(294, 45, 307, 40);
         pnlCustomer.add(cmboBoxName);
         
         try (Connection conn = Connections.getConnection()) { // Use your Connections class
@@ -261,7 +264,7 @@ public class Transactions extends JFrame {
                 return;
             }
 
-            String query = "SELECT Customer_Name FROM customer";
+            String query = "SELECT Customer_Name FROM customer ORDER BY Customer_Name ASC";
             PreparedStatement stmt = conn.prepareStatement(query);
             ResultSet rs = stmt.executeQuery();
 
@@ -292,6 +295,52 @@ public class Transactions extends JFrame {
       //should drop down names from database------------------------------------------
         
         objCstmr.setName((String)cmboBoxName.getSelectedItem());
+        
+        
+        textFieldID = new JTextField();
+        textFieldID.setFont(new Font("Tahoma", Font.BOLD, 12));
+        textFieldID.setHorizontalAlignment(SwingConstants.CENTER);
+        textFieldID.setBackground(UIManager.getColor("ComboBox.background"));
+        textFieldID.setBounds(262, 45, 33, 41);
+        pnlCustomer.add(textFieldID);
+        textFieldID.setColumns(10);
+        
+        cmboBoxName.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                selectedCustomer_Name = (String) cmboBoxName.getSelectedItem();
+
+                if (selectedCustomer_Name == null || selectedCustomer_Name.isEmpty()) {
+                	textFieldID.setText(""); // Clear the password field if no admin is selected
+                    return;
+                }
+
+                try (Connection conn = Connections.getConnection()) { // Use your Connections class
+                    if (conn == null) {
+                        System.out.println("Database connection failed.");
+                        return;
+                    }
+
+                    String query = "SELECT CustomerID FROM customer WHERE Customer_Name = ?";
+                    PreparedStatement stmt = conn.prepareStatement(query);
+                    stmt.setString(1, selectedCustomer_Name);
+                    ResultSet rs = stmt.executeQuery();
+
+                    if (rs.next()) {
+                        selectedCustomer_ID = rs.getString("CustomerID");
+                        textFieldID.setText(selectedCustomer_ID); // Set the password in the text field
+                    } else {
+                    	textFieldID.setText(""); // Clear the password field if no password is found
+                    }
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, 
+                            "Error fetching password: " + ex.getMessage(), 
+                            "Database Error", 
+                            JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
         
         
         JLabel lblAddress = new JLabel("Address");
@@ -493,7 +542,7 @@ public class Transactions extends JFrame {
 
         // Format date and time as needed
         dateFormatter1 = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        timeFormatter1 = DateTimeFormatter.ofPattern("HH:mm:ss a");
+        timeFormatter1 = DateTimeFormatter.ofPattern("HH:mm:ss");
 
         // Set formatted date and time into the text fields`
         textFieldDate.setText(currentDate1.format(dateFormatter1));
@@ -507,12 +556,12 @@ public class Transactions extends JFrame {
                 LocalTime currentTime = LocalTime.now();
 
                 // Format date and time as needed
-                DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-                DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss a");
+                DateTimeFormatter dateFormatter1 = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                DateTimeFormatter timeFormatter1 = DateTimeFormatter.ofPattern("HH:mm:ss");
 
                 // Set formatted date and time into the text fields
-                textFieldDate.setText(currentDate.format(dateFormatter));
-                textFieldTime.setText(currentTime.format(timeFormatter));
+                textFieldDate.setText(currentDate.format(dateFormatter1));
+                textFieldTime.setText(currentTime.format(timeFormatter1));
             } else {
                 // Clear the text fields when checkbox is unchecked
                 textFieldDate.setText("");
@@ -681,6 +730,9 @@ public class Transactions extends JFrame {
         if(chckbxDelivery.isSelected()) {
         	objTrans.setDelivery(true);
         }
+        else if(!chckbxDelivery.isSelected()) {
+        	objTrans.setDelivery(false);
+        }
         
         
         JLabel lblDelivery = new JLabel("Delivery");
@@ -757,7 +809,40 @@ public class Transactions extends JFrame {
         lblPricePerGl_int.setBounds(475, 0, 75, 27);
         pnlRegularFees.add(lblPricePerGl_int);
         
-        lblPricePerGl_int.setText(String.valueOf(objPrice.getPricePerGalon()));
+     // Database connection setup
+        Connection conn1 = null;
+        try {
+            // Establish the database connection
+            conn1 = dbConnections.Connections.getConnection();
+
+            // Query to retrieve the first row's Price_perGallon value from the pricing table
+            String selectQuery = "SELECT Price_perGallon FROM pricing LIMIT 1"; // Fetching the first row
+            PreparedStatement ps = conn1.prepareStatement(selectQuery);
+            ResultSet rs = ps.executeQuery();
+
+            // Check if the query returns any results
+            if (rs.next()) {
+                // Retrieve the Price_perGallon value from the first row
+                double pricePerGallon = rs.getDouble("Price_perGallon");
+
+                // Set the value of lblNewLabel_14 to the retrieved value (formatted as a string)
+                lblPricePerGl_int.setText(String.format("%.2f", pricePerGallon)); // Display with 2 decimal places
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Failed to retrieve price. Please try again.", "Database Error", JOptionPane.ERROR_MESSAGE);
+
+        } finally {
+            // Ensure the connection is closed after the operation
+            try {
+                if (conn1 != null && !conn1.isClosed()) {
+                    conn1.close();
+                }
+            } catch (SQLException closeEx) {
+                closeEx.printStackTrace();
+            }
+        }
         
         
         JLabel lblMediumContainerCount = new JLabel("0");
@@ -954,7 +1039,7 @@ public class Transactions extends JFrame {
             	lblDeliveryFee_Int_1.setEnabled(false);
             	lblDeliveryFee_Int.setEnabled(false);
             	lblDeliveryFee.setEnabled(false);
-            }});
+        }});
         
 //Total Panel------------------------------------------------------------------------------
         JLabel lblTotal = new JLabel("TOTAL:");
@@ -1070,58 +1155,111 @@ public class Transactions extends JFrame {
         
 // Calculate button----------------------------------------------------------
         JButton btnCalculateTotal = new JButton("CALCULATE");
+        btnCalculateTotal.setVerticalAlignment(SwingConstants.TOP);
         btnCalculateTotal.setFont(new Font("Myanmar Text", Font.BOLD, 19));
-        btnCalculateTotal.setBounds(435, 688, 180,38);
+        btnCalculateTotal.setBounds(365, 688, 160, 38);
         lblBackground.add(btnCalculateTotal);
-        
+
         objSales.setProfit(0);
-        
+
         btnCalculateTotal.addActionListener(e -> {
-        	
+
+            // Set the delivery flag based on the checkbox state
+            objTrans.setDelivery(chckbxDelivery.isSelected());
+
+            // Check if customer payment is empty
+            if (textFieldPayment.getText().trim().isEmpty()) {
+                JOptionPane.showMessageDialog(null, 
+                    "Transaction not recorded: No payment entered.", 
+                    "Payment Error", 
+                    JOptionPane.WARNING_MESSAGE);
+                return;  // Exit the method without proceeding further
+            }
+
+            // Check if all container values are zero
+            if (containerQuantityLarge == 0 && containerQuantityMedium == 0 && containerQuantitySmall == 0) {
+                JOptionPane.showMessageDialog(null, 
+                    "Transaction not recorded: No containers selected.", 
+                    "Container Error", 
+                    JOptionPane.WARNING_MESSAGE);
+                return;  // Exit the method without proceeding further
+            }
+
             double totalProfitVal = 0, profitVal = 0, pChange = 0;
-            
-         
+
+            // Retrieve container prices from the inventory table
+            try (Connection conn = Connections.getConnection()) {
+                if (conn == null) {
+                    System.out.println("Database connection failed.");
+                    return;
+                }
+
+             // Corrected query to match the pricing table structure
+                String priceQuery = "SELECT Container_Size, Container_Price FROM pricing WHERE Container_Size IN (5, 3, 2.5)";
+
+                try (PreparedStatement priceStmt = conn.prepareStatement(priceQuery);
+                     ResultSet priceRs = priceStmt.executeQuery()) {
+
+                    // Fetch the prices for each container size
+                    while (priceRs.next()) {
+                        double containerSize = priceRs.getDouble("Container_Size");
+                        double containerPrice = priceRs.getDouble("Container_Price");
+
+                        // Set the appropriate price based on container size
+                        if (containerSize == 5) {
+                            objPrice.setWaterPriceLarge(containerPrice);
+                        } else if (containerSize == 3) {
+                            objPrice.setWaterPriceMedium(containerPrice);
+                        } else if (containerSize == 2.5) {
+                            objPrice.setWaterPriceSmall(containerPrice);
+                        }
+                    }
+
+                } catch (SQLException ex) {
+                    System.err.println("Error fetching prices from pricing table: " + ex.getMessage());
+                }
+
+
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, 
+                    "Error connecting to the database: " + ex.getMessage(), 
+                    "Connection Error", 
+                    JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Calculate profits
             profitVal += (objPrice.getWaterPriceLarge() * containerQuantityLarge) + (objSales.getServiceFee() * containerQuantityLarge);
             profitVal += (objPrice.getWaterPriceMedium() * containerQuantityMedium) + (objSales.getServiceFee() * containerQuantityMedium);
             profitVal += (objPrice.getWaterPriceSmall() * containerQuantitySmall) + (objSales.getServiceFee() * containerQuantitySmall);
-            
-            
+
             if (!textFieldPayment.getText().trim().isEmpty()) {
-            	
-            	lblCstmrPayment_int.setText(textFieldPayment.getText()+".0");
-        		lblCstmrPayment_Peso.setEnabled(true);
-            	
-            	try {
-                	objSales.setCustomerPayment(Double.parseDouble(textFieldPayment.getText()));
-                }
-            	catch(NumberFormatException ex) {
-            		objSales.setCustomerPayment(0);
-            		// Handle invalid input
-                    JOptionPane.showMessageDialog(null, "Invalid input! Please enter a valid number.", 
+                lblCstmrPayment_int.setText(textFieldPayment.getText() + ".0");
+                lblCstmrPayment_Peso.setEnabled(true);
+
+                try {
+                    objSales.setCustomerPayment(Double.parseDouble(textFieldPayment.getText()));
+                } catch (NumberFormatException ex) {
+                    objSales.setCustomerPayment(0);
+                    // Handle invalid input
+                    JOptionPane.showMessageDialog(null, "Invalid input! Please enter a valid number.",
                             "Input Error", JOptionPane.ERROR_MESSAGE);
                 }
-            	
+            } else {
+                lblCstmrPayment_int.setText(textFieldPayment.getText());
+                lblCstmrPayment_Peso.setEnabled(false);
             }
-            else {
-        		lblCstmrPayment_int.setText(textFieldPayment.getText());
-        		lblCstmrPayment_Peso.setEnabled(false);
-        	}
-            
-            
-            if(profitVal< 0) {
+
             if (objTrans.isDelivery()) {
-            	profitVal += objSales.getDeliveryFee();
-            }}
+                profitVal += objSales.getDeliveryFee();
+            }
 
             totalProfitVal = profitVal;
             objSales.setProfit(totalProfitVal);
-                
-                
+
             pChange = objSales.calculateTransaction();
             lblChange_int.setText(String.valueOf(objSales.getChange()));
             lblChange_Peso.setEnabled(true);
-                
-                
 
             if (totalProfitVal > 0) {
                 lblTotal_int.setText(String.valueOf(objSales.getProfit()));
@@ -1129,31 +1267,273 @@ public class Transactions extends JFrame {
                 lblTotal_Peso.setEnabled(true);
                 lblChange_int.setText(String.valueOf(objSales.getChange()));
                 lblChange_int.setEnabled(true);
-                lblChange_Peso.setEnabled(true); 
-            } 
-            else {
-            	objSales.setProfit(0);
-            	totalProfitVal = 0;
+                lblChange_Peso.setEnabled(true);
+            } else {
+                objSales.setProfit(0);
+                totalProfitVal = 0;
                 lblTotal_int.setEnabled(false);
                 lblTotal_int.setText("0.0");
                 lblTotal_Peso.setEnabled(false);
                 lblChange_int.setText("0.0");
                 lblChange_Peso.setEnabled(false);
-            } 
-            
-             /*selectedCustomer_Name
-              *String address = getString(textFieldAddress);
-              *String contactNum = getString(textFieldContactNum);
-              *
-              *dateFormatter1
-              *timeFormatter
-              * 
-              * containerQuantityLarge
-              * containerQuantityMedium
-              * containerQuantitySmall
-              */
+            }
+
         });
+
         
-        
+        JButton btnRecordEntry = new JButton("RECORD");
+        btnRecordEntry.setVerticalAlignment(SwingConstants.TOP);
+        btnRecordEntry.setFont(new Font("Myanmar Text", Font.BOLD, 19));
+        btnRecordEntry.setBounds(546, 688, 160,38);
+        lblBackground.add(btnRecordEntry);
+
+        btnRecordEntry.addActionListener(e -> {
+            // Check if the customer fields are empty (adjust the field names based on your UI)
+            if (selectedCustomer_ID == null || selectedCustomer_ID.trim().isEmpty()) {
+                JOptionPane.showMessageDialog(null, 
+                    "Please select a customer. The customer ID cannot be empty.", 
+                    "Missing Customer", 
+                    JOptionPane.WARNING_MESSAGE);
+                return;  // Stop further processing if the customer ID is empty
+            }
+
+            // Check if the payment field is empty or containers are not selected
+            if (textFieldPayment.getText().trim().isEmpty() && (containerQuantityLarge == 0 && containerQuantityMedium == 0 && containerQuantitySmall == 0)) {
+                JOptionPane.showMessageDialog(null, 
+                    "Warning: Customer selected but no payment entered and no containers selected.", 
+                    "Missing Data", 
+                    JOptionPane.WARNING_MESSAGE);
+                return;  // Stop further processing
+            }
+
+            // Check if Date and Time are empty (ensure they are properly set)
+            String currentDate = dateFormatter1.format(java.time.LocalDate.now());
+            String currentTime = timeFormatter1.format(java.time.LocalTime.now());
+
+            if (currentDate == null || currentDate.trim().isEmpty() || currentTime == null || currentTime.trim().isEmpty()) {
+                JOptionPane.showMessageDialog(null, 
+                    "Error: Date and Time cannot be empty.", 
+                    "Missing Date/Time", 
+                    JOptionPane.WARNING_MESSAGE);
+                return;  // Stop further processing if Date/Time is empty
+            }
+
+            // Ask if the user is sure about finalizing the transaction
+            int confirmation = JOptionPane.showConfirmDialog(null,
+                    "Are you sure you want to finalize this transaction?", 
+                    "Confirm Transaction", 
+                    JOptionPane.YES_NO_OPTION, 
+                    JOptionPane.QUESTION_MESSAGE);
+
+            // If the user clicks 'Yes', proceed with the calculation
+            if (confirmation == JOptionPane.YES_OPTION) {
+
+                Boolean delivery = chckbxDelivery.isSelected();
+                Double total = Double.parseDouble(lblTotal_int.getText());
+                Double payment = Double.parseDouble(textFieldPayment.getText());
+                double change = Double.parseDouble(lblChange_int.getText());
+
+                boolean salesInserted = false;
+                boolean catalogInsertedOrUpdated = false;
+
+                try (Connection conn = Connections.getConnection()) {
+                    if (conn == null) {
+                        System.out.println("Database connection failed.");
+                        return;
+                    }
+
+                    // Determine the Date_ID
+                    int dateID = 1;
+                    String checkDateQuery = "SELECT MAX(DateID) AS LastDateID, MAX(Date) AS LastDate FROM sales";
+                    try (PreparedStatement stmt = conn.prepareStatement(checkDateQuery)) {
+                        ResultSet rs = stmt.executeQuery();
+
+                        if (rs.next()) {
+                            String lastDate = rs.getString("LastDate");
+                            int lastDateID = rs.getInt("LastDateID");
+
+                            if (currentDate.equals(lastDate)) {
+                                dateID = lastDateID;
+                            } else {
+                                dateID = lastDateID + 1;
+                            }
+                        }
+                    }
+
+                    // Check if there are enough containers in inventory
+                    String checkInventoryQuery = "SELECT In_Storage_Quantity FROM inventory WHERE Container_Type = ?";
+                    boolean insufficientContainers = false;
+
+                    // Check large containers
+                    try (PreparedStatement checkLargeStmt = conn.prepareStatement(checkInventoryQuery)) {
+                        checkLargeStmt.setString(1, "Large");
+                        ResultSet rsLarge = checkLargeStmt.executeQuery();
+                        if (rsLarge.next()) {
+                            int inStorageLarge = rsLarge.getInt("In_Storage_Quantity");
+                            if (inStorageLarge < containerQuantityLarge) {
+                                JOptionPane.showMessageDialog(null, 
+                                    "Insufficient Large Containers in stock. Transaction cannot be completed.", 
+                                    "Insufficient Inventory", 
+                                    JOptionPane.WARNING_MESSAGE);
+                                insufficientContainers = true;
+                            }
+                        }
+                    }
+
+                    // Check medium containers
+                    try (PreparedStatement checkMediumStmt = conn.prepareStatement(checkInventoryQuery)) {
+                        checkMediumStmt.setString(1, "Medium");
+                        ResultSet rsMedium = checkMediumStmt.executeQuery();
+                        if (rsMedium.next()) {
+                            int inStorageMedium = rsMedium.getInt("In_Storage_Quantity");
+                            if (inStorageMedium < containerQuantityMedium) {
+                                JOptionPane.showMessageDialog(null, 
+                                    "Insufficient Medium Containers in stock. Transaction cannot be completed.", 
+                                    "Insufficient Inventory", 
+                                    JOptionPane.WARNING_MESSAGE);
+                                insufficientContainers = true;
+                            }
+                        }
+                    }
+
+                    // Check small containers
+                    try (PreparedStatement checkSmallStmt = conn.prepareStatement(checkInventoryQuery)) {
+                        checkSmallStmt.setString(1, "Small");
+                        ResultSet rsSmall = checkSmallStmt.executeQuery();
+                        if (rsSmall.next()) {
+                            int inStorageSmall = rsSmall.getInt("In_Storage_Quantity");
+                            if (inStorageSmall < containerQuantitySmall) {
+                                JOptionPane.showMessageDialog(null, 
+                                    "Insufficient Small Containers in stock. Transaction cannot be completed.", 
+                                    "Insufficient Inventory", 
+                                    JOptionPane.WARNING_MESSAGE);
+                                insufficientContainers = true;
+                            }
+                        }
+                    }
+
+                    // If there are insufficient containers, stop the transaction
+                    if (insufficientContainers) {
+                        return;
+                    }
+
+                    // Insert into sales table
+                    String query = "INSERT INTO sales (DateID, CustomerID, Date, Time, Sold_Large_Container, " +
+                            "Sold_Medium_Container, Sold_Small_Container, Delivery, Total_Fees, " +
+                            "Customer_Payment, Customer_Change) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    try (PreparedStatement stmt = conn.prepareStatement(query)) {
+                        stmt.setInt(1, dateID); // DateID
+                        stmt.setInt(2, Integer.valueOf(selectedCustomer_ID)); // CustomerID
+                        stmt.setString(3, currentDate); // Date
+                        stmt.setString(4, currentTime); // Time
+                        stmt.setInt(5, containerQuantityLarge); // Sold_Large_Container
+                        stmt.setInt(6, containerQuantityMedium); // Sold_Medium_Container
+                        stmt.setInt(7, containerQuantitySmall); // Sold_Small_Container
+                        stmt.setBoolean(8, delivery); // Delivery
+                        stmt.setDouble(9, total); // Total_Fees
+                        stmt.setDouble(10, payment); // Customer_Payment
+                        stmt.setDouble(11, change); // Customer_Change
+
+                        int rowsAffected = stmt.executeUpdate();
+                        if (rowsAffected > 0) {
+                            salesInserted = true;
+                        }
+                    }
+
+                    // Update the customer table to reflect the lent containers
+                    String updateCustomerQuery = "UPDATE customer SET " +
+                            "Lent_Large_Container = Lent_Large_Container + ?, " +
+                            "Lent_Medium_Container = Lent_Medium_Container + ?, " +
+                            "Lent_Small_Container = Lent_Small_Container + ? " +
+                            "WHERE CustomerID = ?";
+                    try (PreparedStatement updateStmt = conn.prepareStatement(updateCustomerQuery)) {
+                        updateStmt.setInt(1, containerQuantityLarge); // Lent_Large_Container
+                        updateStmt.setInt(2, containerQuantityMedium); // Lent_Medium_Container
+                        updateStmt.setInt(3, containerQuantitySmall); // Lent_Small_Container
+                        updateStmt.setInt(4, Integer.parseInt(selectedCustomer_ID)); // CustomerID
+
+                        updateStmt.executeUpdate();
+                    }
+
+                 // Update the inventory table to adjust In_Storage_Quantity and Lent_Quantity
+                    String updateInventoryQuery = "UPDATE inventory SET " +
+                            "In_Storage_Quantity = In_Storage_Quantity - ?, " +
+                            "Lent_Quantity = Lent_Quantity + ? " +
+                            "WHERE Container_Type = ?";
+
+                    try {
+                        // Update for large containers
+                        if (containerQuantityLarge > 0) {
+                            try (PreparedStatement updateInvStmt = conn.prepareStatement(updateInventoryQuery)) {
+                                updateInvStmt.setInt(1, containerQuantityLarge); // Decrease In_Storage_Quantity
+                                updateInvStmt.setInt(2, containerQuantityLarge); // Increase Lent_Quantity
+                                updateInvStmt.setString(3, "5/gl Large"); // Container_Type for large
+
+                                int rowsAffected = updateInvStmt.executeUpdate();
+                                if (rowsAffected == 0) {
+                                    System.out.println("No rows updated for Large containers.");
+                                }
+                            }
+                        }
+
+                        // Update for medium containers
+                        if (containerQuantityMedium > 0) {
+                            try (PreparedStatement updateInvStmt = conn.prepareStatement(updateInventoryQuery)) {
+                                updateInvStmt.setInt(1, containerQuantityMedium); // Decrease In_Storage_Quantity
+                                updateInvStmt.setInt(2, containerQuantityMedium); // Increase Lent_Quantity
+                                updateInvStmt.setString(3, "3/gl Medium"); // Container_Type for medium
+
+                                int rowsAffected = updateInvStmt.executeUpdate();
+                                if (rowsAffected == 0) {
+                                    System.out.println("No rows updated for Medium containers.");
+                                }
+                            }
+                        }
+
+                        // Update for small containers
+                        if (containerQuantitySmall > 0) {
+                            try (PreparedStatement updateInvStmt = conn.prepareStatement(updateInventoryQuery)) {
+                                updateInvStmt.setInt(1, containerQuantitySmall); // Decrease In_Storage_Quantity
+                                updateInvStmt.setInt(2, containerQuantitySmall); // Increase Lent_Quantity
+                                updateInvStmt.setString(3, "2.5/gl Small"); // Container_Type for small
+
+                                int rowsAffected = updateInvStmt.executeUpdate();
+                                if (rowsAffected == 0) {
+                                    System.out.println("No rows updated for Small containers.");
+                                }
+                            }
+                        }
+
+                    } catch (SQLException ex) {
+                        // Handle exceptions here for all inventory updates
+                        System.err.println("Error executing inventory update: " + ex.getMessage());
+                    }
+
+                    // Handle results and show appropriate messages
+                    if (salesInserted) {
+                        JOptionPane.showMessageDialog(null, 
+                            "Transaction successfully recorded.", 
+                            "Success", 
+                            JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(null, 
+                            "Error: Transaction was not recorded.", 
+                            "Error", 
+                            JOptionPane.ERROR_MESSAGE);
+                    }
+
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null,
+                            "Error inserting data into the database: " + ex.getMessage(),
+                            "Database Error",
+                            JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+
+
+
+
     }
 }

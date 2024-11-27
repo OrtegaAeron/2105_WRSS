@@ -43,8 +43,9 @@ public class Expenses extends Sales{
 
     
     //methods-----------------------------------------------------
-    void calculateWages(){
+    public int calculateWages(){
     	wages = deliveryManDailySalary * noOfDeliveryMan;
+    	return wages;
     }
     
     void calculateTotalExpense(){

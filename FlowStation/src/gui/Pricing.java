@@ -229,11 +229,46 @@ public class Pricing extends JFrame {
         panel_2.add(panel_7);
         panel_7.setLayout(null);
         
-        JLabel lblNewLabel_14 = new JLabel("5.00");
+        JLabel lblNewLabel_14 = new JLabel();
         lblNewLabel_14.setBounds(48, 5, 147, 49);
         lblNewLabel_14.setForeground(Color.BLACK);
         lblNewLabel_14.setFont(new Font("Tahoma", Font.PLAIN, 40));
         panel_7.add(lblNewLabel_14);
+        
+     // Database connection setup
+        Connection conn1 = null;
+        try {
+            // Establish the database connection
+            conn1 = dbConnections.Connections.getConnection();
+
+            // Query to retrieve the first row's Price_perGallon value from the pricing table
+            String selectQuery = "SELECT Price_perGallon FROM pricing LIMIT 1"; // Fetching the first row
+            PreparedStatement ps = conn1.prepareStatement(selectQuery);
+            ResultSet rs = ps.executeQuery();
+
+            // Check if the query returns any results
+            if (rs.next()) {
+                // Retrieve the Price_perGallon value from the first row
+                double pricePerGallon = rs.getDouble("Price_perGallon");
+
+                // Set the value of lblNewLabel_14 to the retrieved value (formatted as a string)
+                lblNewLabel_14.setText(String.format("%.2f", pricePerGallon)); // Display with 2 decimal places
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Failed to retrieve price. Please try again.", "Database Error", JOptionPane.ERROR_MESSAGE);
+
+        } finally {
+            // Ensure the connection is closed after the operation
+            try {
+                if (conn1 != null && !conn1.isClosed()) {
+                    conn1.close();
+                }
+            } catch (SQLException closeEx) {
+                closeEx.printStackTrace();
+            }
+        }
         
         JPanel panel_3 = new JPanel();
         panel_3.setBounds(630, 290, 404, 108);
@@ -252,7 +287,6 @@ public class Pricing extends JFrame {
         panel_3.add(txtHello);
         txtHello.setColumns(10);
         
-        lblNewLabel_14.setText(String.valueOf(obj.getPricePerGalon())+"0");
         lblNewLabel_6.setEnabled(true);
         
         txtHello.addKeyListener(new KeyAdapter() {
@@ -292,19 +326,7 @@ public class Pricing extends JFrame {
         		lblNewLabel_6.setEnabled(true);
         	}
         });
-        
-        
-        JButton btnNewButton_7 = new JButton("UPDATE\r\n");
-        btnNewButton_7.setFont(new Font("Tahoma", Font.BOLD, 12));
-        btnNewButton_7.setBounds(257, 53, 91, 34);
-        panel_3.add(btnNewButton_7);
-        
-        btnNewButton_7.addActionListener(e -> {
-            txtHello.postActionEvent();
-            txtHello.postActionEvent();
-        });
-        
-        
+
         JPanel panel_4 = new JPanel();
         panel_4.setBounds(500, 420, 665, 87);
         backgroundLabel.add(panel_4);
@@ -333,72 +355,56 @@ public class Pricing extends JFrame {
         lblNewLabel_15.setBounds(58, 6, 105, 34);
         lblNewLabel_15.setFont(new Font("Tahoma", Font.PLAIN, 28));
         panel_8.add(lblNewLabel_15);
-
-     // Initial calculation and UI update
-        obj.calculateWaterPriceLarge();
-        lblNewLabel_15.setText(String.format("%.2f", obj.getWaterPriceLarge()));
+        
         lblNewLabel_15.setEnabled(true);
         lblNewLabel_9.setEnabled(true);
 
         txtHello.addActionListener(e -> {
             String input = txtHello.getText();
             if (input.isEmpty()) {
-                // Reset if input is empty
-                obj.setWaterPriceLarge(0); 
-                obj.calculateWaterPriceLarge(); // Ensure any dependencies are updated
-                lblNewLabel_15.setText(String.format("%.2f", obj.getWaterPriceLarge()));
                 lblNewLabel_15.setEnabled(false);
                 lblNewLabel_9.setEnabled(false);
-
-                // Database update for resetting price
-                try (Connection conn = Connections.getConnection()) {
-                    String sql = "UPDATE pricing SET Container_Price = ? WHERE Container_Size = '5'"; // Adjust this if needed
-                    try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-                        pstmt.setDouble(1, 0);
-                        int rowsUpdated = pstmt.executeUpdate();
-                        if (rowsUpdated > 0) {
-                            System.out.println("Price reset successfully in database!");
-                        } else {
-                            System.out.println("No rows updated, check if 'Large' container exists.");
-                        }
-                    }
-                } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(null, "Database error: " + ex.getMessage());
-                }
+                
             } else {
-                try {
-                    // Parse input and update the backend
-                    double newPrice = Double.parseDouble(input);
-                    obj.setWaterPriceLarge(newPrice); 
-                    obj.calculateWaterPriceLarge(); // Recalculate after setting new price
-
-                    // Update UI
-                    lblNewLabel_15.setText(String.format("%.2f", obj.getWaterPriceLarge()));
                     lblNewLabel_15.setEnabled(true);
                     lblNewLabel_9.setEnabled(true);
+            }});
+        
+     // Database connection setup
+        Connection connection = null;
+        try {
+            // Establish the database connection
+            connection = dbConnections.Connections.getConnection();
 
-                    // Save new price to database
-                    try (Connection conn = Connections.getConnection()) {
-                        String sql = "UPDATE pricing SET Container_Price = ? WHERE Container_Size = '5'"; // Adjust if needed
-                        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-                            pstmt.setDouble(1, newPrice);
-                            int rowsUpdated = pstmt.executeUpdate();
-                            if (rowsUpdated > 0) {
-                                System.out.println("Price updated successfully in database!");
-                            } else {
-                                System.out.println("No rows updated, check if 'Large' container exists.");
-                            }
-                        }
-                    } catch (SQLException ex) {
-                        JOptionPane.showMessageDialog(null, "Database error: " + ex.getMessage());
-                    }
-                } catch (NumberFormatException ex) {
-                    // Handle invalid input
-                    JOptionPane.showMessageDialog(null, "Invalid input! Please enter a valid number.");
-                    txtHello.setText("");
-                }
+            // Query to retrieve the first row's Container_Price value from the pricing table
+            String selectQuery = "SELECT Container_Price FROM pricing LIMIT 1"; // Fetching the first row
+            PreparedStatement ps = connection.prepareStatement(selectQuery);
+            ResultSet rs = ps.executeQuery();
+
+            // Check if the query returns any results
+            if (rs.next()) {
+                // Retrieve the Container_Price value from the first row
+                double containerPrice = rs.getDouble("Container_Price");
+
+                // Set the value of lblNewLabel_15 to the retrieved value (formatted as a string)
+                lblNewLabel_15.setText(String.format("%.2f", containerPrice)); // Display with 2 decimal places
             }
-        });
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Failed to retrieve container price. Please try again.", "Database Error", JOptionPane.ERROR_MESSAGE);
+
+        } finally {
+            // Ensure the connection is closed after the operation
+            try {
+                if (connection != null && !connection.isClosed()) {
+                    connection.close();
+                }
+            } catch (SQLException closeEx) {
+                closeEx.printStackTrace();
+            }
+        }
+
 
 
         
@@ -430,73 +436,56 @@ public class Pricing extends JFrame {
         lblNewLabel_16.setBounds(58, 5, 105, 34);
         lblNewLabel_16.setFont(new Font("Tahoma", Font.PLAIN, 28));
         panel_9.add(lblNewLabel_16);
-        
-        
-     // Initial calculation and UI update
-        obj.calculateWaterPriceMedium(); // Adjusted for Medium container
-        lblNewLabel_16.setText(String.format("%.2f", obj.getWaterPriceMedium())); // Adjusted for Medium container
+
         lblNewLabel_16.setEnabled(true);
         lblNewLabel_11.setEnabled(true);
 
         txtHello.addActionListener(e -> {
             String input = txtHello.getText();
             if (input.isEmpty()) {
-                // Reset if input is empty
-                obj.setWaterPriceMedium(0); // Adjusted for Medium container
-                obj.calculateWaterPriceMedium(); // Ensure any dependencies are updated for Medium container
-                lblNewLabel_16.setText(String.format("%.2f", obj.getWaterPriceMedium())); // Adjusted for Medium container
                 lblNewLabel_16.setEnabled(false);
                 lblNewLabel_11.setEnabled(false);
-
-                // Database update for resetting price
-                try (Connection conn = Connections.getConnection()) {
-                    String sql = "UPDATE pricing SET Container_Price = ? WHERE Container_Size = '3'"; // Adjusted for Medium container
-                    try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-                        pstmt.setDouble(1, 0);
-                        int rowsUpdated = pstmt.executeUpdate();
-                        if (rowsUpdated > 0) {
-                            System.out.println("Price reset successfully in database for Medium container!");
-                        } else {
-                            System.out.println("No rows updated, check if 'Medium' container exists.");
-                        }
-                    }
-                } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(null, "Database error: " + ex.getMessage());
-                }
+                
             } else {
-                try {
-                    // Parse input and update the backend for Medium container
-                    double newPrice = Double.parseDouble(input);
-                    obj.setWaterPriceMedium(newPrice); // Adjusted for Medium container
-                    obj.calculateWaterPriceMedium(); // Recalculate after setting new price for Medium container
-
-                    // Update UI
-                    lblNewLabel_16.setText(String.format("%.2f", obj.getWaterPriceMedium())); // Adjusted for Medium container
                     lblNewLabel_16.setEnabled(true);
                     lblNewLabel_11.setEnabled(true);
+            }});
+        
+     // Database connection setup
+        Connection connection1 = null;
+        try {
+            // Establish the database connection
+            connection1 = dbConnections.Connections.getConnection();
 
-                    // Save new price to database for Medium container
-                    try (Connection conn = Connections.getConnection()) {
-                        String sql = "UPDATE pricing SET Container_Price = ? WHERE Container_Size = '3'"; // Adjusted for Medium container
-                        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-                            pstmt.setDouble(1, newPrice);
-                            int rowsUpdated = pstmt.executeUpdate();
-                            if (rowsUpdated > 0) {
-                                System.out.println("Price updated successfully in database for Medium container!");
-                            } else {
-                                System.out.println("No rows updated, check if 'Medium' container exists.");
-                            }
-                        }
-                    } catch (SQLException ex) {
-                        JOptionPane.showMessageDialog(null, "Database error: " + ex.getMessage());
-                    }
-                } catch (NumberFormatException ex) {
-                    // Handle invalid input
-                    JOptionPane.showMessageDialog(null, "Invalid input! Please enter a valid number.");
-                    txtHello.setText("");
-                }
+            // Query to retrieve the second row's Container_Price value from the pricing table
+            String selectQuery = "SELECT Container_Price FROM pricing LIMIT 1, 1"; // Fetching the second row
+            PreparedStatement ps = connection1.prepareStatement(selectQuery);
+            ResultSet rs = ps.executeQuery();
+
+            // Check if the query returns any results
+            if (rs.next()) {
+                // Retrieve the Container_Price value from the second row
+                double containerPrice = rs.getDouble("Container_Price");
+
+                // Set the value of lblNewLabel_16 to the retrieved value (formatted as a string)
+                lblNewLabel_16.setText(String.format("%.2f", containerPrice)); // Display with 2 decimal places
             }
-        });
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Failed to retrieve container price. Please try again.", "Database Error", JOptionPane.ERROR_MESSAGE);
+
+        } finally {
+            // Ensure the connection is closed after the operation
+            try {
+                if (connection1 != null && !connection1.isClosed()) {
+                    connection1.close();
+                }
+            } catch (SQLException closeEx) {
+                closeEx.printStackTrace();
+            }
+        }
+
         
         
         JPanel panel_6 = new JPanel();
@@ -528,77 +517,211 @@ public class Pricing extends JFrame {
         lblNewLabel_17.setFont(new Font("Tahoma", Font.PLAIN, 28));
         panel_10.add(lblNewLabel_17);
         
-        
-     // Initial calculation and UI update
-        obj.calculateWaterPriceSmall(); // Adjusted for Small container
-        lblNewLabel_17.setText(String.format("%.2f", obj.getWaterPriceSmall())); // Adjusted for Small container
         lblNewLabel_17.setEnabled(true);
         lblNewLabel_13.setEnabled(true);
 
         txtHello.addActionListener(e -> {
             String input = txtHello.getText();
             if (input.isEmpty()) {
-                // Reset if input is empty
-                obj.setWaterPriceSmall(0); // Adjusted for Small container
-                obj.calculateWaterPriceSmall(); // Ensure any dependencies are updated for Small container
-                lblNewLabel_17.setText(String.format("%.2f", obj.getWaterPriceSmall())); // Adjusted for Small container
                 lblNewLabel_17.setEnabled(false);
                 lblNewLabel_13.setEnabled(false);
-
-                // Database update for resetting price
-                try (Connection conn = Connections.getConnection()) {
-                    String sql = "UPDATE pricing SET Container_Price = ? WHERE Container_Size = '2.5'"; // Adjusted for Small container
-                    try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-                        pstmt.setDouble(1, 0);
-                        int rowsUpdated = pstmt.executeUpdate();
-                        if (rowsUpdated > 0) {
-                            System.out.println("Price reset successfully in database for Small container!");
-                        } else {
-                            System.out.println("No rows updated, check if 'Small' container exists.");
-                        }
-                    }
-                } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(null, "Database error: " + ex.getMessage());
-                }
+                
             } else {
-                try {
-                    // Parse input and update the backend for Small container
-                    double newPrice = Double.parseDouble(input);
-                    obj.setWaterPriceSmall(newPrice); // Adjusted for Small container
-                    obj.calculateWaterPriceSmall(); // Recalculate after setting new price for Small container
-
-                    // Update UI
-                    lblNewLabel_17.setText(String.format("%.2f", obj.getWaterPriceSmall())); // Adjusted for Small container
                     lblNewLabel_17.setEnabled(true);
                     lblNewLabel_13.setEnabled(true);
+            }});
+        
+     // Database connection setup
+        Connection connection2 = null;
+        try {
+            // Establish the database connection
+            connection2 = dbConnections.Connections.getConnection();
 
-                    // Save new price to database for Small container
-                    try (Connection conn = Connections.getConnection()) {
-                        String sql = "UPDATE pricing SET Container_Price = ? WHERE Container_Size = '2.5'"; // Adjusted for Small container
-                        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-                            pstmt.setDouble(1, newPrice);
-                            int rowsUpdated = pstmt.executeUpdate();
-                            if (rowsUpdated > 0) {
-                                System.out.println("Price updated successfully in database for Small container!");
-                            } else {
-                                System.out.println("No rows updated, check if 'Small' container exists.");
-                            }
-                        }
-                    } catch (SQLException ex) {
-                        JOptionPane.showMessageDialog(null, "Database error: " + ex.getMessage());
-                    }
-                } catch (NumberFormatException ex) {
-                    // Handle invalid input
-                    JOptionPane.showMessageDialog(null, "Invalid input! Please enter a valid number.");
-                    txtHello.setText("");
-                }
+            // Query to retrieve the third row's Container_Price value from the pricing table
+            String selectQuery = "SELECT Container_Price FROM pricing LIMIT 2, 1"; // Fetching the third row (skipping the first 2 rows)
+            PreparedStatement ps = connection2.prepareStatement(selectQuery);
+            ResultSet rs = ps.executeQuery();
+
+            // Check if the query returns any results
+            if (rs.next()) {
+                // Retrieve the Container_Price value from the third row
+                double containerPrice = rs.getDouble("Container_Price");
+
+                // Set the value of lblNewLabel_17 to the retrieved value (formatted as a string)
+                lblNewLabel_17.setText(String.format("%.2f", containerPrice)); // Display with 2 decimal places
             }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Failed to retrieve container price. Please try again.", "Database Error", JOptionPane.ERROR_MESSAGE);
+
+        } finally {
+            // Ensure the connection is closed after the operation
+            try {
+                if (connection2 != null && !connection2.isClosed()) {
+                    connection2.close();
+                }
+            } catch (SQLException closeEx) {
+                closeEx.printStackTrace();
+            }
+        }
+
+        JButton btnNewButton_7 = new JButton("UPDATE\r\n");
+        btnNewButton_7.setFont(new Font("Tahoma", Font.BOLD, 12));
+        btnNewButton_7.setBounds(257, 53, 91, 34);
+        panel_3.add(btnNewButton_7);
+        
+        btnNewButton_7.addActionListener(e -> {
+            // Get the new price per gallon from the text field
+            String input = txtHello.getText();
+            double newPricePerGallon;
+
+            try {
+                // Validate the input (ensure it's a positive number)
+                newPricePerGallon = Double.parseDouble(input);
+                if (newPricePerGallon <= 0) {
+                    throw new NumberFormatException("Price per gallon must be positive.");
+                }
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(null, "Please enter a valid positive number for price per gallon.", "Input Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            
+         // Show confirmation dialog asking if the user wants to update prices for all containers
+            int confirm = JOptionPane.showConfirmDialog(null, 
+                "Do you want to update the price for all containers?", 
+                "Confirm Update", 
+                JOptionPane.YES_NO_OPTION, 
+                JOptionPane.QUESTION_MESSAGE);
+
+            if (confirm == JOptionPane.YES_OPTION) {
+
+            // Database connection for updating pricing
+            Connection connect = null;
+            try {
+                // Establish the database connection
+                connect = dbConnections.Connections.getConnection();
+
+                // Update query to set the price per gallon and container price
+                String updateQuery = "UPDATE pricing SET Price_perGallon = ?, Container_Price = Container_Size * ?";
+                PreparedStatement ps = connect.prepareStatement(updateQuery);
+
+                // Set the parameters for the update
+                ps.setDouble(1, newPricePerGallon);
+                ps.setDouble(2, newPricePerGallon);
+
+                // Execute the update
+                ps.executeUpdate();
+
+                // Notify the user of successful update
+                JOptionPane.showMessageDialog(null, "Prices updated successfully!", "Update Successful", JOptionPane.INFORMATION_MESSAGE);
+
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Failed to update prices. Please try again.", "Update Error", JOptionPane.ERROR_MESSAGE);
+
+            } 
+            
+            //for pricepergallon update
+            try {
+
+                // Query to retrieve the first row's Price_perGallon value from the pricing table
+                String selectQuery = "SELECT Price_perGallon FROM pricing LIMIT 1"; // Fetching the first row
+                PreparedStatement ps = connect.prepareStatement(selectQuery);
+                ResultSet rs = ps.executeQuery();
+
+                // Check if the query returns any results
+                if (rs.next()) {
+                    // Retrieve the Price_perGallon value from the first row
+                    double pricePerGallon = rs.getDouble("Price_perGallon");
+
+                    // Set the value of lblNewLabel_14 to the retrieved value (formatted as a string)
+                    lblNewLabel_14.setText(String.format("%.2f", pricePerGallon)); // Display with 2 decimal places
+                }
+
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Failed to retrieve price. Please try again.", "Database Error", JOptionPane.ERROR_MESSAGE);
+
+            }
+            
+            //for large price
+            try {
+            	
+                // Query to retrieve the first row's Container_Price value from the pricing table
+                String selectQuery = "SELECT Container_Price FROM pricing LIMIT 1"; // Fetching the first row
+                PreparedStatement ps = connect.prepareStatement(selectQuery);
+                ResultSet rs = ps.executeQuery();
+
+                // Check if the query returns any results
+                if (rs.next()) {
+                    // Retrieve the Container_Price value from the first row
+                    double containerPrice = rs.getDouble("Container_Price");
+
+                    // Set the value of lblNewLabel_15 to the retrieved value (formatted as a string)
+                    lblNewLabel_15.setText(String.format("%.2f", containerPrice)); // Display with 2 decimal places
+                }
+
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Failed to retrieve container price. Please try again.", "Database Error", JOptionPane.ERROR_MESSAGE);
+
+            }
+            
+            //for medium container
+            try {
+
+                // Query to retrieve the second row's Container_Price value from the pricing table
+                String selectQuery = "SELECT Container_Price FROM pricing LIMIT 1, 1"; // Fetching the second row
+                PreparedStatement ps = connect.prepareStatement(selectQuery);
+                ResultSet rs = ps.executeQuery();
+
+                // Check if the query returns any results
+                if (rs.next()) {
+                    // Retrieve the Container_Price value from the second row
+                    double containerPrice = rs.getDouble("Container_Price");
+
+                    // Set the value of lblNewLabel_16 to the retrieved value (formatted as a string)
+                    lblNewLabel_16.setText(String.format("%.2f", containerPrice)); // Display with 2 decimal places
+                }
+
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Failed to retrieve container price. Please try again.", "Database Error", JOptionPane.ERROR_MESSAGE);
+
+            }
+            try {
+
+
+                // Query to retrieve the third row's Container_Price value from the pricing table
+                String selectQuery = "SELECT Container_Price FROM pricing LIMIT 2, 1"; // Fetching the third row (skipping the first 2 rows)
+                PreparedStatement ps = connect.prepareStatement(selectQuery);
+                ResultSet rs = ps.executeQuery();
+
+                // Check if the query returns any results
+                if (rs.next()) {
+                    // Retrieve the Container_Price value from the third row
+                    double containerPrice = rs.getDouble("Container_Price");
+
+                    // Set the value of lblNewLabel_17 to the retrieved value (formatted as a string)
+                    lblNewLabel_17.setText(String.format("%.2f", containerPrice)); // Display with 2 decimal places
+                }
+
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Failed to retrieve container price. Please try again.", "Database Error", JOptionPane.ERROR_MESSAGE);
+
+            }finally {
+                // Ensure the connection is closed after the operation
+                try {
+                    if (connect != null && !connect.isClosed()) {
+                        connect.close();
+                    }
+                } catch (SQLException closeEx) {
+                    closeEx.printStackTrace();
+                }
+            }}
         });
-        
-        
-        JLabel lblNewLabel_4 = new JLabel("New label");
-        lblNewLabel_4.setBounds(547, 345, 45, 13);
-        contentPane.add(lblNewLabel_4);
         
         
     }

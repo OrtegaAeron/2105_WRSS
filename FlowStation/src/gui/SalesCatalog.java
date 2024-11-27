@@ -14,21 +14,26 @@ import java.awt.FlowLayout;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
+import java.awt.BorderLayout;
+import java.text.SimpleDateFormat;
 import java.awt.Toolkit;
 import java.sql.*;
 
 import dbConnections.Connections;
 import backend.SalesCatalog_bcknd;
+import backend.Expenses;
 
 public class SalesCatalog extends JFrame {
 	
 	SalesCatalog_bcknd objSalesCat = new SalesCatalog_bcknd();
+	Expenses objExps = new Expenses();
 
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
     private JLabel lblNewLabel_1;
     private JTextField textField;
     private JTable table;
+    private JTextField textField_1;
 
     /**
      * Launch the application.
@@ -208,34 +213,40 @@ public class SalesCatalog extends JFrame {
             }
         });
         
+        //search panel----------------------------------------------------------------
         JPanel panel_2 = new JPanel();
         backgroundLabel.add(panel_2);
         panel_2.setBounds(375, 132, 912, 77);
         panel_2.setLayout(null);
-        
-        
-        textField = new JTextField();
-        textField.setBounds(126, 17, 567, 50);
-        panel_2.add(textField);
-        textField.setColumns(10);
-        
-        //sql command to search for the date in this txt field
-        
         
         JLabel lblNewLabel_6 = new JLabel("");
         lblNewLabel_6.setIcon(new ImageIcon(SalesCatalog.class.getResource("/resources/search.png")));
         lblNewLabel_6.setBounds(83, 20, 37, 42);
         panel_2.add(lblNewLabel_6);
         
+        JLabel lblNewLabel_7 = new JLabel("Starting Date:");
+        lblNewLabel_7.setFont(new Font("Tahoma", Font.BOLD, 13));
+        lblNewLabel_7.setBounds(130, 4, 100, 16);
+        panel_2.add(lblNewLabel_7);
         
-        JButton btnNewButton_7 = new JButton();
-        btnNewButton_7.setIcon(new ImageIcon(SalesCatalog.class.getResource("/resources/down.png")));
-        btnNewButton_7.setBounds(703, 21, 40, 40);
-        panel_2.add(btnNewButton_7);
+        textField = new JTextField();
+        textField.setFont(new Font("Tahoma", Font.BOLD, 25));
+        textField.setBounds(130, 25, 246, 37);
+        panel_2.add(textField);
+        textField.setColumns(10);
         
-        //drop down for calendar
-        
-        
+        JLabel lblNewLabel_7_1 = new JLabel("Ending Date:");
+        lblNewLabel_7_1.setFont(new Font("Tahoma", Font.BOLD, 13));
+        lblNewLabel_7_1.setBounds(424, 4, 173, 16);
+        panel_2.add(lblNewLabel_7_1);
+
+        textField_1 = new JTextField();
+        textField_1.setFont(new Font("Tahoma", Font.BOLD, 25));
+        textField_1.setColumns(10);
+        textField_1.setBounds(436, 25, 246, 37);
+        panel_2.add(textField_1);
+
+        //table panel-------------------------------------------------------------------------------
         JPanel panel_3 = new JPanel();
         panel_3.setBounds(247, 214, 970, 523);
         backgroundLabel.add(panel_3);
@@ -268,7 +279,10 @@ public class SalesCatalog extends JFrame {
             }
 
             // SQL query to fetch admin details
-            String query = "SELECT SalesID, CustomerID, Date, Time, Sold_Large_Container, Sold_Medium_Container, Sold_Small_Container, Delivery, Total_Fees, Customer_Payment, Customer_Change  FROM sales";
+            String query = "SELECT DateID, CustomerID, Date, Time, Sold_Large_Container, Sold_Medium_Container, " +
+                    "Sold_Small_Container, Delivery, Total_Fees, Customer_Payment, Customer_Change " +
+                    "FROM sales " +
+                    "ORDER BY Date DESC, Time DESC";
             PreparedStatement stmt = conn.prepareStatement(query);
             ResultSet rs = stmt.executeQuery();
 
@@ -280,7 +294,7 @@ public class SalesCatalog extends JFrame {
 
             // Populate the table model with data from the ResultSet
             while (rs.next()) {
-                int salesID = rs.getInt("SalesID");
+                int salesID = rs.getInt("DateID");
                 int customerID = rs.getInt("CustomerID");
                 String date = rs.getString("Date");
                 String time = rs.getString("Time");
@@ -352,10 +366,8 @@ public class SalesCatalog extends JFrame {
 
         // Add table to scroll pane
         scrollPane.setViewportView(table);
-
-
-
         
+        //that day's profit panel--------------------------------------------------------
         JPanel panel_4 = new JPanel();
         panel_4.setBounds(1225, 214, 192, 523);
         backgroundLabel.add(panel_4);
@@ -368,6 +380,7 @@ public class SalesCatalog extends JFrame {
         lblNewLabel_4.setForeground(new Color(0, 0, 0));
         lblNewLabel_4.setFont(new Font("Myanmar Text", Font.BOLD, 21));
         
+        //details panel-----------------------------------------------------
         JPanel panel_5 = new JPanel();
         panel_5.setBackground(new Color(225, 225, 225));
         panel_5.setBounds(7, 49, 178, 327);
@@ -384,7 +397,7 @@ public class SalesCatalog extends JFrame {
         lblNewLabel_5.setBounds(12, 31, 19, 23);
         panel_5.add(lblNewLabel_5);
         
-        JLabel lblExpenses = new JLabel("Expenses:");
+        JLabel lblExpenses = new JLabel("Expenses per Day:");
         lblExpenses.setFont(new Font("Tahoma", Font.BOLD, 13));
         lblExpenses.setBounds(5, 71, 136, 16);
         panel_5.add(lblExpenses);
@@ -404,24 +417,23 @@ public class SalesCatalog extends JFrame {
         lblNoOfEmployees.setBounds(19, 145, 180, 16);
         panel_5.add(lblNoOfEmployees);
         
-        JLabel lblNoOfEmployees_Int = new JLabel("2");
+        JLabel lblNoOfEmployees_Int = new JLabel(String.valueOf(objExps.getNoOfDeliveryMan()));
         lblNoOfEmployees_Int.setFont(new Font("Tahoma", Font.PLAIN, 22));
         lblNoOfEmployees_Int.setBounds(19, 166, 28, 23);
         panel_5.add(lblNoOfEmployees_Int);
         
         
-        JLabel lblNewLabel_5_1 = new JLabel("");
+        JLabel lblNewLabel_5_1 = new JLabel();
         lblNewLabel_5_1.setFont(new Font("Tahoma", Font.PLAIN, 22));
         lblNewLabel_5_1.setBounds(29, 31, 101, 23);
-        panel_5.add(lblNewLabel_5_1);
-        //value from database
+        panel_5.add(lblNewLabel_5_1);        
         
-        
-        JLabel lblEmployeesSalary_Int_1 = new JLabel("500.00");
+        JLabel lblEmployeesSalary_Int_1 = new JLabel(String.valueOf(objExps.getDeliveryManDailySalary()));
         lblEmployeesSalary_Int_1.setFont(new Font("Tahoma", Font.PLAIN, 22));
         lblEmployeesSalary_Int_1.setBounds(38, 106, 101, 23);
         panel_5.add(lblEmployeesSalary_Int_1);
         
+        //total profit panel--------------------------------------------
         JPanel panel_6 = new JPanel();
         panel_6.setBackground(new Color(225, 225, 225));
         panel_6.setBounds(7, 386, 178, 123);
@@ -434,16 +446,295 @@ public class SalesCatalog extends JFrame {
         panel_6.add(lblTotalProfit);
         
         JLabel lblTotalProfit_Int = new JLabel("₱ ");
-        lblTotalProfit_Int.setFont(new Font("Tahoma", Font.BOLD, 35));
+        lblTotalProfit_Int.setFont(new Font("Tahoma", Font.BOLD, 30));
         lblTotalProfit_Int.setBounds(8, 50, 34, 42);
         panel_6.add(lblTotalProfit_Int);
         
-        JLabel lblTotalProfit_Int_1 = new JLabel("");
-        lblTotalProfit_Int_1.setFont(new Font("Tahoma", Font.BOLD, 35));
+        JLabel lblTotalProfit_Int_1 = new JLabel();
+        lblTotalProfit_Int_1.setFont(new Font("Tahoma", Font.BOLD, 27));
         lblTotalProfit_Int_1.setBounds(36, 50, 142, 42);
         panel_6.add(lblTotalProfit_Int_1);
-        //value also from databse
+
         
+      //starting date button---------------------------------------------------------------
+        JButton btnNewButton_7 = new JButton();
+        btnNewButton_7.setIcon(new ImageIcon(SalesCatalog.class.getResource("/resources/down.png")));
+        btnNewButton_7.setBounds(386, 22, 40, 40);
+        panel_2.add(btnNewButton_7);
+        
+        btnNewButton_7.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Create a JComboBox to display the dates
+                JComboBox<String> dateDropdown = new JComboBox<>();
+
+                // Fetch dates from the database
+                try (Connection conn = Connections.getConnection()) {
+                    if (conn == null) {
+                        System.out.println("Database connection failed.");
+                        return;
+                    }
+
+                 // Updated query to sort dates from latest to farthest
+                    String query = "SELECT DISTINCT Date FROM sales ORDER BY Date DESC";
+                    PreparedStatement stmt = conn.prepareStatement(query);
+                    ResultSet rs = stmt.executeQuery();
+
+                    // Add dates to the dropdown
+                    while (rs.next()) {
+                        String date = rs.getString("Date");
+                        dateDropdown.addItem(date);
+                    }
+
+                    rs.close();
+                    stmt.close();
+
+                    if (dateDropdown.getItemCount() == 0) {
+                    	
+                        JOptionPane.showMessageDialog(null, 
+                            "No dates available in the database.", 
+                            "No Data", 
+                            JOptionPane.INFORMATION_MESSAGE);
+                        return;
+                    }
+
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, 
+                        "Error fetching dates: " + ex.getMessage(), 
+                        "Database Error", 
+                        JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+             // Set the font for the dropdown
+                dateDropdown.setFont(new Font("Arial", Font.BOLD, 18)); // Larger font for the dropdown
+
+                // Wrap the dropdown in a panel with some padding
+                JPanel panel = new JPanel();
+                panel.setLayout(new BorderLayout());
+                panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add padding
+                panel.add(dateDropdown, BorderLayout.CENTER);
+
+                int result = JOptionPane.showConfirmDialog(
+                    null,
+                    panel,
+                    "Select Date",
+                    JOptionPane.OK_CANCEL_OPTION,
+                    JOptionPane.PLAIN_MESSAGE
+                );
+
+                if (result == JOptionPane.OK_OPTION) {
+                    // Get the selected date and populate the textField
+                    String selectedDate = (String) dateDropdown.getSelectedItem();
+                    textField.setText(selectedDate);
+
+                }
+            }
+        });
+
+        
+     
+        //ending date button---------------------------------------------------------------
+        JButton btnNewButton_7_1 = new JButton();
+        btnNewButton_7_1.setIcon(new ImageIcon(SalesCatalog.class.getResource("/resources/down.png")));
+        btnNewButton_7_1.setBounds(692, 22, 40, 40);
+        panel_2.add(btnNewButton_7_1);
+        
+        btnNewButton_7_1.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Create a JComboBox to display the dates
+                JComboBox<String> dateDropdown = new JComboBox<>();
+
+                // Fetch dates from the database
+                try (Connection conn = Connections.getConnection()) {
+                    if (conn == null) {
+                        System.out.println("Database connection failed.");
+                        return;
+                    }
+
+                 // Updated query to sort dates from latest to farthest
+                    String query = "SELECT DISTINCT Date FROM sales ORDER BY Date DESC";
+                    PreparedStatement stmt = conn.prepareStatement(query);
+                    ResultSet rs = stmt.executeQuery();
+
+                    // Add dates to the dropdown
+                    while (rs.next()) {
+                        String date = rs.getString("Date");
+                        dateDropdown.addItem(date);
+                    }
+
+                    rs.close();
+                    stmt.close();
+
+                    if (dateDropdown.getItemCount() == 0) {
+                    	
+                        JOptionPane.showMessageDialog(null, 
+                            "No dates available in the database.", 
+                            "No Data", 
+                            JOptionPane.INFORMATION_MESSAGE);
+                        return;
+                    }
+
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, 
+                        "Error fetching dates: " + ex.getMessage(), 
+                        "Database Error", 
+                        JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+             // Set the font for the dropdown
+                dateDropdown.setFont(new Font("Arial", Font.BOLD, 18)); // Larger font for the dropdown
+
+                // Wrap the dropdown in a panel with some padding
+                JPanel panel = new JPanel();
+                panel.setLayout(new BorderLayout());
+                panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add padding
+                panel.add(dateDropdown, BorderLayout.CENTER);
+
+                int result = JOptionPane.showConfirmDialog(
+                    null,
+                    panel,
+                    "Select Date",
+                    JOptionPane.OK_CANCEL_OPTION,
+                    JOptionPane.PLAIN_MESSAGE
+                );
+
+                if (result == JOptionPane.OK_OPTION) {
+                    // Get the selected date and populate the textField
+                    String selectedDate = (String) dateDropdown.getSelectedItem();
+                    textField_1.setText(selectedDate);
+
+                }
+            }
+        });
+
+        //search button--------------------------------------------------------------------------
+        JButton btnSearch = new JButton("Search");
+        btnSearch.setFont(new Font("Tahoma", Font.BOLD, 15));
+        btnSearch.setBounds(752, 22, 100, 40); // Position next to the textField
+        panel_2.add(btnSearch);
+        
+        btnSearch.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String startDate = textField.getText().trim();
+                String endDate = textField_1.getText().trim();
+
+                // Validate the date format for the starting date
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                sdf.setLenient(false); // Strict validation for the date format
+
+                boolean isValid = true;
+                try {
+                    sdf.parse(startDate);  // Validate the start date
+                    if (!endDate.isEmpty()) {
+                        sdf.parse(endDate);  // Validate the end date if it is not empty
+                    }
+                } catch (Exception ex) {
+                    isValid = false;
+                }
+
+                if (!isValid) {
+                    JOptionPane.showMessageDialog(null, 
+                        "Please enter valid dates in the format yyyy-mm-dd.", 
+                        "Invalid Date", 
+                        JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+
+                // Connect to the database and filter data
+                try (Connection conn = Connections.getConnection()) {
+                    if (conn == null) {
+                        System.out.println("Database connection failed.");
+                        return;
+                    }
+
+                    String query;
+                    if (endDate.isEmpty()) {
+                        // If the ending date is empty, search only for the start date
+                        query = "SELECT DateID, CustomerID, Date, Time, Sold_Large_Container, Sold_Medium_Container, " +
+                                "Sold_Small_Container, Delivery, Total_Fees, Customer_Payment, Customer_Change " +
+                                "FROM sales WHERE Date = ? ORDER BY Date DESC";
+                    } else {
+                        // If the ending date is provided, search between the start and end date
+                        query = "SELECT DateID, CustomerID, Date, Time, Sold_Large_Container, Sold_Medium_Container, " +
+                                "Sold_Small_Container, Delivery, Total_Fees, Customer_Payment, Customer_Change " +
+                                "FROM sales WHERE Date BETWEEN ? AND ? ORDER BY Date DESC";
+                    }
+
+                    PreparedStatement stmt = conn.prepareStatement(query);
+                    stmt.setString(1, startDate);
+                    if (!endDate.isEmpty()) {
+                        stmt.setString(2, endDate);  // Only set the end date if it's not empty
+                    }
+
+                    ResultSet rs = stmt.executeQuery();
+
+                    DefaultTableModel model = (DefaultTableModel) table.getModel();
+                    model.setRowCount(0); // Clear existing rows
+
+                    boolean dataFound = false;
+
+                    while (rs.next()) {
+                        dataFound = true;
+                        int salesID = rs.getInt("DateID");
+                        int customerID = rs.getInt("CustomerID");
+                        String date = rs.getString("Date");
+                        String time = rs.getString("Time");
+                        int soldLargeContainers = rs.getInt("Sold_Large_Container");
+                        int soldMediumContainers = rs.getInt("Sold_Medium_Container");
+                        int soldSmallContainers = rs.getInt("Sold_Small_Container");
+                        boolean delivery = rs.getBoolean("Delivery");
+                        double totalFees = rs.getDouble("Total_Fees");
+                        double customerPayment = rs.getDouble("Customer_Payment");
+                        double change = rs.getDouble("Customer_Change");
+
+                        model.addRow(new Object[]{salesID, customerID, date, time, soldLargeContainers, soldMediumContainers, soldSmallContainers, delivery, totalFees, customerPayment, change});
+                    }
+
+                    if (!dataFound) {
+                        JOptionPane.showMessageDialog(null, 
+                            "No records found for the specified date range.", 
+                            "No Data", 
+                            JOptionPane.INFORMATION_MESSAGE);
+                    }
+                    
+                    // Query to fetch total fees and total profit from salescatalog table for the selected date range
+                    String salesCatalogQuery = "SELECT TotalSales, TotalProfit FROM salescatalog WHERE DateID IN " +
+                                               "(SELECT DateID FROM sales WHERE Date BETWEEN ? AND ?)";
+                    PreparedStatement stmtSalesCatalog = conn.prepareStatement(salesCatalogQuery);
+                    stmtSalesCatalog.setString(1, startDate);
+                    if (!endDate.isEmpty()) {
+                        stmtSalesCatalog.setString(2, endDate);
+                    } else {
+                        stmtSalesCatalog.setString(2, startDate);  // If end date is empty, use start date only
+                    }
+
+                    ResultSet rsSalesCatalog = stmtSalesCatalog.executeQuery();
+
+                    double totalSales = 0;
+                    double totalProfit = 0;
+
+                    while (rsSalesCatalog.next()) {
+                        totalSales += rsSalesCatalog.getDouble("TotalSales");
+                        totalProfit += rsSalesCatalog.getDouble("TotalProfit");
+                    }
+
+                    // Update the labels with the fetched values
+                    lblNewLabel_5_1.setText(String.format("%.2f", totalSales));
+                    lblTotalProfit_Int_1.setText(String.format("%.2f", totalProfit));
+
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, 
+                        "Error fetching data: " + ex.getMessage(), 
+                        "Database Error", 
+                        JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+
         
     }
 }

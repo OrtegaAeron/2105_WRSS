@@ -5,7 +5,7 @@ import java.sql.*;
 
 public class Pricing_bcknd extends ContainerInventory{
 
-    private double pricePerGalon = 5.00, waterPriceLarge = 25, waterPriceMedium = 15, waterPriceSmall = 12.5;
+    private double pricePerGalon = 0, waterPriceLarge = 0, waterPriceMedium = 0, waterPriceSmall = 0;
 
     //setters----------------------------------------------
     public void setPricePerGalon(double pricePerGalon) {
