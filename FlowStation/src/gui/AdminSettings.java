@@ -542,10 +542,10 @@ public class AdminSettings extends JFrame {
                     return;
                 }
 
-                // Step 3: Get the new password from the password field
-                String newPassword = new String(passwordField.getText());
+                // Step 3: Get the new password from the password field and convert it to String
+                String newPassword = new String(passwordField_1.getText()).trim(); // Convert char[] to String and trim spaces
 
-                // Step 4: Validate the new password
+                // Step 4: Validate the new password (check if it's empty or just whitespace)
                 if (newPassword.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Password cannot be empty.");
                     return;
@@ -553,13 +553,13 @@ public class AdminSettings extends JFrame {
 
                 // Step 5: Database connection details
                 String url = "jdbc:mysql://localhost:3306/flowstation_db";  // Change to your database URL
-                String username = "root";  // Your MySQL username
-                String password = "";  // Your MySQL password
+                String dbUsername = "root";  // Your MySQL username
+                String dbPassword = "";  // Your MySQL password
 
                 // Step 6: Query to get the AdminID for the selected Admin Name
                 String getAdminIdQuery = "SELECT AdminID FROM admin WHERE Admin_Name = ?";
 
-                try (Connection conn = DriverManager.getConnection(url, username, password);
+                try (Connection conn = DriverManager.getConnection(url, dbUsername, dbPassword);
                      PreparedStatement stmt = conn.prepareStatement(getAdminIdQuery)) {
 
                     stmt.setString(1, selectedAdminName);
@@ -575,11 +575,11 @@ public class AdminSettings extends JFrame {
                         return;
                     }
 
-                    // Step 7: SQL query to update the admin password
+                    // Step 7: SQL query to update the admin password in the database
                     String updateQuery = "UPDATE admin SET Admin_Password = ? WHERE AdminID = ?";
 
                     try (PreparedStatement updateStmt = conn.prepareStatement(updateQuery)) {
-                        updateStmt.setString(1, newPassword);
+                        updateStmt.setString(1, newPassword);  // Set the new password
                         updateStmt.setInt(2, adminId);
 
                         int rowsAffected = updateStmt.executeUpdate();
@@ -593,22 +593,31 @@ public class AdminSettings extends JFrame {
                             
                             // Loop through rows of the JTable to find the updated admin
                             for (int row = 0; row < model.getRowCount(); row++) {
-                                if (model.getValueAt(row, 1).equals(selectedAdminName)) {
+                                if (model.getValueAt(row, 1).equals(selectedAdminName)) { // Assuming column 1 is Admin Name
                                     // Update the password in the JTable (assuming column 2 is for password)
-                                    model.setValueAt(newPassword, row, 2);
+                                    model.setValueAt(newPassword, row, 2);  // Column 2 is assumed to be password
                                     break;
                                 }
                             }
+
+                            // Step 10: Refresh the table to make sure the changes are reflected
+                            model.fireTableDataChanged();  // This forces the table to repaint itself
+
+                            // Optionally, clear the password field after update
+                            passwordField.setText("");
+
                         } else {
                             JOptionPane.showMessageDialog(null, "Failed to update password.");
                         }
                     }
+
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                     JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage());
                 }
             }
         });
+
 
         btnNewButton_7_1.setFont(new Font("Tahoma", Font.BOLD, 15));
         btnNewButton_7_1.setBounds(575, 32, 97, 30);
